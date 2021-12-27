@@ -248,5 +248,4 @@ async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="you all procrastinate"))
     print('Bot is ready.')
 
-
 bot.run(os.getenv("TOKEN"))
