@@ -12,6 +12,7 @@ from discord import Webhook, RequestsWebhookAdapter, File
 from discord.ext.commands import cooldown, BucketType
 import sys
 import os
+from dotenv import load_dotenv
 import random
 from discord import Member
 from discord.ext.commands import has_permissions, MissingPermissions
@@ -29,7 +30,7 @@ import datetime, time
 import psutil
 
 from discord.ext.commands.errors import CheckAnyFailure
-
+load_dotenv()
 bot = commands.Bot(command_prefix='!', description="This is a Helper Bot")
 bot.remove_command('help')
 
@@ -248,4 +249,4 @@ async def on_ready():
     print('Bot is ready.')
 
 
-bot.run(os.getenv(TOKEN))
+bot.run(os.getenv("TOKEN"))
