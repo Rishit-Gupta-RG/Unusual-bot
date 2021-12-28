@@ -13,6 +13,7 @@ from discord.ext.commands import cooldown, BucketType
 import sys
 import os
 from dotenv import load_dotenv
+import youtube_dl
 import random
 from discord import Member
 from discord.ext.commands import has_permissions, MissingPermissions
@@ -143,6 +144,108 @@ async def eval(ctx, *, code):
 async def say(ctx, *, message):
     channel = bot.get_channel(853143136620904518)
     await channel.send(message)
+
+#TESTING
+youtube_dl.utils.bug_reports_message = lambda: ''
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+        self.data = data
+        self.title = data.get('title')
+        self.url = ""
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+        filename = data['title'] if stream else ytdl.prepare_filename(data)
+        return filename
+
+
+@bot.command(name='play_song', help='To play song')
+async def play(ctx,url):
+    
+    if not ctx.message.author.id==787149777103486986:
+         await ctx.send('<:_:919194636906561548> **This command is under Testing phase!**, Only bot dev. can use this command at the moment.')
+         return
+    try :
+        server = ctx.message.guild
+        voice_channel = server.voice_client
+
+        async with ctx.typing():
+            filename = await YTDLSource.from_url(url, loop=bot.loop)
+            voice_channel.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
+        await ctx.send('**Now playing:** {}'.format(filename))
+    except:
+        await ctx.send("The bot is not connected to a voice channel.")
+
+
+@bot.command(name='join', help='Tells the bot to join the voice channel')
+async def join(ctx):
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel".format(ctx.message.author.name))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+    await channel.connect()
+
+
+@bot.command(name='pause', help='This command pauses the song')
+async def pause(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        await voice_client.pause()
+    else:
+        await ctx.send("The bot is not playing anything at the moment.")
+    
+@bot.command(name='resume', help='Resumes the song')
+async def resume(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_paused():
+        await voice_client.resume()
+    else:
+        await ctx.send("The bot was not playing anything before this. Use play_song command")
+    
+
+
+@bot.command(name='leave', help='To make the bot leave the voice channel')
+async def leave(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_connected():
+        await voice_client.disconnect()
+    else:
+        await ctx.send("The bot is not connected to a voice channel.")
+
+@bot.command(name='stop', help='Stops the song')
+async def stop(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        await voice_client.stop()
+    else:
+        await ctx.send("The bot is not playing anything at the moment.")
 
 #HELP SUB-COMMANDS
 @help.command()
