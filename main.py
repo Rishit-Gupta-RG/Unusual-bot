@@ -148,10 +148,10 @@ async def say(ctx, *, message):
 #WELCOME
 async def on_member_join(member):
     print(f"Hello {member.mention} :wave:\nWelcome to Unusual Friends ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself\n- <#908002039907373108> - check out all the channels")
-    channel = bot.guilds[0].get_channel(908296505876688958)
+    channel = bot.get_channel(908296505876688958)
     print(channel)
     await channel.send(f"Hello {member.mention} :wave:\nWelcome to Unusual Friends ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself\n- <#908002039907373108> - check out all the channels")
-    
+
 #HELP SUB-COMMANDS
 @help.command()
 async def add(ctx):
