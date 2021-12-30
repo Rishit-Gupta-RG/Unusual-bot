@@ -32,7 +32,9 @@ import psutil
 
 from discord.ext.commands.errors import CheckAnyFailure
 load_dotenv()
-bot = commands.Bot(command_prefix='!', description="This is a Helper Bot")
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
 
 @bot.event
@@ -148,7 +150,7 @@ async def say(ctx, *, message):
 #WELCOME
 @bot.event
 async def on_member_join(member):
-    welcomechannel = bot.fetch_channel(908296505876688958)
+    welcomechannel = await bot.fetch_channel(908296505876688958)
     await welcomechannel.send(f"Hello {member.mention} :wave:\nWelcome to Unusual Friends ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself\n- <#908002039907373108> - check out all the channels")
 
 
