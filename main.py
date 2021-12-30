@@ -148,13 +148,7 @@ async def say(ctx, *, message):
 #WELCOME
 @bot.event
 async def on_member_join(member):
-    await bot.get_channel(908296505876688958).send(f"""Hello {member.mention} :wave:
-Welcome to {member.guild.name} ❤
-
-- <#809297410979397663> - read the server rules
-- <#850694848323256360> - pick up roles
-- <#900106358823739442> - verify yourself
-- <#908002039907373108> - check out all the channels """)
+    await bot.get_channel(908296505876688958).send(f"Hello {member.mention} :wave:\nWelcome to {member.guild.name} ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself\n- <#908002039907373108> - check out all the channels")
 
 #HELP SUB-COMMANDS
 @help.command()
