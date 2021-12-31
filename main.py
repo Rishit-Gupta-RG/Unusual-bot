@@ -151,6 +151,7 @@ async def dogfact(ctx):
         request = await session.get('https://some-random-api.ml/facts/dog')
         factjson = await request.json()
     embed = discord.Embed(title="Dog Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
 
 
 
