@@ -152,7 +152,77 @@ async def dogfact(ctx):
     embed = discord.Embed(title="Dog Fact",description=factjson['fact'] , color=ctx.author.color)
     await ctx.send(embed=embed)
 
+@bot.command()
+async def fox(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/fox')
+      foxjson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Fox!", color=discord.Color.purple())
+   embed.set_image(url=foxjson['link'])
+   await ctx.send(embed=embed)
 
+@bot.command()
+async def whale(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/whale')
+      whalejson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Whale!", color=discord.Color.purple())
+   embed.set_image(url=whalejson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def cat(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/cat')
+      catjson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Kitty!", color=discord.Color.purple())
+   embed.set_image(url=catjson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def koala(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/koala')
+      koalajson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Koala!", color=discord.Color.purple())
+   embed.set_image(url=koalajson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def racoon(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/racoon')
+      racoonjson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Racoon!", color=discord.Color.purple())
+   embed.set_image(url=racoonjson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def kangaroo(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/kangaroo')
+      kangaroojson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Kangaroo!", color=discord.Color.purple())
+   embed.set_image(url=kangaroojson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def birb(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/birb')
+      birbjson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Birb!", color=discord.Color.purple())
+   embed.set_image(url=birbjson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
+async def panda(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/panda')
+      pandajson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Panda!", color=discord.Color.purple())
+   embed.set_image(url=pandajson['link'])
+   await ctx.send(embed=embed)
 
 @bot.command()
 async def eval(ctx, *, code):
