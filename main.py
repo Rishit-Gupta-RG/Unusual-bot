@@ -5,6 +5,7 @@ from discord import embeds
 from discord.embeds import Embed
 import asyncio
 from discord.ext import commands
+import aiohttp 
 import datetime
 import time
 import re
@@ -120,6 +121,8 @@ async def nick(ctx, member: discord.Member, nick):
     await member.edit(nick=nick)
     await ctx.send(f'<:tick:919194526558584864> **Nickname was changed for {member.mention}.**')
 
+
+#MISC
 @bot.command()
 @commands.cooldown(1,30,commands.BucketType.guild)
 async def spam(ctx, amount : int, *, message=None):
@@ -131,7 +134,21 @@ async def spam(ctx, amount : int, *, message=None):
     else:
         for _ in range(amount): 
             await ctx.send(message)
+
+@bot.command()
+async def dog(ctx):
+    async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/dog')
+      dogjson = await request.json()
+      request2 = await session.get('https://some-random-api.ml/facts/dog')
+      factjson = await request2.json()
         
+    embed = discord.Embed(title="Doggo!", color=discord.Color.purple())
+    embed.set_image(url=dogjson['link'])
+    embed.set_footer(text=factjson['fact'])
+    await ctx.send(embed=embed)
+
+
 @bot.command()
 async def eval(ctx, *, code):
     str_obj = io.StringIO() #Retrieves a stream of data
