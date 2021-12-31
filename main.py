@@ -137,14 +137,12 @@ async def spam(ctx, amount : int, *, message=None):
 
 @bot.command()
 async def dog(ctx):
-    async with aiohttp.ClientSession() as session:
+   async with aiohttp.ClientSession() as session:
       request = await session.get('https://some-random-api.ml/img/dog')
-      dogjson = await request.json()
-        
-    embed = discord.Embed(title="Doggo!", color=ctx.author.color())
-    embed.set_author(name= "Unusual Friends#3075", icon_url="https://images-ext-1.discordapp.net/external/0k2KhTElwr7ki38RUYVAAsCKjwPZ5wP32DFQpt37k2M/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/835206086570803211/d7c4dbb2521c985489e973aea0cb5a2e.png?width=473&height=473")
-    embed.set_image(url=dogjson['link'])
-    await ctx.send(embed=embed)
+      dogjson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Doggo!", color=discord.Color.purple())
+   embed.set_image(url=dogjson['link'])
+   await ctx.send(embed=embed)
 
 @bot.command()
 async def dogfact(ctx):
