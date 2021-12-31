@@ -234,6 +234,46 @@ async def redpanda(ctx):
    await ctx.send(embed=embed)
 
 @bot.command()
+async def catfact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/cat')
+        factjson = await request.json()
+    embed = discord.Embed(title="Cat Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def foxfact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/fox')
+        factjson = await request.json()
+    embed = discord.Embed(title="Fox Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def racoonfact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/racoon')
+        factjson = await request.json()
+    embed = discord.Embed(title="Racoon Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def kangaroofact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/kangaroo')
+        factjson = await request.json()
+    embed = discord.Embed(title="Kangaroo Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def pandafact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/panda')
+        factjson = await request.json()
+    embed = discord.Embed(title="Panda Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
 async def eval(ctx, *, code):
     str_obj = io.StringIO() #Retrieves a stream of data
     try:
