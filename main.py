@@ -140,13 +140,18 @@ async def dog(ctx):
     async with aiohttp.ClientSession() as session:
       request = await session.get('https://some-random-api.ml/img/dog')
       dogjson = await request.json()
-      request2 = await session.get('https://some-random-api.ml/facts/dog')
-      factjson = await request2.json()
         
-    embed = discord.Embed(title="Doggo!", color=discord.Color.purple())
+    embed = discord.Embed(title="Doggo!", color=ctx.author.color())
     embed.set_image(url=dogjson['link'])
-    embed.set_footer(text=factjson['fact'])
     await ctx.send(embed=embed)
+
+@bot.command()
+async def dogfact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/dog')
+        factjson = await request.json()
+    embed = discord.Embed(title="Dog Fact",description=factjson['fact'] , color=ctx.author.color)
+
 
 
 @bot.command()
