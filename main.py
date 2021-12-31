@@ -225,6 +225,15 @@ async def panda(ctx):
    await ctx.send(embed=embed)
 
 @bot.command()
+async def redpanda(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/img/red_panda')
+      red_pandajson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Red Panda!", color=discord.Color.purple())
+   embed.set_image(url=red_pandajson['link'])
+   await ctx.send(embed=embed)
+
+@bot.command()
 async def eval(ctx, *, code):
     str_obj = io.StringIO() #Retrieves a stream of data
     try:
