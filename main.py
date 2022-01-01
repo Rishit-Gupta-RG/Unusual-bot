@@ -151,9 +151,16 @@ async def meme(ctx):
       request = await session.get('https://some-random-api.ml/meme')
       memejson = await request.json() # Convert it to a JSON dictionary
    embed = discord.Embed(title="Meme",description=memejson['caption'] ,color=ctx.author.color)
-   embed.set_author(name=memejson['category'])
    embed.set_image(url=memejson['image'])
    await ctx.send(embed=embed)
+
+@bot.command()
+async def meme(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/joke')
+      jokejson = await request.json() # Convert it to a JSON dictionary
+   await ctx.send(jokejson['joke'])
+
 
 #ANIMALS
 @bot.command()
