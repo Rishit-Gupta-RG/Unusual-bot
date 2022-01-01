@@ -145,6 +145,16 @@ async def eval(ctx, *, code):
         return await ctx.send(f"```{e.__class__.__name__}: {e}```")
     await ctx.send(f'```{str_obj.getvalue()}```')
 
+@bot.command()
+async def meme(ctx):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get('https://some-random-api.ml/meme')
+      memejson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title="Meme",description=memejson['caption'] ,color=ctx.author.color)
+   embed.set_author(name=memejson['category'])
+   embed.set_image(url=memejson['image'])
+   await ctx.send(embed=embed)
+
 #ANIMALS
 @bot.command()
 async def dog(ctx):
