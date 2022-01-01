@@ -136,6 +136,17 @@ async def spam(ctx, amount : int, *, message=None):
             await ctx.send(message)
 
 @bot.command()
+async def eval(ctx, *, code):
+    str_obj = io.StringIO() #Retrieves a stream of data
+    try:
+        with contextlib.redirect_stdout(str_obj):
+            exec(code)
+    except Exception as e:
+        return await ctx.send(f"```{e.__class__.__name__}: {e}```")
+    await ctx.send(f'```{str_obj.getvalue()}```')
+
+#ANIMALS
+@bot.command()
 async def dog(ctx):
    async with aiohttp.ClientSession() as session:
       request = await session.get('https://some-random-api.ml/img/dog')
@@ -274,14 +285,6 @@ async def pandafact(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
-async def redpandafact(ctx):
-    async with aiohttp.ClientSession() as session:
-        request = await session.get('https://some-random-api.ml/facts/red_panda')
-        factjson = await request.json()
-    embed = discord.Embed(title="Red Panda Fact",description=factjson['fact'] , color=ctx.author.color)
-    await ctx.send(embed=embed)
-
-@bot.command()
 async def koalafact(ctx):
     async with aiohttp.ClientSession() as session:
         request = await session.get('https://some-random-api.ml/facts/koala')
@@ -305,15 +308,17 @@ async def birbfact(ctx):
     embed = discord.Embed(title="Birb Fact",description=factjson['fact'] , color=ctx.author.color)
     await ctx.send(embed=embed)
 
+#ANIME
 @bot.command()
-async def eval(ctx, *, code):
-    str_obj = io.StringIO() #Retrieves a stream of data
-    try:
-        with contextlib.redirect_stdout(str_obj):
-            exec(code)
-    except Exception as e:
-        return await ctx.send(f"```{e.__class__.__name__}: {e}```")
-    await ctx.send(f'```{str_obj.getvalue()}```')
+async def animequote(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/animu/quote')
+        quotejson = await request.json()
+    embed = discord.Embed(title="Anime quote",description=quotejson['sentence'] , color=ctx.author.color)
+    embed.set_author(name=quotejson["Anime:" + 'anime'])
+    embed.set_footer(text=quotejson["Character:" + 'character'])
+    await ctx.send(embed=embed)
+
 
 @bot.command()
 async def say(ctx, *, message):
