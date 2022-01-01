@@ -274,6 +274,38 @@ async def pandafact(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+async def redpandafact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/red_panda')
+        factjson = await request.json()
+    embed = discord.Embed(title="Red Panda Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def koalafact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/koala')
+        factjson = await request.json()
+    embed = discord.Embed(title="Koala Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def whalefact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/whale')
+        factjson = await request.json()
+    embed = discord.Embed(title="Whale Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def birbfact(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('https://some-random-api.ml/facts/birb')
+        factjson = await request.json()
+    embed = discord.Embed(title="Birb Fact",description=factjson['fact'] , color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@bot.command()
 async def eval(ctx, *, code):
     str_obj = io.StringIO() #Retrieves a stream of data
     try:
