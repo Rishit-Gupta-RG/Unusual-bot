@@ -111,9 +111,11 @@ async def youtube(ctx, *, search):
 @bot.command()
 async def define(ctx, word):
    async with aiohttp.ClientSession() as session:
-      request = await session.get(f'https://some-random-api.ml/dictionary?word={word}')
+      request = await session.get(f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}')
       definejson = await request.json() # Convert it to a JSON dictionary
-   embed = discord.Embed(title=definejson['word'],description=definejson['definition'] ,color=ctx.author.color)
+   embed = discord.Embed(title=definejson['word'],description=definejson['meanings'] ,color=ctx.author.color)
+   embed.add_field(name="Definition:", value=definejson['definition'], inline=False)
+   embed.add_field(name="Example:", value=definejson['example'], inline=False)
    await ctx.send(embed=embed)
 
 #ADMIN ONLY
