@@ -315,8 +315,8 @@ async def animequote(ctx):
         request = await session.get('https://some-random-api.ml/animu/quote')
         quotejson = await request.json()
     embed = discord.Embed(title="Anime quote",description=quotejson['sentence'] , color=ctx.author.color)
-    embed.set_author(name=quotejson["Anime:" + 'anime'])
-    embed.set_footer(text=quotejson["Character:" + 'character'])
+    embed.set_author(name=quotejson['anime'])
+    embed.set_footer(text=quotejson['character'])
     await ctx.send(embed=embed)
 
 
