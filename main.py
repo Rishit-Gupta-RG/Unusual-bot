@@ -108,6 +108,14 @@ async def youtube(ctx, *, search):
     #print(search_results)
     await ctx.send("Here's what I found" ' ' 'https://www.youtube.com' + search_results[0])
 
+@bot.command()
+async def define(ctx, word):
+   async with aiohttp.ClientSession() as session:
+      request = await session.get(f'https://some-random-api.ml/dictionary?word={word}')
+      definejson = await request.json() # Convert it to a JSON dictionary
+   embed = discord.Embed(title=definejson['word'],description=definejson['definition'] ,color=ctx.author.color)
+   await ctx.send(embed=embed)
+
 #ADMIN ONLY
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
