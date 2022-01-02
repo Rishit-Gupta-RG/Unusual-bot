@@ -71,6 +71,7 @@ async def help(ctx):
     embed.add_field(name="Maths Commands:", value="`add`, `sub`, `multi`, `divide`, `square`", inline=False)
     embed.add_field(name="Animal Commands:", value="`dog`, `cat`, `fox`, `panda`, `kangaroo`, `koala`, `birb`, `redpanda`, `whale`, `racoon`\n `dogfact`, `catfact`, `kangaroofact`, `pandafact`, `birbfact`, `racoonfact`, `whalefact`, `koalafact`", inline=False)
     embed.add_field(name="Browser:", value="`youtube`", inline=False)
+    embed.add_field(name="Anime Commands:", value="`animequote`", inline=False)
     embed.add_field(name="Miscellaneous:", value="`spam`, `eval`, `joke`, `meme`", inline=False)
     embed.add_field(name="Admin only Commands:", value="`kick`, `nick`, `say`", inline=False)
     embed.add_field(name="Bot Utility Commands:", value="`ping`, `stats`", inline=False)
