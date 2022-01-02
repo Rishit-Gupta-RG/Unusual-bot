@@ -75,7 +75,7 @@ async def help(ctx):
     embed.add_field(name="Miscellaneous:", value="`spam`, `eval`, `joke`, `meme`", inline=False)
     embed.add_field(name="Admin only Commands:", value="`kick`, `nick`, `say`", inline=False)
     embed.add_field(name="Bot Utility Commands:", value="`ping`, `stats`", inline=False)
-    embed.set_footer(text="My prefix is ! | Type !help command for a breif info of that command")
+    embed.set_footer(text="Developed by AKG#1234・Powered by Monke・[Wiki](https://github.com/Rishit-Gupta999/Unusual-bot/wiki)")
     
     await ctx.send(embed=embed)
 
