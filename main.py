@@ -55,9 +55,9 @@ async def ping(ctx):
 async def stats(ctx):
     embed = discord.Embed(title="Bot Statistics", color = ctx.author.color)
     embed.set_author(name= "Unusual Friends#3075", icon_url="https://images-ext-1.discordapp.net/external/0k2KhTElwr7ki38RUYVAAsCKjwPZ5wP32DFQpt37k2M/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/835206086570803211/d7c4dbb2521c985489e973aea0cb5a2e.png?width=473&height=473")
-    embed.add_field(name="Servers:", value="2", inline=True)
+    embed.add_field(name="Servers:", value="1", inline=True)
     embed.add_field(name="Users:", value=ctx.guild.member_count, inline=True)
-    embed.add_field(name="Channels:", value=len(ctx.guild.channels) + 4, inline=True)
+    embed.add_field(name="Channels:", value=len(ctx.guild.channels), inline=True)
     embed.add_field(name="Prefix:", value="`!`", inline=True)
     embed.add_field(name="CPU Usage:", value=f'{int(psutil.cpu_percent())}%', inline=True)
     embed.add_field(name="Memory Usage:", value=f'{int(psutil.virtual_memory().percent)}%', inline=True)
@@ -356,7 +356,7 @@ async def say(ctx, *, message):
 @bot.event
 async def on_member_join(member):
     welcomechannel = await bot.fetch_channel(908296505876688958)
-    await welcomechannel.send(f"Hello {member.mention} :wave:\nWelcome to Unusual Friends ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself\n- <#908002039907373108> - check out all the channels")
+    await welcomechannel.send(f"Hello {member.mention} :wave:\nWelcome to Unusual Friends ❤\n\n- <#809297410979397663> - read the server rules\n- <#850694848323256360> - pick up roles\n- <#900106358823739442> - verify yourself")
 
 
 #HELP SUB-COMMANDS
