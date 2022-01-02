@@ -127,7 +127,7 @@ async def kick(ctx, member: discord.Member):
 
 @bot.command(pass_context=True, aliases=['sn', 'Nick', 'Sn', 'Setnick', 'setnick', "nickname"])
 @commands.has_permissions(manage_nicknames=True)
-async def nick(ctx, member: discord.Member, nick):
+async def nick(ctx, member: discord.Member,*, nick):
     await member.edit(nick=nick)
     await ctx.send(f'<:tick:919194526558584864> **Nickname was changed for {member.mention}.**')
 
