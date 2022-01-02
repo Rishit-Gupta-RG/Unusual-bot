@@ -66,7 +66,7 @@ async def stats(ctx):
 
 @bot.group(invoke_without_command=True)
 async def help(ctx):
-    embed = discord.Embed(title="Unusual Friends", description="Hi this is Unsual Friends bot developed for this discord server! For information about commands in detail, makre sure you check my [Wiki](https://github.com/Rishit-Gupta999/Unusual-bot/wiki) Here's the list of available commands:", color = ctx.author.color)
+    embed = discord.Embed(title="Unusual Friends", description="Hi this is Unsual Friends bot developed for this discord server! Make sure you check my [Wiki](https://github.com/Rishit-Gupta999/Unusual-bot/wiki)for information about commands in detail. Here's the list of available commands:", color = ctx.author.color)
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     embed.add_field(name="Maths Commands:", value="`add`, `sub`, `multi`, `divide`, `square`", inline=False)
     embed.add_field(name="Animal Commands:", value="`dog`, `cat`, `fox`, `panda`, `kangaroo`, `koala`, `birb`, `redpanda`, `whale`, `racoon`\n `dogfact`, `catfact`, `kangaroofact`, `pandafact`, `birbfact`, `racoonfact`, `whalefact`, `koalafact`", inline=False)
