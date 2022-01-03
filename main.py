@@ -282,9 +282,9 @@ async def catfact(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
-async def monke(ctx, type):
+async def monke(ctx,):
     embed = discord.Embed(title="Monke", color=ctx.author.color)
-    embed.set_image(url=f'https://www.placemonkeys.com/500/350?{type}')
+    embed.set_image(url=f'https://www.placemonkeys.com/500/350?random')
     await ctx.send(embed=embed)
 
 @bot.command()
