@@ -283,7 +283,9 @@ async def catfact(ctx):
 
 @bot.command()
 async def monke(ctx, type):
-    await ctx.send(f'https://www.placemonkeys.com/500/350?{type}')
+    embed = discord.Embed(title="Monke", color=ctx.author.color)
+    embed.set_image(url=f'https://www.placemonkeys.com/500/350?{type}')
+    await ctx.send(embed=embed)
 
 @bot.command()
 async def foxfact(ctx):
