@@ -283,12 +283,7 @@ async def catfact(ctx):
 
 @bot.command()
 async def monke(ctx, type):
-    async with aiohttp.ClientSession() as session:
-        request = await session.get(f'https://www.placemonkeys.com/500/350?{type}')
-        monkejson = await request.json()
-    embed = discord.Embed(title="Monke", color=ctx.author.color)
-    embed.set_image(url=monkejson['link'])
-    await ctx.send(embed=embed)
+    await ctx.send(f'https://www.placemonkeys.com/500/350?{type}')
 
 @bot.command()
 async def foxfact(ctx):
