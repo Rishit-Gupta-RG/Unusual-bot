@@ -194,10 +194,10 @@ async def dogfact(ctx):
 @bot.command()
 async def fox(ctx):
    async with aiohttp.ClientSession() as session:
-      request = await session.get('https://some-random-api.ml/img/fox')
+      request = await session.get('https://randomfox.ca/floof/')
       foxjson = await request.json() # Convert it to a JSON dictionary
    embed = discord.Embed(title="Fox!", color=discord.Color.purple())
-   embed.set_image(url=foxjson['link'])
+   embed.set_image(url=foxjson['image'])
    await ctx.send(embed=embed)
 
 @bot.command()
