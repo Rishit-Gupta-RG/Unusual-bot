@@ -350,7 +350,8 @@ async def animequote(ctx):
         quotejson = await request.json()
     embed = discord.Embed(title=quotejson['anime'],description=quotejson['sentence'] , color=ctx.author.color)
     embed.set_author(name="Anime Quote")
-    embed.set_footer(text=quotejson['character'])
+    saidby = quotejson['character']
+    embed.set_footer(text=f"- {saidby}")
     await ctx.send(embed=embed)
 
 
