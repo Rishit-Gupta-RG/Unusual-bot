@@ -173,11 +173,6 @@ async def joke(ctx):
       jokejson = await request.json() # Convert it to a JSON dictionary
    await ctx.send(jokejson['joke'])
 
-@bot.command(aliases=['av'])
-async def avatar(self, ctx, *,  avamember : discord.Member=None):
-    userAvatarUrl = avamember.avatar_url
-    await ctx.send(userAvatarUrl)
-
 #ANIMALS
 @bot.command()
 async def dog(ctx):
