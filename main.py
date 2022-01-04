@@ -343,7 +343,7 @@ async def birbfact(ctx):
     await ctx.send(embed=embed)
 
 #ANIME
-@bot.command()
+@bot.command(alises=['aq'])
 async def animequote(ctx):
     async with aiohttp.ClientSession() as session:
         request = await session.get('https://some-random-api.ml/animu/quote')
