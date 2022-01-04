@@ -348,8 +348,8 @@ async def animequote(ctx):
     async with aiohttp.ClientSession() as session:
         request = await session.get('https://some-random-api.ml/animu/quote')
         quotejson = await request.json()
-    embed = discord.Embed(title="Anime quote",description=quotejson['sentence'] , color=ctx.author.color)
-    embed.set_author(name=quotejson['anime'])
+    embed = discord.Embed(title=quotejson['anime'],description=quotejson['sentence'] , color=ctx.author.color)
+    embed.set_author(name="Anime Quote")
     embed.set_footer(text=quotejson['character'])
     await ctx.send(embed=embed)
 
