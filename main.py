@@ -46,8 +46,8 @@ async def ping(ctx):
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def timeout(ctx, member: disnake.Member, time: float = None, *, reason=None) -> None:
     await member.timeout(duration=time, reason=reason)
-    await ctx.send(f"{member.mention} has been timed out for {time}")
-    
+    await ctx.send(f"{member.mention} has been timed out for {time} seconds, With the reason of {reason}")
+
 
 @bot.event
 async def on_ready():
