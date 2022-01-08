@@ -12,6 +12,7 @@ import re
 import sys
 import os
 from dotenv import load_dotenv
+load_dotenv()
 import youtube_dl
 import random
 from disnake import Member
@@ -28,6 +29,7 @@ import contextlib
 import io
 import datetime, time
 import psutil
+from datetime import timedelta
 
 
 
@@ -39,6 +41,10 @@ async def ping(ctx):
     message = await ctx.send("Pong!")
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
+
+@bot.command()
+async def timeout(member: disnake.Member, time: float = None, *, reason=None) -> None:
+    await member.timeout(duration=time, reason=reason)
 
 @bot.event
 async def on_ready():
