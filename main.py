@@ -9,8 +9,6 @@ import aiohttp
 import datetime
 import time
 import re
-from disnake import Webhook, RequestsWebhookAdapter, File
-from disnake.ext.commands import cooldown, BucketType
 import sys
 import os
 from dotenv import load_dotenv
