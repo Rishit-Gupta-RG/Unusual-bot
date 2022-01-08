@@ -43,7 +43,7 @@ async def ping(ctx):
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
 @bot.command()
-@command.has_permissions(moderate_members=True)
+@command.has_permissions(manage_mnicknames=True)
 async def timeout(ctx, member: disnake.Member, time: float = None, *, reason=None) -> None:
     await member.timeout(duration=time, reason=reason)
 
