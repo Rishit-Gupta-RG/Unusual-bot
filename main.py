@@ -69,17 +69,17 @@ async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.Use
     emb.set_image(url=user.display_avatar.url)
     await inter.response.send_message(embed=emb)
 
-@bot.command()
+@bot.slash_command()
 @commands.cooldown(1,35,commands.BucketType.guild)
-async def spam(ctx, amount : int, *, message=None):
+async def spam(ctx, Amount : int, *, Message=None):
     if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
         limit = 25
-    if amount > limit:
-        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{amount}` is too big! It needs to be less then {limit}.**")
+    if Amount > limit:
+        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{Amount}` is too big! It needs to be less then {limit}.**")
         return
     else:
-        for _ in range(amount): 
-            await ctx.send(message)
+        for _ in range(Amount): 
+            await ctx.send(Message)
 
 @bot.message_command(name="Reverse")  # optional
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
