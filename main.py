@@ -69,7 +69,7 @@ async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.Use
     emb.set_image(url=user.display_avatar.url)
     await inter.response.send_message(embed=emb)
 
-@bot.slash_command()
+@bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
 async def spam(ctx, Amount : int, *, Message=None):
     if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
