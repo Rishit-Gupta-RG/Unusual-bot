@@ -72,8 +72,7 @@ async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.Use
 @bot.user_command(name="Info")
 async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.User):
     embed=disnake.Embed(
-      title="User Information", 
-      timestamp=datetime.datetime.utcnow(),
+      title="User Information",
       colour=inter.author.colour()
       )
     embed.set_thumbnail(url=member.display_avatar.url)
