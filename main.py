@@ -35,7 +35,7 @@ from datetime import timedelta
 
 
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267])
 
 @bot.command()
 async def ping(ctx):
