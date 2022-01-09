@@ -79,7 +79,6 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed.add_field(name="Account Created",value=member.created_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
     embed.add_field(name="Joined",value=member.joined_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
     members = sorted(inter.guild.members, key=lambda m: m.joined_at)
-    embed.add_field(name="Join Position", value=str(members.index(member)+1))
     embed.add_field(name="Status", value=member.status)
     await inter.response.send_message(embed=embed)
 
