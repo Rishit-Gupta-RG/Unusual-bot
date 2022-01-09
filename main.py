@@ -13,6 +13,7 @@ import time
 import re
 import sys
 import os
+from urllib.parse import quote_plus
 from dotenv import load_dotenv
 load_dotenv()
 import youtube_dl
@@ -66,6 +67,21 @@ async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.Use
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
     # Let's reverse it and send back
     await inter.response.send_message(message.content[::-1])
+
+class Google(disnake.ui.View):
+    def __init__(self, query: str):
+        super().__init__()
+        # we need to quote the query string to make a valid url. Discord will raise an error if it isn't valid.
+        query = quote_plus(query)
+        url = f"https://www.google.com/search?q={query}"
+
+        # Link buttons cannot be made with the decorator
+        # Therefore we have to manually create one.
+        # We add the quoted url to the button, and add the button to the view.
+        self.add_item(disnake.ui.Button(label="Click Here", url=url))
+async def google(ctx: commands.Context, *, query: str):
+    """Returns a google link for a query"""
+    await ctx.send(f"Google Result for: `{query}`", view=Google(query))
 
 @bot.event
 async def on_ready():
