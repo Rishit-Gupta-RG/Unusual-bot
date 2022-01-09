@@ -60,8 +60,8 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     await ctx.send(f"{member.mention} has been timed out by {ctx.author.mention} for {time}.\n **Reason -** {reason}")
 
 @bot.slash_command()
-async def test(inter):
-    await inter.response.send_message("Monke")
+async def test(ctx):
+    await ctx.send("Monke")
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
