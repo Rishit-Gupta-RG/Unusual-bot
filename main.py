@@ -52,6 +52,9 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     await member.timeout(duration=timeout_time, reason=reason)
     await ctx.send(f"{member.mention} has been timed out by {ctx.author.mention} for {time}.\n **Reason -** {reason}")
 
+@bot.slash_command()
+async def test(inter):
+    await inter.response.send_message("Monke")
 
 @bot.event
 async def on_ready():
