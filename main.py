@@ -50,6 +50,7 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     time_convert = {'s' : 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400}
     timeout_time = float(time[0]) * time_convert[time[-1]]
     await member.timeout(duration=timeout_time, reason=reason)
+    print(timeout_time)
     await ctx.send(f"{member.mention} has been timed out for {time}, With the reason of {reason}")
 
 
