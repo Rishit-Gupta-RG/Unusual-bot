@@ -56,6 +56,12 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
 async def test(inter):
     await inter.response.send_message("Monke")
 
+@bot.user_command(name="Avatar")  # optional
+async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
+    emb = disnake.Embed(title=f"{user}'s avatar")
+    emb.set_image(url=user.display_avatar.url)
+    await inter.response.send_message(embed=emb)
+
 @bot.event
 async def on_ready():
     print('Bot is ready')
