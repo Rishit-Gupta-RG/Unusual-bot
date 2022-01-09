@@ -79,6 +79,8 @@ class Google(disnake.ui.View):
         # Therefore we have to manually create one.
         # We add the quoted url to the button, and add the button to the view.
         self.add_item(disnake.ui.Button(label="Click Here", url=url))
+
+@bot.command()
 async def google(ctx: commands.Context, *, query: str):
     """Returns a google link for a query"""
     await ctx.send(f"Google Result for: `{query}`", view=Google(query))
