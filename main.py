@@ -69,7 +69,7 @@ async def spam(ctx, amount : int, *, message=None):
     if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
         limit = 25
     if amount > limit:
-        await ctx.send(f"<:_:919194636906561548> **The amount provided `{amount}` is too big! It needs to be less then {limit}.**")
+        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{amount}` is too big! It needs to be less then {limit}.**")
         return
     else:
         for _ in range(amount): 
