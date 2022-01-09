@@ -35,8 +35,9 @@ import datetime, time
 import psutil
 from datetime import datetime
 
-
-bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267])
+intents = disnake.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents)
 
 @bot.command()
 async def ping(ctx):
