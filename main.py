@@ -45,6 +45,12 @@ async def ping(ctx):
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
+        await ctx.send(msg)
+
 @bot.command()
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
