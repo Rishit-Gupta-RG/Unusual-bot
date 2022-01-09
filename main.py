@@ -1,4 +1,5 @@
 from logging import fatal
+from typing import Union
 import disnake
 from disnake import channel
 from disnake import embeds
@@ -7,6 +8,7 @@ import asyncio
 from disnake.ext import commands
 import aiohttp 
 import datetime
+from datetime import timedelta
 import time
 import re
 import sys
@@ -44,9 +46,11 @@ async def ping(ctx):
 
 @bot.command()
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
-async def timeout(ctx, member: disnake.Member, time: float = None, *, reason=None) -> None:
-    await member.timeout(duration=time, reason=reason)
-    await ctx.send(f"{member.mention} has been timed out for {time} seconds, With the reason of {reason}")
+async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
+    time_convert = {'s' : 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400}
+    timeout_time = float(time[0]) * time_convert[time[-1]]
+    await member.timeout(duration=timeout_time, reason=reason)
+    await ctx.send(f"{member.mention} has been timed out for {time}, With the reason of {reason}")
 
 
 @bot.event
