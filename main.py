@@ -74,9 +74,9 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed=disnake.Embed(
       title="User Information", 
       timestamp=datetime.datetime.utcnow(),
-      colour=disnake.Colour.color()
+      colour=disnake.Colour.colour()
       )
-    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_thumbnail(url=member.display_avatar.url)
     embed.add_field(name="Name", value=member.name)
     embed.add_field(name="Nickname", value=member.nick)
     embed.add_field(name="ID", value=member.id)
