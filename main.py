@@ -62,6 +62,11 @@ async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.Use
     emb.set_image(url=user.display_avatar.url)
     await inter.response.send_message(embed=emb)
 
+@bot.message_command(name="Reverse")  # optional
+async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
+    # Let's reverse it and send back
+    await inter.response.send_message(message.content[::-1])
+
 @bot.event
 async def on_ready():
     print('Bot is ready')
