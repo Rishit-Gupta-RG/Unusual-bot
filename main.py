@@ -65,9 +65,27 @@ async def test(ctx):
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
-    emb = disnake.Embed(title=f"{user}'s avatar", color=inter.author.co)
+    emb = disnake.Embed(title=f"{user}'s avatar", color=inter.author.color)
     emb.set_image(url=user.display_avatar.url)
     await inter.response.send_message(embed=emb)
+
+@bot.user_command(name="Info")
+async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.User):
+    embed=disnake.Embed(
+      title="User Information", 
+      timestamp=datetime.datetime.utcnow(),
+      colour=disnake.Colour.color()
+      )
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.add_field(name="Name", value=member.name)
+    embed.add_field(name="Nickname", value=member.nick)
+    embed.add_field(name="ID", value=member.id)
+    embed.add_field(name="Account Created",value=member.created_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
+    embed.add_field(name="Joined",value=member.joined_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
+    members = sorted(inter.guild.members, key=lambda m: m.joined_at)
+    embed.add_field(name="Join Position", value=str(members.index(member)+1))
+    embed.add_field(name="Status", value=member.status)
+    await inter.response.send_message(embed=embed)
 
 @bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
