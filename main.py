@@ -17,6 +17,7 @@ from urllib.parse import quote_plus
 from dotenv import load_dotenv
 load_dotenv()
 import youtube_dl
+from disnake.ext.commands import cooldown, BucketType
 import random
 from disnake import Member
 from disnake.ext.commands import has_permissions, MissingPermissions
@@ -33,7 +34,6 @@ import io
 import datetime, time
 import psutil
 from datetime import timedelta
-
 
 
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267])
@@ -59,9 +59,21 @@ async def test(inter):
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
-    emb = disnake.Embed(title=f"{user}'s avatar")
+    emb = disnake.Embed(title=f"{user}'s avatar", color=inter.author.co)
     emb.set_image(url=user.display_avatar.url)
     await inter.response.send_message(embed=emb)
+
+@bot.command()
+@commands.cooldown(1,35,commands.BucketType.guild)
+async def spam(ctx, amount : int, *, message=None):
+    if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
+        limit = 25
+    if amount > limit:
+        await ctx.send(f"<:_:919194636906561548> **The amount provided `{amount}` is too big! It needs to be less then {limit}.**")
+        return
+    else:
+        for _ in range(amount): 
+            await ctx.send(message)
 
 @bot.message_command(name="Reverse")  # optional
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
@@ -82,7 +94,6 @@ class Google(disnake.ui.View):
 
 @bot.command()
 async def google(ctx: commands.Context, *, query: str):
-    """Returns a google link for a query"""
     await ctx.send(f"Google Result for: `{query}`", view=Google(query))
 
 @bot.event
