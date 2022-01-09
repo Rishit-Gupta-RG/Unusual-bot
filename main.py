@@ -33,7 +33,7 @@ import contextlib
 import io
 import datetime, time
 import psutil
-from datetime import timedelta
+from datetime import datetime
 
 
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267])
@@ -74,7 +74,7 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed=disnake.Embed(
       title="User Information", 
       timestamp=datetime.datetime.utcnow(),
-      colour=disnake.Colour.colour()
+      colour=inter.author.colour()
       )
     embed.set_thumbnail(url=member.display_avatar.url)
     embed.add_field(name="Name", value=member.name)
