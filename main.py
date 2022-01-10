@@ -64,7 +64,7 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
 @bot.command()
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def rto(ctx, member: disnake.Member, reason=None) -> None:
-    await member.timeout(reason=reason)
+    await member.timeout(duration=None)
     await ctx.send(f"Timeout for {member.mention} has been removed by {ctx.author.mention}.\n**Reason -** {reason}")
 
 
