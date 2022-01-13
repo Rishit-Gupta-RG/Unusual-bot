@@ -108,7 +108,7 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     # Let's reverse it and send back
     await inter.response.send_message(message.content[::-1])
 
-class Google(disnake.ui.View):
+"""class Google(disnake.ui.View):
     def __init__(self, query: str):
         super().__init__()
         # we need to quote the query string to make a valid url. Discord will raise an error if it isn't valid.
@@ -118,10 +118,15 @@ class Google(disnake.ui.View):
         # Link buttons cannot be made with the decorator
         # Therefore we have to manually create one.
         # We add the quoted url to the button, and add the button to the view.
-        self.add_item(disnake.ui.Button(label="Click Here", url=url))
+        self.add_item(disnake.ui.Button(label="Click Here", url=url))"""
 
 @bot.command()
 async def google(ctx: commands.Context, *, query: str):
+    button = disnake.ui.Button
+    view = disnake.ui.View()
+    query = quote_plus(query)
+    url = f"https://www.google.com/search?q={query}"
+    view.add_item(button(label="Click here", url=url))
     await ctx.send(f"Google Result for: `{query}`", view=Google(query))
 
 @bot.event
