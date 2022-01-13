@@ -127,7 +127,7 @@ async def Google(ctx: commands.Context, *, query: str):
     query = quote_plus(query)
     url = f"https://www.google.com/search?q={query}"
     view.add_item(button(label="Click here", url=url))
-    await ctx.send(f"Google Result for: `{query}`", view=Google(query))
+    await ctx.send(f"Google Result for: `{query}`")
 
 @bot.event
 async def on_ready():
