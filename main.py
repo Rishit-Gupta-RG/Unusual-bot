@@ -121,7 +121,7 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
         self.add_item(disnake.ui.Button(label="Click Here", url=url))"""
 
 @bot.command()
-async def google(ctx: commands.Context, *, query: str):
+async def Google(ctx: commands.Context, *, query: str):
     button = disnake.ui.Button
     view = disnake.ui.View()
     query = quote_plus(query)
