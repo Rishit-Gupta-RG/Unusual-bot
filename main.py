@@ -124,10 +124,11 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
 async def Google(ctx: commands.Context, *, query: str):
     button = disnake.ui.Button
     view = disnake.ui.View()
+    await send(view=view)
     query = quote_plus(query)
     url = f"https://www.google.com/search?q={query}"
     view.add_item(button(label="Click here", url=url))
-    await ctx.send(f"Google Result for: `{query}`")
+    await ctx.send(f"Google Result for: `{query}`", view=view)
 
 @bot.event
 async def on_ready():
