@@ -1,3 +1,4 @@
+from cProfile import label
 from logging import fatal
 from typing import Union
 import disnake
@@ -108,17 +109,18 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     # Let's reverse it and send back
     await inter.response.send_message(message.content[::-1])
 
-"""class Google(disnake.ui.View):
-    def __init__(self, query: str):
-        super().__init__()
-        # we need to quote the query string to make a valid url. Discord will raise an error if it isn't valid.
-        query = quote_plus(query)
-        url = f"https://www.google.com/search?q={query}"
+@bot.command(aliases=['aq'])
+async def animequote(ctx):
+    async with aiohttp.ClientSession() as session:
+        request = await session.get('http://animechan.vercel.app/api/random')
+        quotejson = await request.json()
+    embed = disnake.Embed(title=quotejson['anime'],description=quotejson['quote'] , color=ctx.author.color)
+    embed.set_author(name="Anime Quote")
+    saidby = quotejson['character']
+    embed.set_footer(text=f"- {saidby}")
+    await ctx.send(embed=embed)
+    print(quotejson)
 
-        # Link buttons cannot be made with the decorator
-        # Therefore we have to manually create one.
-        # We add the quoted url to the button, and add the button to the view.
-        self.add_item(disnake.ui.Button(label="Click Here", url=url))"""
 
 @bot.command()
 async def google(ctx: commands.Context, *, query: str):
@@ -129,8 +131,13 @@ async def google(ctx: commands.Context, *, query: str):
     view.add_item(button(label="Click here", url=url))
     await ctx.send(f"Google Result for: `{query}`", view=view)
 
+@bot.listen('on_command_error')
+async def error_handler(ctx, error):
+    raise error
+
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming,name="Monkelife", state="In Team Monke", details="Attacking enemies of Monkes", label="Click here to join Team Monkes", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
 
 bot.run(os.getenv("TOKEN"))
