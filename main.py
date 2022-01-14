@@ -137,7 +137,7 @@ async def error_handler(ctx, error):
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming,name="Monkelife", state="In Team Monke", details="Attacking enemies of Monkes", label="Click here to join Team Monkes", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+    await bot.change_presence(activity=disnake.Activity(type=disnake.BaseActivity,name="Monkelife", state="In Team Monke", details="Attacking enemies of Monkes", label="Click here to join Team Monkes", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
 
 bot.run(os.getenv("TOKEN"))
