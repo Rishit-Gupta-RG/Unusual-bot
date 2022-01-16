@@ -54,7 +54,7 @@ async def on_command_error(ctx, error):
         msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
         await ctx.send(msg)
 
-@bot.slash_command()
+@bot.slash_command(name="Timeout", description="Timeout a user.")
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     time_convert = {'s' : 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400}
@@ -62,7 +62,7 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     await member.timeout(duration=timeout_time, reason=reason)
     await ctx.send(f"{member.mention} has been timed out by {ctx.author.mention} for {time}.\n **Reason -** {reason}")
 
-@bot.command()
+@bot.command(name="Remove Time Out", description="Removes a user from timeout")
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def rto(ctx, member: disnake.Member, reason=None) -> None:
     await member.timeout(duration=None)
