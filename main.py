@@ -54,7 +54,7 @@ async def on_command_error(ctx, error):
         msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
         await ctx.send(msg)
 
-@bot.command()
+@bot.slash_command()
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     time_convert = {'s' : 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400}
@@ -110,7 +110,7 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     await inter.response.send_message(message.content[::-1])
 
 
-@bot.slash_command(name="Google", description="Provides a google redirect button for the provided query.")
+@bot.command(name="Google", description="Provides a google redirect button for the provided query.")
 async def google(ctx: commands.Context, *, query: str):
     button = disnake.ui.Button
     view = disnake.ui.View()
