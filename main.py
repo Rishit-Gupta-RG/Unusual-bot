@@ -41,7 +41,7 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents)
 
-@bot.slash_command()
+@bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
     before = time.monotonic()
     message = await ctx.send("Pong!")
@@ -109,20 +109,8 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     # Let's reverse it and send back
     await inter.response.send_message(message.content[::-1])
 
-@bot.command(aliases=['aq'])
-async def animequote(ctx):
-    async with aiohttp.ClientSession() as session:
-        request = await session.get('http://animechan.vercel.app/api/random')
-        quotejson = await request.json()
-    embed = disnake.Embed(title=quotejson['anime'],description=quotejson['quote'] , color=ctx.author.color)
-    embed.set_author(name="Anime Quote")
-    saidby = quotejson['character']
-    embed.set_footer(text=f"- {saidby}")
-    await ctx.send(embed=embed)
-    print(quotejson)
 
-
-@bot.command()
+@bot.slash_command(name="Google", description="Provides a google redirect button for the provided query.")
 async def google(ctx: commands.Context, *, query: str):
     button = disnake.ui.Button
     view = disnake.ui.View()
