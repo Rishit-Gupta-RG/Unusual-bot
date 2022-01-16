@@ -41,7 +41,7 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents)
 
-@bot.command()
+@bot.slash_command()
 async def ping(ctx):
     before = time.monotonic()
     message = await ctx.send("Pong!")
