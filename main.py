@@ -36,6 +36,15 @@ import io
 import datetime, time
 import psutil
 from datetime import datetime
+import traceback
+import textwrap
+import importlib
+import subprocess
+import copy
+from collections import Counter
+import inspect
+from typing import Union, Optional
+from contextlib import redirect_stdout
 
 intents = disnake.Intents.default()
 intents.presences = True
@@ -130,13 +139,6 @@ async def google(ctx: commands.Context, *, query: str):
     view.add_item(button(label="Click here", url=url))
     await ctx.send(f"Google Result for: `{query}`", view=view)
 
-import traceback
-import textwrap
-import importlib
-import subprocess
-import copy
-from collections import Counter
-import inspect
 @bot.command(pass_context=True, hidden=True, name='run')
 async def run(self, ctx, *, body: str):
 
