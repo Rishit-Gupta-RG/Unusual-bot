@@ -55,8 +55,8 @@ async def on_command_error(ctx, error):
         msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
         await ctx.send(msg)
 
-@bot.command(name="evaluate", aliases=["e"], description="Runs a python script.")
-async def eval(ctx, *, code):
+@bot.command(name="evaluate", aliases=["e", "eval"], description="Runs a python script.")
+async def evaluate(ctx, *, code):
     str_obj = io.StringIO()
     try:
         with contextlib.redirect_stdout(str_obj):
