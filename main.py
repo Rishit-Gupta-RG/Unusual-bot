@@ -1,3 +1,4 @@
+from ast import alias
 from cProfile import label
 from logging import fatal
 from typing import Union
@@ -53,6 +54,16 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
         await ctx.send(msg)
+
+@bot.command(name="evaluate", aliases=["e"], description="Runs a python script.")
+async def eval(ctx, *, code):
+    str_obj = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(str_obj):
+            exec(code)
+    except Exception as e:
+        return await ctx.send(f"```{e.__class__.__name__}: {e}```")
+    await ctx.send(f'```{str_obj.getvalue()}```')
 
 @bot.command(name="Timeout", description="Timeout a user.")
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
