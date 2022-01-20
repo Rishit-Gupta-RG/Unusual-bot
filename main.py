@@ -50,7 +50,6 @@ intents = disnake.Intents.default()
 intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents)
-bot.load_extension('jishaku')
 
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
