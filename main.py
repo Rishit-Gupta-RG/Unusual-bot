@@ -254,8 +254,11 @@ class TicTacToe(disnake.ui.View):
 
 @bot.command()
 async def tic(ctx: commands.Context):
-    """Starts a tic-tac-toe game with yourself."""
-    await ctx.send("Tic Tac Toe: X goes first", view=TicTacToe())
+    if ctx.message.author.id == 787149777103486986:
+        """Starts a tic-tac-toe game with yourself."""
+        await ctx.send("Tic Tac Toe: X goes first", view=TicTacToe())
+    else:
+        await ctx.send("❌ This command is under development, Only bot dev. can use it")
 
 @bot.listen('on_command_error')
 async def error_handler(ctx, error):
