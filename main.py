@@ -194,7 +194,7 @@ class TicTacToeButton(disnake.ui.Button["TicTacToe"]):
 class TicTacToe(disnake.ui.View):
     # This tells the IDE or linter that all our children will be TicTacToeButtons
     # This is not required
-    children: List[TicTacToeButton]
+    children: TicTacToeButton
     X = -1
     O = 1
     Tie = 2
