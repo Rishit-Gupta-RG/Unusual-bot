@@ -264,6 +264,15 @@ async def tic(ctx: commands.Context):
 async def error_handler(ctx, error):
     raise error
 
+@bot.command()
+async def reboot(ctx):
+    if ctx.message.author.id == 787149777103486986:   
+        await ctx.send("**Rebooting** <a:malloading:922167995961335808>")
+        os.system("clear")
+        os.execv(sys.executable, ['python'] + sys.argv)
+    else:
+        await ctx.send("<:_:919194636906561548> **Only bot dev. can use this command!**")
+
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="The Monke Game", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
