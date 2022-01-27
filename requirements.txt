@@ -4,3 +4,4 @@ youtube-dl==2021.6.6
 psutil==5.8.0
 python-dotenv==0.19.2
 disnake==2.3.0
+nltk==3.6.7
