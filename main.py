@@ -124,7 +124,7 @@ async def spam(ctx, Amount : int, *, Message=None):
         for _ in range(Amount): 
             await ctx.send(Message)
         else:
-            await ctx.send(f"Finished spamming the content {Amount} times: ```{Message}``` Resquested by {ctx.author.mention}")
+            await ctx.send(f"Finished spamming the content {Amount} times: ```{Message}```- Requested by {ctx.author.mention}")
 
 @bot.message_command(name="Reverse")  # optional
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
