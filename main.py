@@ -89,7 +89,7 @@ async def rto(ctx, member: disnake.Member, reason=None) -> None:
     await ctx.send(f"Timeout for {member.mention} has been removed by {ctx.author.mention}.\n**Reason -** {reason}")
 
 
-@bot.slash_command()
+@bot.slash_command(description="Monke")
 async def test(ctx):
     await ctx.send("Monke")
 
