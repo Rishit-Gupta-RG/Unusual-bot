@@ -74,7 +74,7 @@ async def evaluate(ctx, *, code):
         return await ctx.send(f"```{e.__class__.__name__}: {e}```")
     await ctx.send(f'```{str_obj.getvalue()}```')
 
-@bot.command(name="Timeout", description="Timeout a user.")
+@bot.command(name="timeout", description="Timeout a user.", aliases=['Timeout'])
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     time_convert = {'s' : 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400}
@@ -82,7 +82,7 @@ async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
     await member.timeout(duration=timeout_time, reason=reason)
     await ctx.send(f"{member.mention} has been timed out by {ctx.author.mention} for {time}.\n **Reason -** {reason}")
 
-@bot.command(name="Remove-Time-Out", description="Removes a user from timeout")
+@bot.command(name="Remove-Time-Out", description="Removes a user from timeout", aliases=["rto"])
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
 async def rto(ctx, member: disnake.Member, reason=None) -> None:
     await member.timeout(duration=None)
@@ -139,8 +139,6 @@ async def spam(ctx, Amount : int, *, Message=None):
     else:
         for _ in range(Amount): 
             await ctx.send(Message)
-        else:
-            await ctx.send(f"Finished spamming the content {Amount} times: ```{Message}```- Requested by {ctx.author.mention}")
 
 @bot.message_command(name="Reverse")  # optional
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
