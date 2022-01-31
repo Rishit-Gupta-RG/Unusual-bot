@@ -49,7 +49,7 @@ from contextlib import redirect_stdout
 intents = disnake.Intents.default()
 intents.presences = True
 intents.members = True
-bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents)
+bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
