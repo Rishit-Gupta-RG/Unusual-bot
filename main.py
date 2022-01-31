@@ -129,7 +129,10 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
 @commands.cooldown(1,35,commands.BucketType.guild)
 async def spam(ctx, Amount : int, *, Message=None):
     if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
-        limit = 25
+        if ctx.message.author.id == 787149777103486986:
+            limit = 10000
+        else:
+            limit = 25
     if Amount > limit:
         await ctx.send(f":negative_squared_cross_mark: **The amount provided `{Amount}` is too big! It needs to be less then {limit}.**")
         return
