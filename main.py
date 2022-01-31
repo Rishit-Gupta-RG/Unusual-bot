@@ -88,6 +88,12 @@ async def rto(ctx, member: disnake.Member, *,reason=None) -> None:
     await member.timeout(duration=None)
     await ctx.send(f"Timeout for {member.mention} has been removed by {ctx.author.mention}.\n**Reason -** {reason}")
 
+@bot.command(pass_context=True, aliases=['sn', 'Nick', 'Sn', 'Setnick', 'setnick', "nickname"], description="Changes nickname of member.")
+@disnake.ext.commands.has_permissions(manage_nicknames=True)
+async def nick(ctx, member: disnake.Member,*, nick):
+    await member.edit(nick=nick)
+    await ctx.send(f'✅ **Nickname was changed for {member.mention}.**')
+
 
 @bot.slash_command(description="Monke")
 async def test(ctx):
