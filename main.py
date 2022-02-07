@@ -196,7 +196,7 @@ async def on_message_delete(message):
 async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
-        em = disnake.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
+        em = disnake.Embed(title= f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=ctx.author.color)
         em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
         await ctx.send(embed = em)
     except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
