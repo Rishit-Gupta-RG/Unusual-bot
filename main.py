@@ -181,6 +181,28 @@ async def ban(ctx, member: disnake.Member):
 
     await message.edit(content="Ban cancelled.")
 
+snipe_message_author = {}
+snipe_message_content = {}
+
+@bot.event
+async def on_message_delete(message):
+     snipe_message_author[message.channel.id] = message.author
+     snipe_message_content[message.channel.id] = message.content
+     asyncio.sleep(60)
+     del snipe_message_author[message.channel.id]
+     del snipe_message_content[message.channel.id]
+
+@bot.command(name = 'snipe')
+async def snipe(ctx):
+    channel = ctx.channel
+    try: #This piece of code is run if the bot finds anything in the dictionary
+        em = disnake.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
+        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
+        await ctx.send(embed = em)
+    except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
+        await ctx.send(f"There are no recently deleted messages in #{channel.name}")
+
+
 class TicTacToeButton(disnake.ui.Button["TicTacToe"]):
     def __init__(self, x: int, y: int):
         # A label is required, but we don't need one so a zero-width space is used
