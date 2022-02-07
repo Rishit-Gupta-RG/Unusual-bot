@@ -188,7 +188,7 @@ snipe_message_content = {}
 async def on_message_delete(message):
      snipe_message_author[message.channel.id] = message.author
      snipe_message_content[message.channel.id] = message.content
-     asyncio.sleep(60)
+     await asyncio.sleep(60)
      del snipe_message_author[message.channel.id]
      del snipe_message_content[message.channel.id]
 
