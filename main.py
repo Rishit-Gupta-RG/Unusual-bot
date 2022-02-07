@@ -163,12 +163,12 @@ async def google(ctx: commands.Context, *, query: str):
     await ctx.send(f"Google Result for: `{query}`", view=view)
 
 @bot.command()
-async def ban(self, ctx: command.Context, member: disnake.Member):
+async def ban(ctx, member: disnake.Member):
     message = await ctx.send(f"kardu? (y/n)")
     check = lambda m: m.author == ctx.author and m.channel == ctx.channel
 
     try:
-        confirm = await self.bot.wait_for("message", check=check, timeout=30)
+        confirm = await ctx.bot.wait_for("message", check=check, timeout=30)
     except asyncio.TimeoutError:
         await message.edit(content="Ban cancelled, timed out.")
         return
