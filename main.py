@@ -163,7 +163,7 @@ async def google(ctx: commands.Context, *, query: str):
     await ctx.send(f"Google Result for: `{query}`", view=view)
 
 @bot.command()
-@disnake.ext.commands.has_permissions(ban_nicknames=True)
+@disnake.ext.commands.has_permissions(ban_members=True)
 async def ban(ctx, member: disnake.Member):
     message = await ctx.send(f"kardu? (y/n)")
     check = lambda m: m.author == ctx.author and m.channel == ctx.channel
