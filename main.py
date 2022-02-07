@@ -197,7 +197,7 @@ async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
         em = disnake.Embed(title= f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=ctx.author.color)
-        em.set_footer(text = f"by {snipe_message_author[channel.id]}", icon_url=ctx.snipe_message_author.avatar_url)
+        em.set_footer(text = f"by {snipe_message_author[channel.id]}", icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed = em)
     except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
         await ctx.send(f"There are no recently deleted messages in #{channel.name}")
