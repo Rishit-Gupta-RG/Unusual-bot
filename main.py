@@ -1,6 +1,7 @@
 from ast import alias
 from cProfile import label
 from logging import fatal
+from multiprocessing import context
 from typing import Union
 import disnake
 from disnake import channel
@@ -160,6 +161,24 @@ async def google(ctx: commands.Context, *, query: str):
     url = f"https://www.google.com/search?q={query}"
     view.add_item(button(label="Click here", url=url))
     await ctx.send(f"Google Result for: `{query}`", view=view)
+
+@bot.command()
+async def ban(self, ctx: command.Context, member: disnake.Member):
+    message = await ctx.send(f"kardu? (y/n)")
+    check = lambda m: m.author == ctx.author and m.channel == ctx.channel
+
+    try:
+        confirm = await self.bot.wait_for("message", check=check, timeout=30)
+    except asyncio.TimeoutError:
+        await message.edit(content="Ban cancelled, timed out.")
+        return
+
+    if confirm.content == "y":
+        await member.ban()
+        await message.edit(content=f"{member} has been banned.")
+        return
+
+    await message.edit(content="Ban cancelled.")
 
 class TicTacToeButton(disnake.ui.Button["TicTacToe"]):
     def __init__(self, x: int, y: int):
