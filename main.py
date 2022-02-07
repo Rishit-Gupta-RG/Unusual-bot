@@ -179,7 +179,8 @@ async def ban(ctx, member: disnake.Member):
         await message.edit(content=f"{member} has been banned.")
         return
 
-    await message.edit(content="Ban cancelled.")
+    if confirm.content == "n":
+        await message.edit(content="Ban cancelled.")
 
 class TicTacToeButton(disnake.ui.Button["TicTacToe"]):
     def __init__(self, x: int, y: int):
