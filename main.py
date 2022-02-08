@@ -3,6 +3,7 @@ from cProfile import label
 from email import message
 from logging import fatal
 from multiprocessing import context
+from turtle import title
 from typing import Union
 import disnake
 from disnake import channel
@@ -316,7 +317,6 @@ class TicTacToe(disnake.ui.View):
 
         return None
 
-
 @bot.command()
 async def tic(ctx: commands.Context):
     if ctx.message.author.id == 787149777103486986:
@@ -324,6 +324,26 @@ async def tic(ctx: commands.Context):
         await ctx.send("Tic Tac Toe: X goes first", view=TicTacToe())
     else:
         await ctx.send("❌ This command is under development, Only bot dev. can use it")
+
+@bot.group(invoke_without_command=True)
+async def tag(ctx):
+    embed = disnake.Embed(title="Tag List", description="`code`", color=ctx.author.color)
+    await ctx.send(embed=embed)
+
+@tag.command()
+async def code(ctx):
+    embed = disnake.Embed(title="Code", description="""Here's how to format Python code on Discord:
+
+\`\`\`py
+monke = str"monkelife"
+print(monke)
+\`\`\`
+
+Will give an output like:
+```py
+monke = str"monkelife"
+print(monke)```""", color=ctx.author.color)
+    embed.set_footer(text="Note: These are backticks not quotes.")
 
 @bot.listen('on_command_error')
 async def error_handler(ctx, error):
