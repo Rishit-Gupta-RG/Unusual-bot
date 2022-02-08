@@ -343,6 +343,7 @@ Will give an output like:
 monke = str"monkelife"
 print(monke)```""", color=ctx.author.color)
     embed.set_footer(text="Note: These are backticks not quotes.")
+    await ctx.send(embed=embed)
 
 @bot.listen('on_command_error')
 async def error_handler(ctx, error):
