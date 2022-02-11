@@ -103,17 +103,19 @@ async def test(ctx):
     await ctx.send("Monke")
 
 @bot.slash_command(description="Starts an activity in voice channel.")
-async def activity(ctx, channel: disnake.VoiceChannel, options):
-    if options == "chess":
+async def activity(ctx, channel: disnake.VoiceChannel, option: str):
+    if option == "chess":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
         target_application=disnake.PartyType.chess)
         await ctx.send(f"[Click to open chess in {channel.name}]({invite})")
-    else:
+    elif option == "watch together":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
         target_application=disnake.PartyType.watch_together)
         await ctx.send(f"[Click to open watch together in {channel.name}]({invite})")
+    else:
+        await ctx.send("An error occured, curently there are only 2 party types supported ie `chess` & `wach together`")
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
