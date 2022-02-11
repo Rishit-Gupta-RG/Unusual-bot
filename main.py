@@ -103,13 +103,13 @@ async def test(ctx):
     await ctx.send("Monke")
 
 @bot.slash_command(description="Starts an activity in voice channel.")
-async def activity(ctx, channel: disnake.VoiceChannel, option: str):
-    if option == "chess":
+async def activity(ctx, channel: disnake.VoiceChannel, party: str):
+    if party == "chess":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
         target_application=disnake.PartyType.chess)
         await ctx.send(f"[Click to open chess in {channel.name}]({invite})")
-    elif option == "watch together":
+    elif party == "watch together":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
         target_application=disnake.PartyType.watch_together)
