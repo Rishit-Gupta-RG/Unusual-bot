@@ -40,6 +40,7 @@ import psutil
 from datetime import datetime
 import traceback
 import textwrap
+from disnake import Option, OptionType
 import importlib
 import subprocess
 import copy
@@ -101,8 +102,8 @@ async def nick(ctx, member: disnake.Member,*, nick):
 async def test(ctx):
     await ctx.send("Monke")
 
-@bot.slash_command(description="Starts an activity in voice channel.")
-async def activity(ctx, channel: disnake.VoiceChannel, options=(Option["chess", "watch together", OptionType.string])):
+@bot.slash_command(description="Starts an activity in voice channel.", options=(Option["chess", "watch together", OptionType.string]))
+async def activity(ctx, channel: disnake.VoiceChannel, options):
     if options == "chess":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
