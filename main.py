@@ -5,7 +5,7 @@ from logging import fatal
 from multiprocessing import context
 from typing import Union
 import disnake
-from disnake import channel
+from disnake import Option, OptionType, channel
 from disnake import embeds
 from disnake.embeds import Embed
 import asyncio
@@ -102,7 +102,7 @@ async def test(ctx):
     await ctx.send("Monke")
 
 @bot.slash_command(description="Starts an activity in voice channel.")
-async def activity(ctx, channel: disnake.VoiceChannel, options=["chess", "watch together"]):
+async def activity(ctx, channel: disnake.VoiceChannel, options=(Option["chess", "watch together", OptionType.string])):
     if options == "chess":
         invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
