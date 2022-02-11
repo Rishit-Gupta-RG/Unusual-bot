@@ -102,7 +102,7 @@ async def nick(ctx, member: disnake.Member,*, nick):
 async def test(ctx):
     await ctx.send("Monke")
 
-@bot.slash_command(description="Starts an activity in voice channel.", options=[Option("chess", "watch together", OptionType.string)])
+@bot.slash_command(description="Starts an activity in voice channel.")
 async def activity(ctx, channel: disnake.VoiceChannel, options):
     if options == "chess":
         invite = await channel.create_invite(
