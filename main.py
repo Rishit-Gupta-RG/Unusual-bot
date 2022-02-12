@@ -5,7 +5,7 @@ from logging import fatal
 from multiprocessing import context
 from typing import Union
 import disnake
-from disnake import ChannelType, Option, OptionType, SlashCommand, channel
+from disnake import ChannelType, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
 from disnake.embeds import Embed
 import asyncio
@@ -102,11 +102,16 @@ async def nick(ctx, member: disnake.Member,*, nick):
 async def test(ctx):
     await ctx.send("Monke")
 
-@bot.slash_command(name="watch-together",description="Starts watch together activity in a voice channel.")
-async def yttogether(ctx, channel=disnake.VoiceChannel):
-    SlashCommand.add_option(name="channel",description="The voice channel in which you want to start activity." ,type=OptionType.string, required=True, channel_types=ChannelType.voice)
-    invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.watch_together)
-    await ctx.send([f"[Click to open Watch Together in {channel}]({invite})"])
+@bot.command(name="watch-together",description="Starts watch together activity in a voice channel.")
+async def yt(ctx, channel: disnake.VoiceChannel):
+    channel = ctx.author.VoiceState.channel
+    if channel is not None:
+        invite = channel.create_invite(
+        target_type=disnake.InviteTarget.embedded_application, 
+        target_application=disnake.PartyType.watch_together)
+        await ctx.send(invite)
+    else:
+        await ctx.send("❎ You are not in a voice channel!")
 
 #@bot.slash_command(name="chess-in-the-park",description="Starts chess in the park activity in a voice channel.")
 #async def chess(ctx, channel: disnake.VoiceChannel):
