@@ -102,20 +102,17 @@ async def nick(ctx, member: disnake.Member,*, nick):
 async def test(ctx):
     await ctx.send("Monke")
 
-@bot.slash_command(description="Starts an activity in voice channel.")
-async def activity(ctx, channel: disnake.VoiceChannel, options=["chess", "watch together"]):
-    if options == "chess":
-        invite = await channel.create_invite(
-        target_type=disnake.InviteTarget.embedded_application, 
-        target_application=disnake.PartyType.chess)
-        await ctx.send(f"[Click to open chess in {channel.name}]({invite})")
-    elif options == "watch together":
-        invite = await channel.create_invite(
-        target_type=disnake.InviteTarget.embedded_application, 
-        target_application=disnake.PartyType.watch_together)
-        await ctx.send(f"[Click to open watch together in {channel.name}]({invite})")
-    else:
-        await ctx.send("An error occured, curently there are only 2 party types supported ie `chess` & `wach together`")
+@bot.slash_command(name="Watch Together",description="Starts watch together activity in a voice channel.")
+async def yttogether(ctx, channel: disnake.VoiceChannel):
+    invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.watch_together)
+    await ctx.send([f"[Click to open Watch Together in {channel}]({invite})"])
+
+@bot.slash_command(name="Chess in the park",description="Starts chess in the park activity in a voice channel.")
+async def chess(ctx, channel: disnake.VoiceChannel):
+    invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
+    await ctx.send([f"[Click to open Chess in the park in {channel}]({invite})"])
+
+
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
