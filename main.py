@@ -102,12 +102,12 @@ async def nick(ctx, member: disnake.Member,*, nick):
 async def test(ctx):
     await ctx.send("Monke")
 
-@bot.slash_command(name="watch together",description="Starts watch together activity in a voice channel.")
+@bot.slash_command(name="watch-together",description="Starts watch together activity in a voice channel.")
 async def yttogether(ctx, channel: disnake.VoiceChannel):
     invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.watch_together)
     await ctx.send([f"[Click to open Watch Together in {channel}]({invite})"])
 
-@bot.slash_command(name="chess in the park",description="Starts chess in the park activity in a voice channel.")
+@bot.slash_command(name="chess-in-the-park",description="Starts chess in the park activity in a voice channel.")
 async def chess(ctx, channel: disnake.VoiceChannel):
     invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
     await ctx.send([f"[Click to open Chess in the park in {channel}]({invite})"])
