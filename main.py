@@ -105,8 +105,8 @@ async def test(ctx):
 @bot.command(name="watch-together",description="Starts watch together activity in a voice channel.")
 async def yt(ctx, channel: disnake.VoiceChannel):
     channel = ctx.author.VoiceState.channel
-    if channel is not None:
-        invite = channel.create_invite(
+    if channel != None:
+        invite = await channel.create_invite(
         target_type=disnake.InviteTarget.embedded_application, 
         target_application=disnake.PartyType.watch_together)
         await ctx.send(invite)
