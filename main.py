@@ -3,7 +3,7 @@ from cProfile import label
 from email import message
 from logging import fatal
 from multiprocessing import context
-from typing import Union
+from typing import Union, Optional
 import disnake
 from disnake import ChannelType, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
@@ -103,7 +103,7 @@ async def test(ctx):
     await ctx.send("Monke")
 
 @bot.command(name="watch-together",description="Starts watch together activity in a voice channel.")
-async def yt(ctx):
+async def yt(ctx, channel: Optional[disnake.VoiceChannel]):
     channel = ctx.author.VoiceState.channel
     if channel != None:
         invite = await channel.create_invite(
