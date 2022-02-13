@@ -3,6 +3,7 @@ from cProfile import label
 from email import message
 from logging import fatal
 from multiprocessing import context
+from pydoc import describe
 from typing import Union, Optional
 import disnake
 from disnake import ChannelType, Option, OptionType, SlashCommand, VoiceState, channel
@@ -112,6 +113,14 @@ async def yt(ctx, channel: Optional[disnake.VoiceChannel]):
         await ctx.send(invite)
     else:
         await ctx.send("❎ You are not in a voice channel!")
+
+@bot.command(name="gaming", description="Pings Gaming role.")
+async def gaming(ctx):
+    role = await bot.Guild.get_role(935094470423240764)
+    if role in ctx.author.roles:
+        await ctx.send("<@&935094470423240764>")
+    else:
+        await ctx.send("Sorry I cannot ping gaming role for because you do not have it yourself, you can get it by typing `?role Gaming` in <#889231397351460894>.")
 
 #@bot.slash_command(name="chess-in-the-park",description="Starts chess in the park activity in a voice channel.")
 #async def chess(ctx, channel: disnake.VoiceChannel):
