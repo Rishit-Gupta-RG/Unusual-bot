@@ -6,7 +6,7 @@ from multiprocessing import context
 from pydoc import describe
 from typing import Union, Optional
 import disnake
-from disnake import ChannelType, Option, OptionType, SlashCommand, VoiceState, channel
+from disnake import ChannelType, Guild, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
 from disnake.embeds import Embed
 import asyncio
@@ -116,7 +116,7 @@ async def yt(ctx, channel: Optional[disnake.VoiceChannel]):
 
 @bot.command(name="gaming", description="Pings Gaming role.")
 async def gaming(ctx):
-    role = await bot.Guild.get_role(935094470423240764)
+    role = await Guild.get_role(935094470423240764)
     if role in ctx.author.roles:
         await ctx.send("<@&935094470423240764>")
     else:
