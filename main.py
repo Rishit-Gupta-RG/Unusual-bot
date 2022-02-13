@@ -116,7 +116,7 @@ async def yt(ctx, channel: Optional[disnake.VoiceChannel]):
 
 @bot.command(name="gaming", description="Pings Gaming role.")
 async def gaming(ctx):
-    role = await Guild.get_role(role_id=935094470423240764)
+    role = ctx.guild.get_role(935094470423240764)
     if role in ctx.author.roles:
         await ctx.send("<@&935094470423240764>")
     else:
