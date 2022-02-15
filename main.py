@@ -49,6 +49,7 @@ from collections import Counter
 import inspect
 from typing import Union, Optional
 from contextlib import redirect_stdout
+from disnake.enums import TextInputStyle
 
 intents = disnake.Intents.default()
 intents.presences = True
@@ -336,6 +337,47 @@ async def tic(ctx: commands.Context):
         await ctx.send("Tic Tac Toe: X goes first", view=TicTacToe())
     else:
         await ctx.send("❌ This command is under development, Only bot dev. can use it")
+
+# Subclassing the modal.
+class MyModal(disnake.ui.Modal):
+    def __init__(self):
+        # The details of the modal, and its components
+        components = [
+            disnake.ui.TextInput(
+                label="Name",
+                placeholder="Your discord Tag",
+                custom_id="name",
+                style=TextInputStyle.short,
+                max_length=50,
+            ),
+            disnake.ui.TextInput(
+                label="Description",
+                placeholder="Yoour thoughts about monkes",
+                custom_id="description",
+                style=TextInputStyle.paragraph,
+            ),
+        ]
+        super().__init__(
+            title="Create Tag",
+            custom_id="create_tag",
+            components=components,
+        )
+
+    # The callback received when the user input is completed.
+    async def callback(self, inter: disnake.ModalInteraction):
+        embed = disnake.Embed(title="Tag Creation")
+        for key, value in inter.text_values.items():
+            embed.add_field(
+                name=key.capitalize(),
+                value=value[:1024],
+                inline=False,
+            )
+        await inter.response.send_message(embed=embed)
+    
+@bot.slash_command()
+async def tags(inter: disnake.AppCmdInter):
+    """Sends a Modal to create a tag."""
+    await inter.response.send_modal(modal=MyModal())
 
 @bot.group(invoke_without_command=True)
 async def tag(ctx):
