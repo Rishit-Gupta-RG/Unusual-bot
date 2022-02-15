@@ -352,7 +352,7 @@ class MyModal(disnake.ui.Modal):
             ),
             disnake.ui.TextInput(
                 label="Description",
-                placeholder="Yoour thoughts about monkes",
+                placeholder="Your thoughts on monkes",
                 custom_id="description",
                 style=TextInputStyle.paragraph,
             ),
