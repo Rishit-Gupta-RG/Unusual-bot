@@ -405,7 +405,7 @@ async def reboot(ctx):
     os.system("clear")
     os.execv(sys.executable, ['python'] + sys.argv)
 
-@bot.listener()
+@bot.listen()
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):
     if isinstance(error, commands.CommandNotFound):
             return
