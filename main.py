@@ -63,12 +63,6 @@ async def ping(ctx):
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
-        await ctx.send(msg)
-
 @bot.command(name="evaluate", aliases=["e", "eval"], description="Runs a python script.")
 async def evaluate(ctx, *, code):
     str_obj = io.StringIO()
@@ -405,14 +399,35 @@ async def error_handler(ctx, error):
     raise error
 
 @bot.command()
+@commands.is_owner()
 async def reboot(ctx):
-    if ctx.message.author.id == 787149777103486986:   
-        await ctx.send("**Rebooting** <a:malloading:922167995961335808>")
-        os.system("clear")
-        os.execv(sys.executable, ['python'] + sys.argv)
-    else:
-        await ctx.send("<:_:919194636906561548> **Only bot dev. can use this command!**")
+    await ctx.send("**Rebooting** <a:malloading:922167995961335808>")
+    os.system("clear")
+    os.execv(sys.executable, ['python'] + sys.argv)
 
+@bot.listener()
+async def on_command_error(ctx: commands.Context, error: commands.CommandError):
+    if isinstance(error, commands.CommandNotFound):
+            return
+    elif isinstance(error, commands.MissingRequiredArgument):
+        message = "<:notstonks:876167180666949692> You do not have permission to use this command!"
+    elif isinstance(error, commands.BadArgument):
+        message = f"A bad argument was passed, type `!help {ctx.command}` to see how this works."
+    elif isinstance(error, commands.DisabledCommand):
+        message = "❎ This command is disabled!"
+    elif isinstance(error, commands.TooManyArguments):
+        message = f"Too many arguments detected! Type `!help {ctx.command}` to see how this works."
+    elif isinstance(error, commands.UserInputError):
+        message = f"There's an issue in your input dear, type `!help {ctx.command}` to see how it works."
+    elif isinstance(error, commands.MissingRequiredArgument(inspect.Parameter)):
+        message = f"❎ Missing arguments, for forgot to specify {inspect.Parameter.name}. Type `!help {ctx.command}` to see hthe proper arguments."
+    elif isinstance(error, commands.CommandOnCooldown(retry_after=float)):
+        message = f"This command is on cooldown, try again in {round(error.retry_after, 1)} seconds."
+    elif isinstance(error, commands.NotOwner):
+        message = "❎ **Only bot owner can use this command!**"
+    
+    await ctx.send(message)
+    
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="The Monke Game", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
