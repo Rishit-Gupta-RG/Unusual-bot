@@ -422,7 +422,7 @@ async def on_command_error(ctx: commands.Context, error: commands.CommandError):
         message = f"There's an issue in your input dear, type `!help {ctx.command}` to see how it works."
     elif isinstance(error, commands.MissingRequiredArgument):
         message = f"❎ Missing arguments, yype `!help {ctx.command}` to see the proper arguments."
-    elif isinstance(error, commands.CommandOnCooldown(retry_after=float)):
+    elif isinstance(error, commands.CommandOnCooldown):
         message = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
     elif isinstance(error, commands.NotOwner):
         message = "❎ **Only bot owner can use this command!**"
