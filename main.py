@@ -419,10 +419,10 @@ async def on_command_error(ctx: commands.Context, error: commands.CommandError):
         message = f"Too many arguments detected! Type `!help {ctx.command}` to see how this works."
     elif isinstance(error, commands.UserInputError):
         message = f"There's an issue in your input dear, type `!help {ctx.command}` to see how it works."
-    elif isinstance(error, commands.MissingRequiredArgument(inspect.Parameter)):
-        message = f"❎ Missing arguments, for forgot to specify {inspect.Parameter.name}. Type `!help {ctx.command}` to see hthe proper arguments."
+    elif isinstance(error, commands.MissingRequiredArgument):
+        message = f"❎ Missing arguments, yype `!help {ctx.command}` to see the proper arguments."
     elif isinstance(error, commands.CommandOnCooldown(retry_after=float)):
-        message = f"This command is on cooldown, try again in {round(error.retry_after, 1)} seconds."
+        message = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
     elif isinstance(error, commands.NotOwner):
         message = "❎ **Only bot owner can use this command!**"
     
