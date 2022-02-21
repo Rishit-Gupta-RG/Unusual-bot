@@ -1,6 +1,7 @@
 from ast import alias
 from cProfile import label
 from email import message
+from faulthandler import disable
 from logging import fatal
 from multiprocessing import context
 from pydoc import describe
@@ -201,7 +202,7 @@ async def on_message_delete(message):
      del snipe_message_author[message.channel.id]
      del snipe_message_content[message.channel.id]
 
-@bot.command(name = 'snipe')
+@bot.command(name = 'snipe', enabled=False)
 async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
