@@ -136,8 +136,8 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed.add_field(name="Name", value=member.name)
     embed.add_field(name="Nickname", value=member.nick)
     embed.add_field(name="ID", value=member.id)
-    embed.add_field(name="Account Created",value=member.created_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
-    embed.add_field(name="Joined",value=member.joined_at.strftime("%a %#d %B %Y, %I:%M %p UTC"))
+    embed.add_field(name="Account Created",value=disnake.utils.format_dt(inter.member.created_at, style="F"))
+    embed.add_field(name="Joined",value=disnake.utils.format_dt(member.joined_at, style="F"))
     members = sorted(inter.guild.members, key=lambda m: m.joined_at)
     embed.add_field(name="Status", value=member.status)
     await inter.response.send_message(embed=embed)
@@ -421,7 +421,7 @@ async def on_command_error(ctx: commands.Context, error: commands.CommandError):
     elif isinstance(error, commands.UserInputError):
         message = f"There's an issue in your input dear, type `!help {ctx.command}` to see how it works."
     elif isinstance(error, commands.MissingRequiredArgument):
-        message = f"❎ Missing arguments, yype `!help {ctx.command}` to see the proper arguments."
+        message = f"❎ Missing arguments, type `!help {ctx.command}` to see the proper arguments."
     elif isinstance(error, commands.CommandOnCooldown):
         message = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
     elif isinstance(error, commands.NotOwner):
