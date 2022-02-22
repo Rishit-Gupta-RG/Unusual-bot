@@ -136,7 +136,7 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed.add_field(name="Name", value=member.name)
     embed.add_field(name="Nickname", value=member.nick)
     embed.add_field(name="ID", value=member.id)
-    embed.add_field(name="Account Created",value=disnake.utils.format_dt(inter.member.created_at, style="F"))
+    embed.add_field(name="Account Created",value=disnake.utils.format_dt(member.created_at, style="F"))
     embed.add_field(name="Joined",value=disnake.utils.format_dt(member.joined_at, style="F"))
     members = sorted(inter.guild.members, key=lambda m: m.joined_at)
     embed.add_field(name="Status", value=member.status)
@@ -410,7 +410,7 @@ async def reboot(ctx):
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):
     if isinstance(error, commands.CommandNotFound):
             return
-    elif isinstance(error, commands.MissingRequiredArgument):
+    elif isinstance(error, commands.MissingPermissions):
         message = "<:notstonks:876167180666949692> You do not have permission to use this command!"
     elif isinstance(error, commands.BadArgument):
         message = f"A bad argument was passed, type `!help {ctx.command}` to see how this works."
