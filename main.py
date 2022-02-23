@@ -4,8 +4,9 @@ from email import message
 from faulthandler import disable
 from logging import fatal
 from multiprocessing import context
+from operator import inv
 from pydoc import describe
-from typing import Union, Optional
+from typing import List, Union, Optional
 import disnake
 from disnake import ChannelType, Guild, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
@@ -141,6 +142,20 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     members = sorted(inter.guild.members, key=lambda m: m.joined_at)
     embed.add_field(name="Status", value=member.status)
     await inter.response.send_message(embed=embed)
+
+Party = ['Watch Together', 'chess']
+
+async def autocomplete_langs(inter, string: str) -> List[str]:
+    return [lang for lang in Party if string.lower() in lang.lower()]
+
+@bot.slash_command()
+async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,Party:  str = commands.Param(autocomplete=autocomplete_langs)):
+    if Party == "Watch Together":
+        invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
+        await inter.response(f"[Click to open Watch Together in {channel}]({invite})")
+    elif Party == "chess":
+        invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
+        await inter.response(f"[Click to open Chess in {channel}]({invite})")
 
 @bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
