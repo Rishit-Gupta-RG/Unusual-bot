@@ -421,6 +421,10 @@ async def reboot(ctx):
     os.system("clear")
     os.execv(sys.executable, ['python'] + sys.argv)
 
+@bot.command()
+async def print(ctx, arg):
+    await ctx.channel.send(arg)
+
 @bot.listen()
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):
     if isinstance(error, commands.CommandNotFound):
