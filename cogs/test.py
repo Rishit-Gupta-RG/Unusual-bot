@@ -5,7 +5,7 @@ import disnake
 import sys
 import os
 
-class EvalCommand:
+class EvalCommand(commands.Cog):
     def __init__(self):
         pass
     
