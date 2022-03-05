@@ -59,6 +59,12 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
+initial_extensions = ['cogs.test']
+
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        bot.load_extension(extension)
+
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
     before = time.monotonic()
