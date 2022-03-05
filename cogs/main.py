@@ -109,7 +109,7 @@ bot.messages = 0
 async def on_message(message):
     bot.messages += 1
     if bot.messages == 25:
-        await message.send('ok')
+        await message.channel.send('ok')
         bot.messages = 0
 
 @bot.slash_command(description="Monke")
