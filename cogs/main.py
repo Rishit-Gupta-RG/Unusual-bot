@@ -105,7 +105,7 @@ async def nick(ctx, member: disnake.Member,*, nick):
     await ctx.send(f'✅ **Nickname was changed for {member.mention}.**')
 
 bot.messages = 0
-@bot.event
+@bot.listen()
 async def on_message(message):
     bot.messages += 1
     if bot.messages == 25:
