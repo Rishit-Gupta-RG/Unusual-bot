@@ -110,8 +110,8 @@ bot.messages = 0
 async def on_message(message):
     bot.messages += 1
     if bot.messages == 25:
-        ok = ['ok','okkk',':ok:', 'ok and?', 'okay so?', '...', '🆗']
-        await message.channel.send(random,choice(ok))
+        ok = ['ok','🆗', 'ok and?', 'okay so?', '...', 'didn\'t ask', 'don\'t care', 'your mom', 'didn\'t ask + don\'t care']
+        await message.channel.send(random.choice(ok))
         bot.messages = 0
 
 @bot.slash_command(description="Monke")
