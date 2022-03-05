@@ -6,6 +6,7 @@ from logging import fatal
 from multiprocessing import context
 from operator import inv
 from pydoc import describe
+from secrets import choice
 from typing import List, Union, Optional
 import disnake
 from disnake import ChannelType, Guild, Option, OptionType, SlashCommand, VoiceState, channel
@@ -109,7 +110,8 @@ bot.messages = 0
 async def on_message(message):
     bot.messages += 1
     if bot.messages == 25:
-        await message.channel.send('ok')
+        ok = ['ok','okkk',':ok:', 'ok and?', 'okay so?', '...', '🆗']
+        await message.channel.send(random,choice(ok))
         bot.messages = 0
 
 @bot.slash_command(description="Monke")
