@@ -108,7 +108,7 @@ async def nick(ctx, member: disnake.Member,*, nick):
 bot.messages = 0
 @bot.listen()
 async def on_message(message):
-    if message.channel is 853143136620904518:
+    if message.channel == 853143136620904518:
         bot.messages += 1
         if bot.messages == 25:
             ok = ['ok','🆗', 'ok and?', 'okay so?', '...', 'didn\'t ask', 'don\'t care', 'your mom', 'didn\'t ask + don\'t care']
