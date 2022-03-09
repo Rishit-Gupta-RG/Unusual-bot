@@ -123,8 +123,8 @@ async def on_message(message):
 
 @bot.listen()
 async def on_message(message):
-    if message.channel.id == meme_channel:
-        if message.attachment:
+    if message.channel.id == 852926176514670632:
+         if "https://" in message.content:
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
 
