@@ -114,6 +114,21 @@ async def on_message(message):
         await message.reply(random.choice(ok), mention_author=False)
         bot.messages = 0
 
+meme_channel = 852926176514670632
+@bot.listen()
+async def on_message(message):
+    if message.channel == meme_channel:
+        if "https://" in message.content:
+            await message.add_reaction('🔼')
+            await message.add_reaction('🔽')
+
+@bot.listen()
+async def on_message(message):
+    if message.channel == meme_channel:
+        if message.attachment:
+            await message.add_reaction('🔼')
+            await message.add_reaction('🔽')
+
 @bot.slash_command(description="Monke")
 async def test(ctx):
     await ctx.send("Monke")
