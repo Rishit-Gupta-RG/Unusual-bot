@@ -6,3 +6,4 @@ python-dotenv==0.19.2
 disnake==2.4.0
 nltk==3.7
 requests==2.27.1
+disnake-jishaku==2.6.5
