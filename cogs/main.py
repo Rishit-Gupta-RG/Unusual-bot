@@ -128,7 +128,17 @@ async def on_message(message):
          if "https://" in message.content:
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
+@bot.command(description='Runs a python script.', aliases=['e','evaluate'])
+async def eval(ctx, *, code):
+    str_obj = io.StringIO() #Retrieves a stream of data
+    try:
+        with contextlib.redirect_stdout(str_obj):
+            exec(code)
+    except Exception as e:
+        return await ctx.send(f"\`\`\`{e.__class__.__name__}: {e}\`\`\`")
+    await ctx.send(f'\`\`\`{str_obj.getvalue()}\`\`\`')
 
+            
 @bot.slash_command(description="Monke")
 async def test(ctx):
     await ctx.send("Monke")
