@@ -74,7 +74,7 @@ async def ping(ctx):
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
-"""
+
 @bot.command(name="evaluate", aliases=["e", "eval"], description="Runs a python script.")
 async def evaluate(ctx, *, code):
     str_obj = io.StringIO()
@@ -84,7 +84,7 @@ async def evaluate(ctx, *, code):
     except Exception as e:
         return await ctx.send(f"```{e.__class__.__name__}: {e}```")
     await ctx.send(f'```{str_obj.getvalue()}```')
-"""
+
 
 @bot.command(name="timeout", description="Timeout a user.", aliases=['mute'])
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
@@ -128,16 +128,6 @@ async def on_message(message):
          if "https://" in message.content:
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
-@bot.command(description='Runs a python script.', aliases=['e','evaluate'])
-async def eval(ctx, *, code):
-    str_obj = io.StringIO() #Retrieves a stream of data
-    try:
-        with contextlib.redirect_stdout(str_obj):
-            exec(code)
-    except Exception as e:
-        return await ctx.send(f"\`\`\`{e.__class__.__name__}: {e}\`\`\`")
-    await ctx.send(f'\`\`\`{str_obj.getvalue()}\`\`\`')
-
             
 @bot.slash_command(description="Monke")
 async def test(ctx):
