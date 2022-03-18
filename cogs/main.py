@@ -235,7 +235,7 @@ async def deleteremove(ctx, user: disnake.User):
     user: The user on whom hard delete was applied earlier.
     """
     deletion_list.remove(user.id)
-    await ctx.send('Removed hard delete from', user.mention)
+    await ctx.send(f'Removed hard delete from {user}')
 
 @bot.listen()
 async def on_message(msg):
