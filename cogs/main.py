@@ -209,6 +209,35 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     # Let's reverse it and send back
     await inter.response.send_message(message.content[::-1])
 
+deletion_list = []
+@bot.slash_command(name="delete add", description="Applies hard delete on a user.", enabled=True)
+async def deleteadd(inter, user: disnake.User):
+    """
+    Applies hard delete on a user.
+
+    Parameters
+    ----------
+    user: User to whom hard delete is to be applied
+    """
+    deletion_list.append(user.id)
+    await inter.response.send_message("<:society:932186685926694914>")
+
+@bot.slash_command(name="delete remove", description="Removes hard delete from a user.",enabled=True)
+async def deleteremove(inter, user: disnake.User):
+    """
+    Removes hard delete from a user.
+
+    Parameters
+    ----------
+    user: The user on whom hard delete was applied earlier.
+    """
+    deletion_list.remove(user.id)
+    await inter.response.send_message('Removed hard delete from', user.mention)
+
+@bot.listen()
+async def on_message(msg):
+    if msg.author.id in deletion_list:
+        await msg.delete()
 
 @bot.command(name="Google", description="Provides a google redirect button for the provided query.")
 async def google(ctx: commands.Context, *, query: str):
