@@ -27,9 +27,9 @@ class EvalCommand(commands.Cog):
             arr[len(arr) - 1] = "return " + arr[::-1][0]
         return "".join(f"\n\t{i}" for i in arr)
     
-    @commands.command(pass_context=True, aliases=['eval', 'exec', 'evaluate'])
+    @commands.command(pass_context=True, aliases=['r'])
     @commands.is_owner()
-    async def _eval(self, ctx, *, code: str):
+    async def run(self, ctx, *, code: str):
         silent = ("-s" in code)
         
         code = self.prepare(code.replace("-s", ""))

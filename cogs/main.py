@@ -61,6 +61,7 @@ intents.members = True
 bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.test']
+bot.load_extension('jishaku')
 
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -73,7 +74,7 @@ async def ping(ctx):
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
-"""
+
 @bot.command(name="evaluate", aliases=["e", "eval"], description="Runs a python script.")
 async def evaluate(ctx, *, code):
     str_obj = io.StringIO()
@@ -83,7 +84,7 @@ async def evaluate(ctx, *, code):
     except Exception as e:
         return await ctx.send(f"```{e.__class__.__name__}: {e}```")
     await ctx.send(f'```{str_obj.getvalue()}```')
-"""
+
 
 @bot.command(name="timeout", description="Timeout a user.", aliases=['mute'])
 @disnake.ext.commands.has_permissions(manage_nicknames=True)
@@ -123,11 +124,11 @@ async def on_message(message):
 
 @bot.listen()
 async def on_message(message):
-    if message.channel.id == meme_channel:
-        if message.attachment:
+    if message.channel.id == 852926176514670632:
+         if "https://" in message.content:
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
-
+            
 @bot.slash_command(description="Monke")
 async def test(ctx):
     await ctx.send("Monke")
