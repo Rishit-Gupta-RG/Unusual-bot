@@ -211,8 +211,9 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
     await inter.response.send_message(message.content[::-1])
 
 deletion_list = []
-@bot.slash_command(name="delete add", description="Applies hard delete on a user.", enabled=True)
-async def deleteadd(inter, user: disnake.User):
+@bot.slash_command(name="delete-add", description="Applies hard delete on a user.", enabled=True)
+@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
+async def deleteadd(ctx, user: disnake.User):
     """
     Applies hard delete on a user.
 
@@ -221,10 +222,11 @@ async def deleteadd(inter, user: disnake.User):
     user: User to whom hard delete is to be applied
     """
     deletion_list.append(user.id)
-    await inter.response.send_message("<:society:932186685926694914>")
+    await ctx.send("<:society:932186685926694914>")
 
-@bot.slash_command(name="delete remove", description="Removes hard delete from a user.",enabled=True)
-async def deleteremove(inter, user: disnake.User):
+@bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
+@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
+async def deleteremove(ctx, user: disnake.User):
     """
     Removes hard delete from a user.
 
@@ -233,7 +235,7 @@ async def deleteremove(inter, user: disnake.User):
     user: The user on whom hard delete was applied earlier.
     """
     deletion_list.remove(user.id)
-    await inter.response.send_message('Removed hard delete from', user.mention)
+    await ctx.send('Removed hard delete from', user.mention)
 
 @bot.listen()
 async def on_message(msg):
