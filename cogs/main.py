@@ -176,6 +176,13 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed.add_field(name="Status", value=member.status)
     await inter.response.send_message(embed=embed)
 
+@bot.message_command()
+async def Quote(inter, message: disnake.Message):
+    msg_link = f'https://discord.com/channels/{inter.guild.id}/{inter.channel.id}/{message.id}'
+    embed = disnake.Embed(description=f"[Jump to message ►][{msg_link}]\n {message.content}",color=inter.author.color, timestamp=datetime.message.created_at)
+    embed.set_author(name=inter.author, icon_url=inter.author.display_avatar.url)
+    
+
 Party = ['Watch Together', 'chess']
 
 async def autocomplete_langs(inter, string: str) -> List[str]:
@@ -199,7 +206,7 @@ async def spam(ctx, Amount : int, *, Message=None):
         else:
             limit = 25
     if Amount > limit:
-        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{Amount}` is too big! It needs to be less then {limit}.**")
+        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{Amount}` is too big! It needs to be less then `{limit}`.**")
         return
     else:
         for _ in range(Amount): 
