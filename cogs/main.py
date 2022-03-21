@@ -179,9 +179,9 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
 @bot.message_command()
 async def Quote(inter, message: disnake.Message):
     msg_link = f'https://discord.com/channels/{inter.guild.id}/{inter.channel.id}/{message.id}'
-    embed = disnake.Embed(description=f"[Jump to message ►][{msg_link}]\n {message.content}",color=inter.author.color, timestamp=datetime.message.created_at)
-    embed.set_author(name=inter.author, icon_url=inter.author.display_avatar.url)
-    
+    embed = disnake.Embed(description=f"[Jump to message ►][{msg_link}]\n {message.content}",color=inter.author.color, timestamp=message.created_at)
+    embed.set_author(name=message.author, icon_url=message.author.display_avatar.url)
+    await inter.send(embed=embed)
 
 Party = ['Watch Together', 'chess']
 
