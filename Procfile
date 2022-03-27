@@ -1,1 +1,1 @@
-worker: python cogs/main.py
+worker: python main.py
