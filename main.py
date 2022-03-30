@@ -554,7 +554,7 @@ _ _""")
 @bot.listen()
 async def on_member_remove(member):
     bye = bot.get_channel(908296565255442462)
-    await bye.send(f'''{member} ({member.id}) has left the server 💔
+    await bye.send(f'''{member} (`{member.id}`) has left the server 💔
 Sorry to see you go 😔
 We hope you had a good time here ❤
 _ _''')
