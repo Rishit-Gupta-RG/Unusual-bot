@@ -540,6 +540,20 @@ async def error_handler(ctx, error):
 @bot.listen()
 async def on_member_join(member):
     welcome = bot.get_channel(908296505876688958)
+    verify = bot.get_channel(900106358823739442)
+    
+    await member.send(f"""{member}, welcome to **{member.guild.name}**! 👋
+
+📝 **Please verify yourself** in <#900106358823739442> to gain access to rest of the server. 
+
+**After verification, here's how to get started:**
+<#809297410979397663> - Read the rules
+<#850694848323256360> - Grab some roles
+<#853143136620904518> - Start chatting and have fun
+
+Hope you have a good time in the server! ✨
+_ _""")
+    await verify.send(f"Hey {member}, welcome to **{member.guild.name}**!\nTo verify yourself, send here a picture of yours and gain access to rest of the server. ♥")
     await welcome.send(f"""{member.mention}, welcome to **{member.guild.name}**! 👋
 
 **Here's how to get started:**
