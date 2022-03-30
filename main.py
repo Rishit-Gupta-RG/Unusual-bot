@@ -540,12 +540,11 @@ async def error_handler(ctx, error):
 @bot.listen()
 async def on_member_join(member):
     welcome = bot.get_channel(908296505876688958)
-    await welcome.send(f"""{member.mention}, welcome to {member.guild.name}! 👋
+    await welcome.send(f"""{member.mention}, welcome to **{member.guild.name}**! 👋
 
-Here's how to get started:
+**Here's how to get started:**
 📜 <#809297410979397663> - Read the rules
 🧻 <#850694848323256360> - Grab some roles
-⚡ <#958425118189699112> - Introduce yourself
 💬 <#853143136620904518> - Start chatting and have fun
 
 Hope you have a good time here! ✨
@@ -554,7 +553,7 @@ _ _""")
 @bot.listen()
 async def on_member_remove(member):
     bye = bot.get_channel(908296565255442462)
-    await bye.send(f'''{member} (`{member.id}`) has left the server 💔
+    await bye.send(f'''**{member}** `({member.id})` has left the server 💔
 Sorry to see you go 😔
 We hope you had a good time here ❤
 _ _''')
