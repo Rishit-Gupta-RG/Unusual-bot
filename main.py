@@ -543,9 +543,9 @@ async def on_member_join(member):
     await welcome.send(f"""{member.mention}, welcome to **{member.guild.name}**! 👋
 
 **Here's how to get started:**
-📜 <#809297410979397663> - Read the rules
-🧻 <#850694848323256360> - Grab some roles
-💬 <#853143136620904518> - Start chatting and have fun
+<#809297410979397663> - Read the rules
+<#850694848323256360> - Grab some roles
+<#853143136620904518> - Start chatting and have fun
 
 Hope you have a good time here! ✨
 _ _""")
