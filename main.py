@@ -111,8 +111,8 @@ bot.messages = 0
 async def on_message(message):
     bot.messages += 1
     if bot.messages == 50:
-        ok = ['ok','🆗', 'ok and?', 'okay so?', '...', 'didn\'t ask', 'don\'t care', 'your mom', 'didn\'t ask + don\'t care']
-        await message.reply(random.choice(ok), mention_author=False)
+        ronit = bot.get_emoji(958468656034099312)
+        await message.add_reaction(ronit)
         bot.messages = 0
 
 meme_channel = 852926176514670632
