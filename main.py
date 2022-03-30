@@ -542,7 +542,7 @@ async def on_member_join(member):
     welcome = bot.get_channel(908296505876688958)
     verify = bot.get_channel(900106358823739442)
     
-    await member.send(f"""👋 {member}, welcome to **{member.guild.name}**!
+    await member.send(f"""👋 {member.mention}, welcome to **{member.guild.name}**!
 
 📝 Please verify yourself in <#900106358823739442> to gain access to rest of the server. 
 
@@ -553,13 +553,13 @@ async def on_member_join(member):
 
 ✨ Hope you have a good time in the server! 
 _ _""")
-    await verify.send(f"""👋 Hey {member}, welcome to **{member.guild.name}**!
+    await verify.send(f"""👋 Hey {member.mention}, welcome to **{member.guild.name}**!
 
 📝 Verify yourself here
 
 📸 Send a picture of yours and gain access to rest of the server
 _ _""")
-    await welcome.send(f"""👋 {member}, welcome to **{member.guild.name}**!
+    await welcome.send(f"""👋 {member.mention}, welcome to **{member.guild.name}**!
 
 🚀 **Here's how to get started:**
          <#809297410979397663> - Read the rules
