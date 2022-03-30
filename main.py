@@ -546,7 +546,7 @@ async def on_member_join(member):
 
 📝 Please verify yourself in <#900106358823739442> to gain access to rest of the server. 
 
-🪨 **After verification, here's how to get started:**
+🚀 **After verification, here's how to get started:**
          <#809297410979397663> - Read the rules
          <#850694848323256360> - Grab some roles
          <#853143136620904518> - Start chatting and have fun
