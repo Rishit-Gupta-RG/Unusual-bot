@@ -465,10 +465,10 @@ async def tags(inter: disnake.AppCmdInter):
 async def verify(ctx, member: disnake.Member):
     uner = ctx.guild.get_role(882503122554093589)
     if uner in member.roles:
-        await ctx.send("User is already verified!")
-    else:
         await member.remove_roles(uner)
         await ctx.send(f"Successfully verified {member.mention}.")
+    else:
+        await ctx.send('User is already verified!')
 
 @bot.group(invoke_without_command=True)
 async def tag(ctx):
