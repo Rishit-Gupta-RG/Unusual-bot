@@ -460,6 +460,13 @@ async def tags(inter: disnake.AppCmdInter):
     """Sends a Modal to create a tag."""
     await inter.response.send_modal(modal=MyModal())
 
+@bot.command()
+@commands.has_permissions(manage_nicknames=True)
+async def verify(ctx, member: disnake.Member):
+    uner = Guild.get_role(882503122554093589)
+    await member.remove_roles(uner)
+    await ctx.send(f"Successfully verified {member.mention}.")
+
 @bot.group(invoke_without_command=True)
 async def tag(ctx):
     embed = disnake.Embed(title="Tag List", description="`code`", color=ctx.author.color)
