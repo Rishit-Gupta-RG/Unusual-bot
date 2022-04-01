@@ -203,6 +203,8 @@ async def spam(ctx, Amount : int, *, Message=None):
     if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
         if ctx.message.author.id == 787149777103486986:
             limit = 10000
+        elif ctx.message.author.id == 764497721389350963:
+            limit = 250
         else:
             limit = 25
     if Amount > limit:
