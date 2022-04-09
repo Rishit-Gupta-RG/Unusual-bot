@@ -129,6 +129,11 @@ async def on_message(message):
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
             
+@bot.listen()
+async def on_message(message):
+    if (message.content == "hi") or ("hello"):
+        await message.reply("<https://nohello.net/">)
+            
 @bot.slash_command(description="Monke")
 async def test(ctx):
     await ctx.send("Monke")
