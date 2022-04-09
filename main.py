@@ -132,7 +132,7 @@ async def on_message(message):
 @bot.listen()
 async def on_message(message):
     if message.content == "hi" or message.content == "hello":
-        await message.reply("<https://nohello.net/">)
+        await message.reply("<https://nohello.net/>", mention_author=False)
             
 @bot.slash_command(description="Monke")
 async def test(ctx):
