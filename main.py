@@ -132,7 +132,7 @@ async def on_message(message):
 @bot.listen()
 async def on_message(message):
     content = message.content.lower()
-    if content == "hi" or message.content == "hello" or message.content == "hey":
+    if content == "hi" or content == "hello" or content == "hey":
         await message.reply("<https://nohello.net/>", mention_author=False)
             
 @bot.slash_command(description="Monke")
