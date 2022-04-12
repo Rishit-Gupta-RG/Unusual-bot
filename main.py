@@ -238,6 +238,19 @@ async def deleteadd(ctx, user: disnake.User):
     """
     deletion_list.append(user.id)
     await ctx.send("<:society:932186685926694914>")
+    
+@bot.slash_command(name="purge", description="Bulk deletion of messages.", enabled=True)
+@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
+async def purge(inter: disnake.ApplicationCommandInteraction, amount: int):
+    """
+    Bulk deletion of messages.
+    
+    Parameters
+    ----------
+    amount: Number of messages to purge.
+    """
+    await inter.channel.purge(limit=amount, bulk=True)
+    await inter.response.send_message(f"Successfully purged `{amount}` messages.", ephermal=True)
 
 @bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
