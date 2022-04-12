@@ -250,7 +250,7 @@ async def purge(inter: disnake.ApplicationCommandInteraction, amount: int):
     amount: Number of messages to purge.
     """
     await inter.channel.purge(limit=amount, bulk=True)
-    await inter.response.send_message(f"Successfully purged `{amount}` messages.", ephermal=True)
+    await inter.response.send_message(f"Successfully purged `{amount}` messages.", ephemeral=True)
 
 @bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
