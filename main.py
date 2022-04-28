@@ -234,7 +234,7 @@ async def deleteadd(ctx, user: disnake.User):
 
     Parameters
     ----------
-    user: User to whom hard delete is to be applied
+    user: User to whom hard delete is to be applied.
     """
     deletion_list.append(user.id)
     await ctx.send("<:society:932186685926694914>")
