@@ -8,6 +8,7 @@ from operator import inv
 from pydoc import describe
 from secrets import choice
 from typing import List, Union, Optional
+from unicodedata import name
 import disnake
 from disnake import ChannelType, Guild, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
@@ -314,7 +315,7 @@ async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
         em = disnake.Embed(title= f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=ctx.author.color)
-        em.set_footer(text = f"by {snipe_message_author[channel.id]}", icon_url=ctx.author.display_avatar.url)
+        em.set_author(name = message.author, icon_url=message.author.display_avatar.url)
         await ctx.send(embed = em)
     except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
         await ctx.send(f"There are no recently deleted messages in #{channel.name}")
@@ -533,6 +534,65 @@ class EvalCommand:
         if not arr[::-1][0].replace(" ", "").startswith("return"):
             arr[len(arr) - 1] = "return " + arr[::-1][0]
         return "".join(f"\n\t{i}" for i in arr)
+
+ANIMALS = ["Panda", "Dog", "Cat", "Fox", "Red panda", "Koala", "Bird", "Racoon", "Kangaroo", "Whale", "Pikachu"]
+async def autocomp_animals(inter: disnake.ApplicationCommandInteraction, user_input: str):
+    return [lang for lang in ANIMALS if user_input.lower() in lang]
+FACT_ANIMALS = ["Panda", "Dog", "Cat", "Fox", "Red panda", "Koala", "Bird", "Racoon", "Kangaroo", "Whale", "Pikachu"]
+async def autocomp_animalfact(inter: disnake.ApplicationCommandInteraction, user_input: str):
+    return [lang for lang in FACT_ANIMALS if user_input.lower() in lang]
+
+@bot.slash_command()
+async def animal(inter):
+    pass
+
+@animal.sub_command(description="Sends a picture of selected animal.")
+async def image(inter: disnake.ApplicationCommandInteraction, animal: str = commands.Param(autocomplete=autocomp_animals)):
+    """
+    Sends a picture of selected animal.
+    
+    Parameters
+    ----------
+    animal: Select an animal to see its picture.
+    """
+    if animal in ("Panda", "Dog", "Cat", "Fox","Koala", "Bird", "Racoon", "Kangaroo", "Whale", "Pikachu"):
+        k = animal.lower()
+        async with aiohttp.ClientSession() as session:
+            request = await session.get(f'https://some-random-api.ml/img/{k}')
+            whalejson = await request.json()
+        embed = disnake.Embed(title=f"{animal}!", color=inter.author.color)
+        embed.set_image(url=whalejson['link'])
+        await inter.response.send_message(embed=embed)
+    else:
+        async with aiohttp.ClientSession() as session:
+            request = await session.get(f'https://some-random-api.ml/img/red_panda')
+            whalejson = await request.json()
+        embed = disnake.Embed(title=f"{animal}!", color=inter.author.color)
+        embed.set_image(url=whalejson['link'])
+        await inter.response.send_message(embed=embed)
+
+@animal.sub_command(description="Sends a random fact of selected animal.")
+async def fact(inter: disnake.ApplicationCommandInteraction, animal: str = commands.Param(autocomplete=autocomp_animalfact)):
+    """
+    Sends a random fact of selected animal.
+    
+    Parameters
+    ----------
+    animal: Select an animal to see its fact.
+    """
+    if animal in ("Panda", "Dog", "Cat", "Fox","Koala", "Bird", "Racoon", "Kangaroo", "Whale"):
+        k = animal.lower()
+        async with aiohttp.ClientSession() as session:
+            request = await session.get(f'https://some-random-api.ml/facts/{k}')
+            whalejson = await request.json()
+        embed = disnake.Embed(title=f"{animal} Fact!",description=whalejson['fact'],color=inter.author.color)
+        await inter.response.send_message(embed=embed)
+    else:
+        async with aiohttp.ClientSession() as session:
+            request = await session.get(f'https://some-random-api.ml/facts/red_panda')
+            whalejson = await request.json()
+        embed = disnake.Embed(title=f"{animal} Fact!",description=whalejson['fact'],color=inter.author.color)
+        await inter.response.send_message(embed=embed)
     
     @commands.command(pass_context=True, aliases=['eval', 'exec', 'evaluate'])
     @commands.is_owner()
