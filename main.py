@@ -134,7 +134,7 @@ async def on_message(message):
 async def on_message(message):
     content = message.content.lower()
     if content == "hi" or content == "hello" or content == "hey":
-        await message.reply("<https://nohello.net/>", mention_author=False)
+        await message.add_reaction('👋')
             
 @bot.slash_command(description="Monke")
 async def test(ctx):
