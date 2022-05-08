@@ -199,10 +199,10 @@ async def autocomplete_langs(inter, string: str) -> List[str]:
 async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,party:  str = commands.Param(autocomplete=autocomplete_langs)):
     if party == "Watch Together":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
-        await inter.response(f"[Click to open Watch Together in {channel}]({invite})")
+        await inter.response.send_message(f"[Click to open Watch Together in {channel}]({invite})")
     elif party == "chess":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
-        await inter.response(f"[Click to open Chess in {channel}]({invite})")
+        await inter.response.send_message(f"[Click to open Chess in {channel}]({invite})")
 
 @bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
