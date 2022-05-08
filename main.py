@@ -196,11 +196,11 @@ async def autocomplete_langs(inter, string: str) -> List[str]:
     return [lang for lang in Party if string.lower() in lang.lower()]
 
 @bot.slash_command(enabled=False)
-async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,Party:  str = commands.Param(autocomplete=autocomplete_langs)):
-    if Party == "Watch Together":
+async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,party:  str = commands.Param(autocomplete=autocomplete_langs)):
+    if party == "Watch Together":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
         await inter.response(f"[Click to open Watch Together in {channel}]({invite})")
-    elif Party == "chess":
+    elif party == "chess":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
         await inter.response(f"[Click to open Chess in {channel}]({invite})")
 
