@@ -87,7 +87,7 @@ async def evaluate(ctx, *, code):
 
 
 @bot.slash_command(name="timeout", description="Timeout a user.")
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administartor=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time, *, reason=None) -> None:
     """
     Parameters
@@ -103,7 +103,7 @@ async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time
     await inter.response.send_message(f"{member.mention} has been timed out by {inter.author.mention} for {time}.\n **Reason -** {reason}")
 
 @bot.command(name="remove-timeout", description="Removes a user from timeout", aliases=["rto"])
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administartor=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reason=None) -> None:
     """
     Parameters
@@ -116,7 +116,7 @@ async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reaso
     await inter.response.send_message(f"Timeout for {member.mention} has been removed by {inter.author.mention}.\n**Reason -** {reason}")
 
 @bot.command(description="Changes nickname of member.")
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administartor=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def nick(inter: disnake.CommandInteraction, member: disnake.Member,*, nick: str):
     """
     Parameters
