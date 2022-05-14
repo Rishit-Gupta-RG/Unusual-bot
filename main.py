@@ -58,7 +58,7 @@ from inspect import getsource
 intents = disnake.Intents.default()
 intents.presences = True
 intents.members = True
-bot = commands.Bot(command_prefix="!", test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
+bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.test']
 bot.load_extension('jishaku')
@@ -74,7 +74,6 @@ async def ping(ctx):
     ping = (time.monotonic() - before) * 1000
     await message.edit(content=f"Pong!  `{int(ping)}ms`")
 
-
 @bot.command(name="evaluate", aliases=["e", "eval"], description="Runs a python script.")
 async def evaluate(ctx, *, code):
     str_obj = io.StringIO()
@@ -86,25 +85,47 @@ async def evaluate(ctx, *, code):
     await ctx.send(f'```{str_obj.getvalue()}```')
 
 
-@bot.command(name="timeout", description="Timeout a user.", aliases=['mute'])
-@disnake.ext.commands.has_permissions(manage_nicknames=True)
-async def timeout(ctx, member: disnake.Member,time, *, reason=None) -> None:
+@bot.slash_command(name="timeout", description="Timeout a user.")
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administaror=True))
+async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time, *, reason=None) -> None:
+    """
+    Parameters
+    ----------
+
+    member: The user to timeout
+    time: How long they should be timed out for
+    reason: Reason for timeout
+    """
     time_convert = {'s': 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400, 'S' : 1, 'M' : 60, 'H' : 3600, "D" : 86400}
     timeout_time = float(time[0:len(time)-1]) * time_convert[time[-1]]
     await member.timeout(duration=timeout_time, reason=reason)
-    await ctx.send(f"{member.mention} has been timed out by {ctx.author.mention} for {time}.\n **Reason -** {reason}")
+    await inter.response.send_message(f"{member.mention} has been timed out by {inter.author.mention} for {time}.\n **Reason -** {reason}")
 
-@bot.command(name="Remove-Time-Out", description="Removes a user from timeout", aliases=["rto"])
-@disnake.ext.commands.has_permissions(manage_nicknames=True)
-async def rto(ctx, member: disnake.Member, *,reason=None) -> None:
+@bot.command(name="remove-timeout", description="Removes a user from timeout", aliases=["rto"])
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administaror=True))
+async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reason=None) -> None:
+    """
+    Parameters
+    ----------
+    
+    member: The user to remove timeout
+    reason: Reason for remove-timeout
+    """
     await member.timeout(duration=None)
-    await ctx.send(f"Timeout for {member.mention} has been removed by {ctx.author.mention}.\n**Reason -** {reason}")
+    await inter.response.send_message(f"Timeout for {member.mention} has been removed by {inter.author.mention}.\n**Reason -** {reason}")
 
-@bot.command(pass_context=True, aliases=['sn', 'setnick', "nickname"], description="Changes nickname of member.")
-@disnake.ext.commands.has_permissions(manage_nicknames=True)
-async def nick(ctx, member: disnake.Member,*, nick):
+@bot.command(description="Changes nickname of member.")
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administaror=True))
+async def nick(inter: disnake.CommandInteraction, member: disnake.Member,*, nick: str):
+    """
+    Parameters
+    ----------
+    
+    member: Member to change their nick
+    nick: New nickname
+    """
     await member.edit(nick=nick)
-    await ctx.send(f'✅ **Nickname was changed for {member.mention}.**')
+    await inter.response.send_message(f'\✅ **Nickname was changed for {member.mention}.**')
 
 bot.messages = 0
 @bot.listen()
@@ -128,34 +149,6 @@ async def on_message(message):
          if "https://" in message.content:
             await message.add_reaction('🔼')
             await message.add_reaction('🔽')
-            
-@bot.slash_command(description="Monke")
-async def test(ctx):
-    await ctx.send("Monke")
-
-@bot.command(name="watch-together",description="Starts watch together activity in a voice channel.")
-async def yt(ctx, channel: Optional[disnake.VoiceChannel]):
-    channel = ctx.author.VoiceState.channel
-    if channel != None:
-        invite = await channel.create_invite(
-        target_type=disnake.InviteTarget.embedded_application, 
-        target_application=disnake.PartyType.watch_together)
-        await ctx.send(invite)
-    else:
-        await ctx.send("❎ You are not in a voice channel!")
-
-@bot.command(name="gaming", description="Pings Gaming role.")
-async def gaming(ctx):
-    role = ctx.guild.get_role(935094470423240764)
-    if role in ctx.author.roles:
-        await ctx.send("<@&935094470423240764>")
-    else:
-        await ctx.send("Sorry I cannot ping gaming role for because you do not have it yourself, you can get it by typing `?role Gaming` in <#889231397351460894>.")
-
-#@bot.slash_command(name="chess-in-the-park",description="Starts chess in the park activity in a voice channel.")
-#async def chess(ctx, channel: disnake.VoiceChannel):
-#    invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
-#    await ctx.send([f"[Click to open Chess in the park in {channel}]({invite})"])
 
 @bot.user_command(name="Avatar")  # optional
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
@@ -192,10 +185,12 @@ async def autocomplete_langs(inter, string: str) -> List[str]:
 async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,Party:  str = commands.Param(autocomplete=autocomplete_langs)):
     if Party == "Watch Together":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
-        await inter.response(f"[Click to open Watch Together in {channel}]({invite})")
+        await inter.response.send_message(f"[Click to open Watch Together in {channel}]({invite})")
     elif Party == "chess":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
-        await inter.response(f"[Click to open Chess in {channel}]({invite})")
+        await inter.response.send_message(f"[Click to open Chess in {channel}]({invite})")
+    else:
+        await inter.response.send_message(f"Please choose an activity from the autocomplete only!", ephemeral=True)
 
 @bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
@@ -222,7 +217,7 @@ async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake
 deletion_list = []
 @bot.slash_command(name="delete-add", description="Applies hard delete on a user.", enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
-async def deleteadd(ctx, user: disnake.User):
+async def deleteadd(inter: disnake.CommandInteraction, user: disnake.User):
     """
     Applies hard delete on a user.
 
@@ -231,11 +226,11 @@ async def deleteadd(ctx, user: disnake.User):
     user: User to whom hard delete is to be applied
     """
     deletion_list.append(user.id)
-    await ctx.send("<:society:932186685926694914>")
+    await inter.response.send_message("<:society:932186685926694914>")
 
 @bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
-async def deleteremove(ctx, user: disnake.User):
+async def deleteremove(inter: disnake.CommandInteraction, user: disnake.User):
     """
     Removes hard delete from a user.
 
@@ -244,40 +239,26 @@ async def deleteremove(ctx, user: disnake.User):
     user: The user on whom hard delete was applied earlier.
     """
     deletion_list.remove(user.id)
-    await ctx.send(f'Removed hard delete from {user}')
+    await inter.response.send_message(f'Removed hard delete from {user}')
 
 @bot.listen()
 async def on_message(msg):
     if msg.author.id in deletion_list:
         await msg.delete()
 
-@bot.command(name="Google", description="Provides a google redirect button for the provided query.")
-async def google(ctx: commands.Context, *, query: str):
+@bot.slash_command(name="Google", description="Provides a google redirect button for the provided query.")
+async def google(inter: disnake.CommandInteraction, *, query: str):
+    """
+    Parameters:
+    -----------
+    
+    query: The query to search"""
     button = disnake.ui.Button
     view = disnake.ui.View()
     query = quote_plus(query)
     url = f"https://www.google.com/search?q={query}"
     view.add_item(button(label="Click here", url=url))
-    await ctx.send(f"Google Result for: `{query}`", view=view)
-
-@bot.command()
-@disnake.ext.commands.has_permissions(ban_members=True)
-async def ban(ctx, member: disnake.Member):
-    message = await ctx.send(f"kardu? (y/n)")
-    check = lambda m: m.author == ctx.author and m.channel == ctx.channel
-
-    try:
-        confirm = await ctx.bot.wait_for("message", check=check, timeout=30)
-    except asyncio.TimeoutError:
-        await message.edit(content="Ban cancelled, timed out.")
-        return
-
-    if confirm.content == "y":
-        await member.ban()
-        await message.edit(content=f"{member} has been banned.")
-        return
-
-    await message.edit(content="Ban cancelled.")
+    await inter.response.send_message(f"Google Result for: `{query}`", view=view)
 
 snipe_message_author = {}
 snipe_message_content = {}
@@ -290,7 +271,7 @@ async def on_message_delete(message):
      del snipe_message_author[message.channel.id]
      del snipe_message_content[message.channel.id]
 
-@bot.command(name = 'snipe', enabled=False)
+@bot.slash_command(name = 'snipe', enabled=False)
 async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
@@ -413,13 +394,13 @@ class TicTacToe(disnake.ui.View):
 
         return None
 
-@bot.command()
-async def tic(ctx: commands.Context):
-    if ctx.message.author.id == 787149777103486986:
+@bot.slash_command()
+async def tic(inter: disnake.CommandInteraction):
+    if inter.message.author.id == 787149777103486986:
         """Starts a tic-tac-toe game with yourself."""
-        await ctx.send("Tic Tac Toe: X goes first", view=TicTacToe())
+        await inter.response.send_message("Tic Tac Toe: X goes first", view=TicTacToe())
     else:
-        await ctx.send("❌ This command is under development, Only bot dev. can use it")
+        await inter.response.send_message("❌ This command is under development, Only bot dev. can use it")
 
 # Subclassing the modal.
 class MyModal(disnake.ui.Modal):
@@ -464,89 +445,21 @@ async def tags(inter: disnake.AppCmdInter):
 
 @bot.command()
 @commands.has_permissions(manage_nicknames=True)
-async def verify(ctx, member: disnake.Member):
-    uner = ctx.guild.get_role(882503122554093589)
+async def verify(inter: disnake.CommandInteraction, member: disnake.Member):
+    """
+    Parameters:
+    -----------
+    
+    member: Member to verify"""
+    uner = inter.guild.get_role(882503122554093589)
     if uner in member.roles:
         await member.remove_roles(uner)
-        await ctx.send(f"Successfully verified {member.mention}.")
+        await inter.response.send_message(f"Successfully verified {member.mention}.")
     else:
-        await ctx.send('User is already verified!')
-
-@bot.group(invoke_without_command=True)
-async def tag(ctx):
-    embed = disnake.Embed(title="Tag List", description="`code`", color=ctx.author.color)
-    await ctx.send(embed=embed)
-
-@tag.command()
-async def code(ctx):
-    embed = disnake.Embed(title="Code", description="""Here's how to format Python code on Discord:
-
-\`\`\`py
-monke = str"monkelife"
-print(monke)
-\`\`\`
-
-Will give an output like:
-```py
-monke = str"monkelife"
-print(monke)```""", color=ctx.author.color)
-    embed.set_footer(text="Note: These are backticks not quotes.")
-    await ctx.send(embed=embed)
-
-class EvalCommand:
-    def __init__(self):
-        pass
-    
-    def resolve_variable(self, variable):
-        if hasattr(variable, "__iter__"):
-            var_length = len(list(variable))
-            if (var_length > 100) and (not isinstance(variable, str)):
-                return f"<a {type(variable).__name__} iterable with more than 100 values ({var_length})>"
-            elif (not var_length):
-                return f"<an empty {type(variable).__name__} iterable>"
-        
-        if (not variable) and (not isinstance(variable, bool)):
-            return f"<an empty {type(variable).__name__} object>"
-        return (variable if (len(f"{variable}") <= 1000) else f"<a long {type(variable).__name__} object with the length of {len(f'{variable}'):,}>")
-    
-    def prepare(self, string):
-        arr = string.strip("```").replace("py\n", "").replace("python\n", "").split("\n")
-        if not arr[::-1][0].replace(" ", "").startswith("return"):
-            arr[len(arr) - 1] = "return " + arr[::-1][0]
-        return "".join(f"\n\t{i}" for i in arr)
-    
-    @commands.command(pass_context=True, aliases=['eval', 'exec', 'evaluate'])
-    @commands.is_owner()
-    async def _eval(self, ctx, *, code: str):
-        silent = ("-s" in code)
-        
-        code = self.prepare(code.replace("-s", ""))
-        args = {
-            "disnake": disnake,
-            "sauce": getsource,
-            "sys": sys,
-            "os": os,
-            "imp": __import__,
-            "this": self,
-            "ctx": ctx
-        }
-        
-        try:
-            exec(f"async def func():{code}", args)
-            a = time()
-            response = await eval("func()", args)
-            if silent or (response is None) or isinstance(response, disnake.Message):
-                del args, code
-                return
-            
-            await ctx.send(f"```py\n{self.resolve_variable(response)}````{type(response).__name__} | {(time() - a) / 1000} ms`")
-        except Exception as e:
-            await ctx.send(f"Error occurred:```\n{type(e).__name__}: {str(e)}```")
-        
-        del args, code, silent
+        await inter.response.send_message('User is already verified!')
 
 @bot.listen('on_command_error')
-async def error_handler(ctx, error):
+async def error_handler(inter, error):
     raise error
 
 @bot.listen()
@@ -589,7 +502,7 @@ Sorry to see you go 😔
 We hope you had a good time here ❤
 _ _''')
 
-@bot.command()
+@bot.slash_command(name= "reboot", description="Restarts the bot, can only be used by the bot owner")
 @commands.is_owner()
 async def reboot(ctx):
     await ctx.send("**Rebooting** <a:malloading:922167995961335808>")
@@ -597,27 +510,23 @@ async def reboot(ctx):
     os.execv(sys.executable, ['python'] + sys.argv)
 
 @bot.listen()
-async def on_command_error(ctx: commands.Context, error: commands.CommandError):
+async def on_command_error(inter: disnake.CommandInteraction, error: commands.CommandError):
     if isinstance(error, commands.CommandNotFound):
             return
     elif isinstance(error, commands.MissingPermissions):
         message = "<:notstonks:876167180666949692> You do not have permission to use this command!"
     elif isinstance(error, commands.BadArgument):
-        message = f"A bad argument was passed, type `!help {ctx.command}` to see how this works."
+        message = f"A bad argument was passed, please check the help descriptions properly or ask <2787149777103486986> for help."
     elif isinstance(error, commands.DisabledCommand):
         message = "❎ This command is disabled!"
-    elif isinstance(error, commands.TooManyArguments):
-        message = f"Too many arguments detected! Type `!help {ctx.command}` to see how this works."
     elif isinstance(error, commands.UserInputError):
-        message = f"There's an issue in your input dear, type `!help {ctx.command}` to see how it works."
-    elif isinstance(error, commands.MissingRequiredArgument):
-        message = f"❎ Missing arguments, type `!help {ctx.command}` to see the proper arguments."
+        message = f"There's an issue in your input dear, please check the help descriptions properly or ask <2787149777103486986> for help."
     elif isinstance(error, commands.CommandOnCooldown):
         message = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
     elif isinstance(error, commands.NotOwner):
         message = "❎ **Only bot owner can use this command!**"
     
-    await ctx.send(message)
+    await inter.response.send_message(message)
     
 @bot.event
 async def on_ready():
