@@ -8,6 +8,7 @@ from operator import inv
 from pydoc import describe
 from secrets import choice
 from typing import List, Union, Optional
+from unicodedata import name
 import disnake
 from disnake import ChannelType, Guild, Option, OptionType, SlashCommand, VoiceState, channel
 from disnake import embeds
@@ -182,8 +183,8 @@ async def autocomplete_langs(inter, string: str) -> List[str]:
     return [lang for lang in Party if string.lower() in lang.lower()]
 
 @bot.slash_command(enabled=False)
-async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,Party:  str = commands.Param(autocomplete=autocomplete_langs)):
-    if Party == "Watch Together":
+async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,party:  str = commands.Param(autocomplete=autocomplete_langs)):
+    if party == "Watch Together":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
         await inter.response.send_message(f"[Click to open Watch Together in {channel}]({invite})")
     elif Party == "chess":
@@ -223,10 +224,23 @@ async def deleteadd(inter: disnake.CommandInteraction, user: disnake.User):
 
     Parameters
     ----------
-    user: User to whom hard delete is to be applied
+    user: User to whom hard delete is to be applied.
     """
     deletion_list.append(user.id)
     await inter.response.send_message("<:society:932186685926694914>")
+    
+@bot.slash_command(name="purge", description="Bulk deletion of messages.", enabled=True)
+@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
+async def purge(inter: disnake.ApplicationCommandInteraction, amount: int):
+    """
+    Bulk deletion of messages.
+    
+    Parameters
+    ----------
+    amount: Number of messages to purge.
+    """
+    await inter.channel.purge(limit=amount, bulk=True)
+    await inter.response.send_message(f"Successfully purged `{amount}` messages.", ephemeral=True)
 
 @bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
@@ -276,7 +290,7 @@ async def snipe(ctx):
     channel = ctx.channel
     try: #This piece of code is run if the bot finds anything in the dictionary
         em = disnake.Embed(title= f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=ctx.author.color)
-        em.set_footer(text = f"by {snipe_message_author[channel.id]}", icon_url=ctx.author.display_avatar.url)
+        em.set_author(name = message.author, icon_url=message.author.display_avatar.url)
         await ctx.send(embed = em)
     except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
         await ctx.send(f"There are no recently deleted messages in #{channel.name}")
@@ -530,7 +544,7 @@ async def on_command_error(inter: disnake.CommandInteraction, error: commands.Co
     
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="The Monke Game", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Board Exams", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
 
 bot.run(os.getenv("TOKEN"))
