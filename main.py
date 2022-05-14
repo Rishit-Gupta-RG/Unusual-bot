@@ -260,7 +260,7 @@ async def on_message(msg):
     if msg.author.id in deletion_list:
         await msg.delete()
 
-@bot.slash_command(name="Google", description="Provides a google redirect button for the provided query.")
+@bot.slash_command(name="google", description="Provides a google redirect button for the provided query.")
 async def google(inter: disnake.CommandInteraction, *, query: str):
     """
     Parameters:
