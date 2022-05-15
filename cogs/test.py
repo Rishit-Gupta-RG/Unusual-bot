@@ -5,57 +5,170 @@ import disnake
 import sys
 import os
 
-class EvalCommand(commands.Cog):
-    def __init__(self):
-        pass
+class Tests(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
     
-    def resolve_variable(self, variable):
-        if hasattr(variable, "__iter__"):
-            var_length = len(list(variable))
-            if (var_length > 100) and (not isinstance(variable, str)):
-                return f"<a {type(variable).__name__} iterable with more than 100 values ({var_length})>"
-            elif (not var_length):
-                return f"<an empty {type(variable).__name__} iterable>"
-        
-        if (not variable) and (not isinstance(variable, bool)):
-            return f"<an empty {type(variable).__name__} object>"
-        return (variable if (len(f"{variable}") <= 1000) else f"<a long {type(variable).__name__} object with the length of {len(f'{variable}'):,}>")
-    
-    def prepare(self, string):
-        arr = string.strip("```").replace("py\n", "").replace("python\n", "").split("\n")
-        if not arr[::-1][0].replace(" ", "").startswith("return"):
-            arr[len(arr) - 1] = "return " + arr[::-1][0]
-        return "".join(f"\n\t{i}" for i in arr)
-    
-    @commands.command(pass_context=True, aliases=['r'])
-    @commands.is_owner()
-    async def run(self, ctx, *, code: str):
-        silent = ("-s" in code)
-        
-        code = self.prepare(code.replace("-s", ""))
-        args = {
-            "discord": disnake,
-            "sauce": getsource,
-            "sys": sys,
-            "os": os,
-            "imp": __import__,
-            "this": self,
-            "ctx": ctx
-        }
-        
-        try:
-            exec(f"async def func():{code}", args)
-            a = time()
-            response = await eval("func()", args)
-            if silent or (response is None) or isinstance(response, disnake.Message):
-                del args, code
+    class TicTacToeButton(disnake.ui.Button["TicTacToe"]):
+        def __init__(self, x: int, y: int):
+            # A label is required, but we don't need one so a zero-width space is used
+            # The row parameter tells the View which row to place the button under.
+            # A View can only contain up to 5 rows -- each row can only have 5 buttons.
+            # Since a Tic Tac Toe grid is 3x3 that means we have 3 rows and 3 columns.
+            super().__init__(style=disnake.ButtonStyle.secondary, label="\u200b", row=y)
+            self.x = x
+            self.y = y
+
+        # This function is called whenever this particular button is pressed
+        # This is part of the "meat" of the game logic
+        async def callback(self, interaction: disnake.MessageInteraction):
+            assert self.view is not None
+            view: TicTacToe = self.view
+            state = view.board[self.y][self.x]
+            if state in (view.X, view.O):
                 return
-            
-            await ctx.send(f"```py\n{self.resolve_variable(response)}````{type(response).__name__} | {(time() - a) / 1000} ms`")
-        except Exception as e:
-            await ctx.send(f"Error occurred:```\n{type(e).__name__}: {str(e)}```")
-        
-        del args, code, silent
+
+            if view.current_player == view.X:
+                self.style = disnake.ButtonStyle.danger
+                self.label = "X"
+                self.disabled = True
+                view.board[self.y][self.x] = view.X
+                view.current_player = view.O
+                content = "It is now O's turn"
+            else:
+                self.style = disnake.ButtonStyle.success
+                self.label = "O"
+                self.disabled = True
+                view.board[self.y][self.x] = view.O
+                view.current_player = view.X
+                content = "It is now X's turn"
+
+            winner = view.check_board_winner()
+            if winner is not None:
+                if winner == view.X:
+                    content = "X won!"
+                elif winner == view.O:
+                    content = "O won!"
+                else:
+                    content = "It's a tie!"
+
+                for child in view.children:
+                    child.disabled = True
+
+                view.stop()
+
+            await interaction.response.edit_message(content=content, view=view)
+
+
+# This is our actual board View
+        class TicTacToe(disnake.ui.View):
+            # This tells the IDE or linter that all our children will be TicTacToeButtons
+            # This is not required
+            children: TicTacToeButton
+            X = -1
+            O = 1
+            Tie = 2
+
+            def __init__(self):
+                super().__init__()
+                self.current_player = self.X
+                self.board = [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ]
+
+                # Our board is made up of 3 by 3 TicTacToeButtons
+                # The TicTacToeButton maintains the callbacks and helps steer
+                # the actual game.
+                for x in range(3):
+                    for y in range(3):
+                        self.add_item(TicTacToeButton(x, y))
+
+        # This method checks for the board winner -- it is used by the TicTacToeButton
+        def check_board_winner(self):
+            for across in self.board:
+                value = sum(across)
+                if value == 3:
+                    return self.O
+                elif value == -3:
+                    return self.X
+
+            # Check vertical
+            for line in range(3):
+                value = self.board[0][line] + self.board[1][line] + self.board[2][line]
+                if value == 3:
+                    return self.O
+                elif value == -3:
+                    return self.X
+
+            # Check diagonals
+            diag = self.board[0][2] + self.board[1][1] + self.board[2][0]
+            if diag == 3:
+                return self.O
+            elif diag == -3:
+                return self.X
+
+            diag = self.board[0][0] + self.board[1][1] + self.board[2][2]
+            if diag == 3:
+                return self.O
+            elif diag == -3:
+                return self.X
+
+            # If we're here, we need to check if a tie was made
+            if all(i != 0 for row in self.board for i in row):
+                return self.Tie
+
+            return None
+
+    @commands.slash_command()
+    async def tic(inter: disnake.CommandInteraction):
+        if inter.message.author.id == 787149777103486986:
+            """Starts a tic-tac-toe game with yourself."""
+            await inter.response.send_message("Tic Tac Toe: X goes first", view=TicTacToe())
+        else:
+            await inter.response.send_message("❌ This command is under development, Only bot dev. can use it")
+
+# Subclassing the modal.
+class MyModal(disnake.ui.Modal):
+    def __init__(self):
+        # The details of the modal, and its components
+        components = [
+            disnake.ui.TextInput(
+                label="Name",
+                placeholder="Your discord Tag",
+                custom_id="name",
+                style=TextInputStyle.short,
+                max_length=50,
+            ),
+            disnake.ui.TextInput(
+                label="Description",
+                placeholder="Your thoughts on monkes",
+                custom_id="description",
+                style=TextInputStyle.paragraph,
+            ),
+        ]
+        super().__init__(
+            title="Create Tag",
+            custom_id="create_tag",
+            components=components,
+        )
+
+    # The callback received when the user input is completed.
+    async def callback(self, inter: disnake.ModalInteraction):
+        embed = disnake.Embed(title="Tag Creation")
+        for key, value in inter.text_values.items():
+            embed.add_field(
+                name=key.capitalize(),
+                value=value[:1024],
+                inline=False,
+            )
+        await inter.response.send_message(embed=embed)
+    
+    @commands.slash_command()
+    async def tags(inter: disnake.AppCmdInter):
+        """Sends a Modal to create a tag."""
+        await inter.response.send_modal(modal=MyModal())
         
 def setup(bot):
-    bot.add_cog(EvalCommand())
+    bot.add_cog(Tests())
