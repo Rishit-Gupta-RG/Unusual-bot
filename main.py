@@ -61,7 +61,7 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
-initial_extensions = ['cogs.test']
+initial_extensions = ['cogs.events', 'cogs.apps']
 bot.load_extension('jishaku')
 
 if __name__ == '__main__':
