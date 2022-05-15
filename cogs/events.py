@@ -12,7 +12,7 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listner()
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         welcome = self.bot.get_channel(908296505876688958)
         verify = self.bot.get_channel(900106358823739442)
