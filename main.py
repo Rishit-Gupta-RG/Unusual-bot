@@ -61,13 +61,9 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
-initial_extensions = ['cogs.events', 'cogs.apps']
 bot.load_extension('jishaku')
 
-if __name__ == '__main__':
-    for extension in initial_extensions:
-        bot.load_extension(extension)
-
+#PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
     before = time.monotonic()
@@ -84,10 +80,11 @@ async def evaluate(ctx, *, code):
     except Exception as e:
         return await ctx.send(f"```{e.__class__.__name__}: {e}```")
     await ctx.send(f'```{str_obj.getvalue()}```')
+#------------------------------------------------------------------------------------------------------
 
-
+#SLASH COMMANDS
 @bot.slash_command(name="timeout", description="Timeout a user.")
-@commands.check_any(commands.has_role(882516473304719430), commands.has_permissions(administrator=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time, *, reason=None) -> None:
     """
     Parameters
@@ -103,7 +100,7 @@ async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time
     await inter.response.send_message(f"{member.mention} has been timed out by {inter.author.mention} for {time}.\n **Reason -** {reason}")
 
 @bot.slash_command(name="remove-timeout", description="Removes a user from timeout", aliases=["rto"])
-@commands.check_any(commands.has_role(882516473304719430), commands.has_permissions(administrator=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reason=None) -> None:
     """
     Parameters
@@ -116,7 +113,7 @@ async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reaso
     await inter.response.send_message(f"Timeout for {member.mention} has been removed by {inter.author.mention}.\n**Reason -** {reason}")
 
 @bot.slash_command(description="Changes nickname of member.")
-@commands.check_any(commands.has_role(882516473304719430), commands.has_permissions(administrator=True))
+@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
 async def nick(inter: disnake.CommandInteraction, member: disnake.Member,*, nick: str):
     """
     Parameters
@@ -127,15 +124,6 @@ async def nick(inter: disnake.CommandInteraction, member: disnake.Member,*, nick
     """
     await member.edit(nick=nick)
     await inter.response.send_message(f'\✅ **Nickname was changed for {member.mention}.**')
-
-bot.messages = 0
-@bot.listen()
-async def on_message(message):
-    bot.messages += 1
-    if bot.messages == 50:
-        ronit = bot.get_emoji(958468656034099312)
-        await message.add_reaction(ronit)
-        bot.messages = 0
 
 Party = ['Watch Together', 'chess']
 
@@ -253,6 +241,22 @@ async def deleteadd(inter: disnake.CommandInteraction, user: disnake.User):
     """
     deletion_list.append(user.id)
     await inter.response.send_message("<:society:932186685926694914>")
+
+@bot.slash_command(name="verify", description="Verifies a new member.")
+@commands.has_permissions(manage_nicknames=True)
+async def verify(inter: disnake.CommandInteraction, member: disnake.Member):
+    """
+    Parameters
+    ----------
+    
+    member: Member to verify
+    """
+    uner = inter.guild.get_role(882503122554093589)
+    if uner in member.roles:
+        await member.remove_roles(uner)
+        await inter.response.send_message(f"Successfully verified {member.mention}.")
+    else:
+        await inter.response.send_message('User is already verified!')
     
 @bot.slash_command(name="purge", description="Bulk deletion of messages.", enabled=True)
 @commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
@@ -280,11 +284,6 @@ async def deleteremove(inter: disnake.CommandInteraction, user: disnake.User):
     deletion_list.remove(user.id)
     await inter.response.send_message(f'Removed hard delete from {user}')
 
-@bot.listen()
-async def on_message(msg):
-    if msg.author.id in deletion_list:
-        await msg.delete()
-
 @bot.slash_command(name="google", description="Provides a google redirect button for the provided query.")
 async def google(inter: disnake.CommandInteraction, *, query: str):
     """
@@ -300,54 +299,122 @@ async def google(inter: disnake.CommandInteraction, *, query: str):
     view.add_item(button(label="Click here", url=url))
     await inter.response.send_message(f"Google Result for: `{query}`", view=view)
 
-# snipe_message_author = {}
-# snipe_message_content = {}
-
-# @bot.event
-# async def on_message_delete(message):
-#      snipe_message_author[message.channel.id] = message.author
-#      snipe_message_content[message.channel.id] = message.content
-#      await asyncio.sleep(60)
-#      del snipe_message_author[message.channel.id]
-#      del snipe_message_content[message.channel.id]
-
-# @bot.slash_command(name = 'snipe')
-# @commands.is_owner()
-# async def snipe(ctx):
-#     channel = ctx.channel
-#     try: #This piece of code is run if the bot finds anything in the dictionary
-#         em = disnake.Embed(title= f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=ctx.author.color)
-#         em.set_author(name = message.author, icon_url=message.author.display_avatar.url)
-#         await ctx.send(embed = em)
-#     except KeyError: #This piece of code is run if the bot doesn't find anything in the dictionary
-#         await ctx.send(f"There are no recently deleted messages in #{channel.name}")
-
-@bot.slash_command(name="verify", description="Verifies a new member.")
-@commands.has_permissions(manage_nicknames=True)
-async def verify(inter: disnake.CommandInteraction, member: disnake.Member):
-    """
-    Parameters
-    ----------
-    
-    member: Member to verify
-    """
-    uner = inter.guild.get_role(882503122554093589)
-    if uner in member.roles:
-        await member.remove_roles(uner)
-        await inter.response.send_message(f"Successfully verified {member.mention}.")
-    else:
-        await inter.response.send_message('User is already verified!')
-
-@bot.listen('on_command_error')
-async def error_handler(inter, error):
-    raise error
-
 @bot.slash_command(name= "reboot", description="Restarts the bot, can only be used by the bot owner")
 @commands.is_owner()
 async def reboot(inter: disnake.CommandInteraction):
     await inter.response.send_message("**Rebooting** <a:malloading:922167995961335808>")
     os.system("clear")
     os.execv(sys.executable, ['python'] + sys.argv)
+#-----------------------------------------------------------------------------------------------------
+
+#APPLICATION COMMANDS
+
+@bot.user_command(name="Avatar")
+async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
+    emb = disnake.Embed(title=f"{user}'s avatar", color=inter.author.color)
+    emb.set_image(url=user.display_avatar.url)
+    await inter.response.send_message(embed=emb)
+
+@bot.user_command(name="Info")
+async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.User):
+    embed=disnake.Embed(title="User Information",colour=inter.author.color)
+    embed.set_thumbnail(url=member.display_avatar.url)
+    embed.add_field(name="Name", value=member.name)
+    embed.add_field(name="Nickname", value=member.nick)
+    embed.add_field(name="ID", value=member.id)
+    embed.add_field(name="Account Created",value=disnake.utils.format_dt(member.created_at, style="F"))
+    embed.add_field(name="Joined",value=disnake.utils.format_dt(member.joined_at, style="F"))
+    members = sorted(inter.guild.members, key=lambda m: m.joined_at)
+    embed.add_field(name="Status", value=member.status)
+    await inter.response.send_message(embed=embed)
+
+@bot.message_command()
+async def Quote(inter, message: disnake.Message):
+    msg_link = f'https://discord.com/channels/{inter.guild.id}/{inter.channel.id}/{message.id}'
+    embed = disnake.Embed(description=f"[Jump to message ►]({msg_link})\n {message.content}",color=inter.author.color, timestamp=message.created_at)
+    embed.set_author(name=message.author, icon_url=message.author.display_avatar.url)
+    await inter.send(embed=embed)
+
+@bot.message_command(name="Reverse")
+async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
+    await inter.response.send_message(message.content[::-1])
+#-----------------------------------------------------------------------------------------------------
+
+#EVENTS
+@bot.listen()
+async def on_message(msg):
+    if msg.author.id in deletion_list:
+        await msg.delete()
+
+bot.messages = 0
+@bot.listen()
+async def on_message(message):
+    bot.messages += 1
+    if bot.messages == 50:
+        ronit = bot.get_emoji(958468656034099312)
+        await message.add_reaction(ronit)
+        bot.messages = 0
+
+@bot.listen()
+async def on_message(message):
+    if message.channel.id == 852926176514670632:
+        if "https://" in message.content:
+            if "https://tenor.com" in message.content:
+                return
+            elif "https://giphy.com" in message.content:
+                return
+            else:
+                await message.add_reaction('🔼')
+                await message.add_reaction('🔽')
+
+@bot.listen()
+async def on_message(message):
+    if message.attachments and message.channel.id==852926176514670632:
+        await message.add_reaction('🔼')
+        await message.add_reaction('🔽')
+
+@bot.listen()
+async def on_member_remove(self, member):
+    bye = self.bot.get_channel(908296565255442462)
+    await bye.send(f'''**{member}** `({member.id})` has left the server 💔
+Sorry to see you go 😔
+We hope you had a good time here ❤
+_ _''')
+
+@bot.listen()
+async def on_member_join(self, member):
+    welcome = self.bot.get_channel(908296505876688958)
+    verify = self.bot.get_channel(900106358823739442)
+    await member.send(f"""👋 {member.mention}, welcome to **{member.guild.name}**!
+
+📝 Please verify yourself in <#900106358823739442> to gain access to rest of the server. 
+
+🚀 **After verification, here's how to get started:**
+<#809297410979397663> - Read the rules
+<#850694848323256360> - Grab some roles
+<#853143136620904518> - Start chatting and have fun
+
+✨ Hope you have a good time in the server! 
+_ _""")
+    await verify.send(f"""👋 Hey {member.mention}, welcome to **{member.guild.name}**!
+
+📝 Verify yourself here
+
+📸 Send a picture of yours and gain access to rest of the server
+_ _""")
+    await welcome.send(f"""👋 {member.mention}, welcome to **{member.guild.name}**!
+
+🚀 **Here's how to get started:**
+<#809297410979397663> - Read the rules
+<#850694848323256360> - Grab some roles
+<#853143136620904518> - Start chatting and have fun
+
+✨ Hope you have a good time here! 
+_ _""")
+
+@bot.listen('on_command_error')
+async def error_handler(inter, error):
+    raise error
 
 @bot.listen()
 async def on_command_error(inter: disnake.CommandInteraction, error: commands.CommandError):
@@ -372,7 +439,8 @@ async def on_command_error(inter: disnake.CommandInteraction, error: commands.Co
     
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Monkelife", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Board Exams", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
+#-----------------------------------------------------------------------------------------------------
 
 bot.run(os.getenv("TOKEN"))
