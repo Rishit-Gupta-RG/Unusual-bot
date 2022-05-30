@@ -39,7 +39,6 @@ import json
 import contextlib
 import io
 import datetime, time
-import psutil
 from datetime import datetime
 import traceback
 import textwrap
