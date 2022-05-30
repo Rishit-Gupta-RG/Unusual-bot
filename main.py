@@ -25,7 +25,6 @@ import os
 from urllib.parse import quote_plus
 from dotenv import load_dotenv
 load_dotenv()
-import youtube_dl
 from disnake.ext.commands import cooldown, BucketType
 import random
 from disnake import Member
