@@ -35,7 +35,6 @@ from disnake.ext.commands.converter import EmojiConverter
 from disnake.ext.commands.core import command
 from disnake.utils import get
 from disnake import TextChannel
-from youtube_dl import YoutubeDL
 import json
 import contextlib
 import io
