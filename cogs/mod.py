@@ -6,7 +6,7 @@ from disnake.ext import commands
 from disnake import AllowedMentions, member, channel
 import random
 import json
-import datetime
+from datetime import datetime
 
 mrole = 882516473304719430
 hard = []
