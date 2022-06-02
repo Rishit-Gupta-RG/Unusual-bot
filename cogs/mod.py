@@ -4,7 +4,6 @@ from unicodedata import name
 import disnake
 from disnake.ext import commands
 from disnake import AllowedMentions, member, channel
-from psutil import users
 import random
 import json
 import datetime
