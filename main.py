@@ -25,7 +25,6 @@ import os
 from urllib.parse import quote_plus
 from dotenv import load_dotenv
 load_dotenv()
-import youtube_dl
 from disnake.ext.commands import cooldown, BucketType
 import random
 from disnake import Member
@@ -36,12 +35,10 @@ from disnake.ext.commands.converter import EmojiConverter
 from disnake.ext.commands.core import command
 from disnake.utils import get
 from disnake import TextChannel
-from youtube_dl import YoutubeDL
 import json
 import contextlib
 import io
 import datetime, time
-import psutil
 from datetime import datetime
 import traceback
 import textwrap
@@ -59,6 +56,7 @@ from inspect import getsource
 intents = disnake.Intents.default()
 intents.presences = True
 intents.members = True
+intents.message_content = True
 bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.mod']
@@ -296,11 +294,6 @@ async def on_message(message):
 async def on_message(message):
     if message.channel.id == 852926176514670632:
         if "https://" in message.content:
-            if "https://tenor.com" in message.content:
-                return
-            elif "https://giphy.com" in message.content:
-                return
-            else:
                 await message.add_reaction('🔼')
                 await message.add_reaction('🔽')
 
@@ -311,17 +304,17 @@ async def on_message(message):
         await message.add_reaction('🔽')
 
 @bot.listen()
-async def on_member_remove(self, member):
-    bye = self.bot.get_channel(908296565255442462)
+async def on_member_remove(member):
+    bye = bot.get_channel(908296565255442462)
     await bye.send(f'''**{member}** `({member.id})` has left the server 💔
 Sorry to see you go 😔
 We hope you had a good time here ❤
 _ _''')
 
 @bot.listen()
-async def on_member_join(self, member):
-    welcome = self.bot.get_channel(908296505876688958)
-    verify = self.bot.get_channel(900106358823739442)
+async def on_member_join(member):
+    welcome = bot.get_channel(908296505876688958)
+    verify = bot.get_channel(900106358823739442)
     await member.send(f"""👋 {member.mention}, welcome to **{member.guild.name}**!
 
 📝 Please verify yourself in <#900106358823739442> to gain access to rest of the server. 
