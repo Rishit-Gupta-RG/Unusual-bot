@@ -61,6 +61,12 @@ intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
+initial_extensions = ['cogs.mod']
+
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        bot.load_extension(extension)
+
 bot.load_extension('jishaku')
 
 #PREFIX BASED
@@ -83,48 +89,6 @@ async def evaluate(ctx, *, code):
 #------------------------------------------------------------------------------------------------------
 
 #SLASH COMMANDS
-@bot.slash_command(name="timeout", description="Timeout a user.")
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
-async def timeout(inter: disnake.CommandInteraction, member: disnake.Member,time, *, reason=None) -> None:
-    """
-    Parameters
-    ----------
-
-    member: The user to timeout
-    time: How long they should be timed out for
-    reason: Reason for timeout
-    """
-    time_convert = {'s': 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400, 'S' : 1, 'M' : 60, 'H' : 3600, "D" : 86400}
-    timeout_time = float(time[0:len(time)-1]) * time_convert[time[-1]]
-    await member.timeout(duration=timeout_time, reason=reason)
-    await inter.response.send_message(f"{member.mention} has been timed out by {inter.author.mention} for {time}.\n **Reason -** {reason}")
-
-@bot.slash_command(name="remove-timeout", description="Removes a user from timeout", aliases=["rto"])
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
-async def rto(inter: disnake.CommandInteraction, member: disnake.Member, *,reason=None) -> None:
-    """
-    Parameters
-    ----------
-    
-    member: The user to remove timeout
-    reason: Reason for remove-timeout
-    """
-    await member.timeout(duration=None)
-    await inter.response.send_message(f"Timeout for {member.mention} has been removed by {inter.author.mention}.\n**Reason -** {reason}")
-
-@bot.slash_command(description="Changes nickname of member.")
-@commands.check_any(commands.has_role(787149777103486986), commands.has_permissions(administrator=True))
-async def nick(inter: disnake.CommandInteraction, member: disnake.Member,*, nick: str):
-    """
-    Parameters
-    ----------
-    
-    member: Member to change their nick
-    nick: New nickname
-    """
-    await member.edit(nick=nick)
-    await inter.response.send_message(f'\✅ **Nickname was changed for {member.mention}.**')
-
 Party = ['Watch Together', 'chess']
 
 async def autocomplete_langs(inter, string: str) -> List[str]:
@@ -228,22 +192,8 @@ async def spam(ctx, Amount : int, *, Message=None):
         for _ in range(Amount): 
             await ctx.send(Message)
 
-deletion_list = []
-@bot.slash_command(name="delete-add", description="Applies hard delete on a user.", enabled=True)
-@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
-async def deleteadd(inter: disnake.CommandInteraction, user: disnake.User):
-    """
-    Applies hard delete on a user.
-
-    Parameters
-    ----------
-    user: User to whom hard delete is to be applied.
-    """
-    deletion_list.append(user.id)
-    await inter.response.send_message("<:society:932186685926694914>")
-
 @bot.slash_command(name="verify", description="Verifies a new member.")
-@commands.has_permissions(manage_nicknames=True)
+@commands.has_role(882516473304719430)
 async def verify(inter: disnake.CommandInteraction, member: disnake.Member):
     """
     Parameters
@@ -270,19 +220,6 @@ async def purge(inter: disnake.ApplicationCommandInteraction, amount: int):
     """
     await inter.channel.purge(limit=amount, bulk=True)
     await inter.response.send_message(f"Successfully purged `{amount}` messages.", ephemeral=True)
-
-@bot.slash_command(name="delete-remove", description="Removes hard delete from a user.",enabled=True)
-@commands.check_any(commands.is_owner(), commands.has_permissions(administrator=True))
-async def deleteremove(inter: disnake.CommandInteraction, user: disnake.User):
-    """
-    Removes hard delete from a user.
-
-    Parameters
-    ----------
-    user: The user on whom hard delete was applied earlier.
-    """
-    deletion_list.remove(user.id)
-    await inter.response.send_message(f'Removed hard delete from {user}')
 
 @bot.slash_command(name="google", description="Provides a google redirect button for the provided query.")
 async def google(inter: disnake.CommandInteraction, *, query: str):
