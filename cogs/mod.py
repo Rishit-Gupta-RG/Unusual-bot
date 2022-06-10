@@ -4,10 +4,9 @@ from unicodedata import name
 import disnake
 from disnake.ext import commands
 from disnake import AllowedMentions, member, channel
-from psutil import users
 import random
 import json
-import datetime
+from datetime import datetime
 
 mrole = 882516473304719430
 hard = []
@@ -32,7 +31,7 @@ class Moderation(commands.Cog):
         embed.set_footer(icon_url=gg_gif, text=ctx.guild.name)
         await member.send(embed=embed)
         await member.kick(reason=reason)
-        await ctx.send(f"👌 Successfully {ctx.command}ed {ctx.member.mention} | `{ctx.member}`.\nWith the reason of: {reason}")
+        await ctx.send(f"👌 Successfully kicked {member.mention} | `{member}`.\nWith the reason of: {reason}")
 
     @commands.slash_command(name="warn")
     @commands.check_any(commands.has_role(mrole), commands.is_owner(), commands.has_permissions(kick_members=True), commands.has_permissions(administrator=True))
@@ -49,18 +48,27 @@ class Moderation(commands.Cog):
         embed.set_author(name=ctx.author, icon_url=ctx.author.display_avatar.url)
         embed.set_footer(icon_url=gg_gif, text=ctx.guild.name)
         await member.send(embed=embed)
-        await ctx.send(f"👌 Successfully {ctx.command}ed {ctx.member.mention} | `{ctx.member}`.\nWith the reason of: {reason}")
+        await ctx.send(f"👌 Successfully warned {member.mention} | `{member}`.\nWith the reason of: {reason}")
 
     @commands.slash_command(name="timeout")
     @commands.check_any(commands.has_role(mrole), commands.is_owner(), commands.has_permissions(manage_nicknames=True), commands.has_permissions(administrator=True))
     async def my_timeout_command(self, ctx, member: disnake.Member, duration=None, reason: str=None) -> None:
+        """
+        Timeouts a member.
+        
+        Parameters
+        ----------
+        member: The member to timeout.
+        duration: How long they should be timed out for.
+        reason: Reason for timeout.
+        """
         if duration == None:
             embed = disnake.Embed(description=f"**❯ Type**: Reverted Timeout\n**❯ Reason**: {reason}", timestamp=datetime.utcnow())
             embed.set_author(name=ctx.author, icon_url=ctx.author.display_avatar.url)
             embed.set_footer(icon_url=gg_gif, text=ctx.guild.name)
             await member.send(embed=embed)
             await member.timeout(reason=reason, duration=None)
-            await ctx.send(f"👌 Removed timeout from {ctx.member.mention}\nWith the reason of: {reason}")
+            await ctx.send(f"👌 Removed timeout from {member.mention}\nWith the reason of: {reason}")
         else:
             time_convert = {'s': 1 , 'm' : 60 , 'h' : 3600 , 'd' : 86400, 'S' : 1, 'M' : 60, 'H' : 3600, "D" : 86400}
             timeout_time = float(duration[0:len(duration)-1]) * time_convert[duration[-1]]
@@ -69,7 +77,7 @@ class Moderation(commands.Cog):
             embed.set_footer(icon_url=gg_gif, text=ctx.guild.name)
             await member.send(embed=embed)
             await member.timeout(reason=reason, duration=timeout_time)
-            await ctx.send(f"👌 Successfully Timed out {ctx.member.mention} for {duration}\nWith the reason of: {reason}")
+            await ctx.send(f"👌 Successfully timed out {member.mention} for {duration}\nWith the reason of: {reason}")
 
     @commands.slash_command(name="ban")
     @commands.check_any(commands.has_role(mrole), commands.is_owner(), commands.has_permissions(ban_members=True), commands.has_permissions(administrator=True))
@@ -87,7 +95,7 @@ class Moderation(commands.Cog):
         embed.set_footer(icon_url=gg_gif, text=ctx.guild.name)
         await member.send(embed=embed)
         await member.ban(reason=reason)
-        await ctx.send(f"👌 Successfully banned {ctx.member.mention} | `{ctx.member}`\nWith the reason of: {reason}")
+        await ctx.send(f"👌 Successfully banned {member.mention} | `{member}`\nWith the reason of: {reason}")
     
     @commands.slash_command(name="nick")
     @commands.check_any(commands.has_role(mrole), commands.is_owner(), commands.has_permissions(manage_nicknames=True), commands.has_permissions(administrator=True))
@@ -101,7 +109,7 @@ class Moderation(commands.Cog):
         nickname: New nickname
         """
         await member.edit(nick=nickname)
-        await ctx.send(f"👌 Changed nickname for {ctx.member.mention}.")
+        await ctx.send(f"👌 Changed nickname for {member.mention}.")
 
     @commands.slash_command(name="deletion")
     @commands.has_permissions(administrator=True)
@@ -115,12 +123,11 @@ class Moderation(commands.Cog):
         """
         if member.id in hard:
             hard.remove(member.id)
-            await ctx.send("<:society:932186685926694914>")
         else:
-            await ctx.send(f"👌 Removed hard delete from {member.mention}.")
+            hard.append(member.id)
 
     @commands.Cog.listener()
-    async def on_message(msg):
+    async def on_message(self, msg):
         if msg.author.id in hard:
             await msg.delete()
 
