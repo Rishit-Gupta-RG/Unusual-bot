@@ -19,7 +19,7 @@ class Chemistry(commands.Cog):
         pass
 
     @atom.sub_command(name='lookup', description="Provides some information on an element of periodic table.")
-    async def lookup(self, inter, number):
+    async def lookup(self, inter, number: int):
         """
         "Provides some information on an element of periodic table."
 
