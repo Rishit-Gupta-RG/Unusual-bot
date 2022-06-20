@@ -27,7 +27,7 @@ class Chemistry(commands.Cog):
         ----------
         number: The atomic number of element.
         """
-        if number < 0 or number > 118 or number ==0:
+        if 0 > number or number > 118 or number == 0:
             await inter.response.send_message("Number must be greater than 0 or less than 118.")
         else:
             async with aiohttp.ClientSession() as session:
