@@ -59,7 +59,7 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
 
-initial_extensions = ['cogs.mod']
+initial_extensions = ['cogs.mod', 'cogs.chemistry']
 
 if __name__ == '__main__':
     for extension in initial_extensions:
