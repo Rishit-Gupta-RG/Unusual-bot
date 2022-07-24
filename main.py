@@ -207,7 +207,7 @@ async def marks(inter: disnake.CommandInteraction, t1: int, f: int):
         z = y - x
         k = z/0.7
         L = k*40
-        print(f"Score of that subject in term 2 - `{L}`")
+        await inter.response.send_message(f"Score of that subject in term 2 - `{L}`")
 
 @bot.slash_command(name="verify", description="Verifies a new member.")
 @commands.has_role(882516473304719430)
