@@ -199,7 +199,7 @@ async def marks(inter: disnake.CommandInteraction, t1: int, f: int):
     t1: Marks in Term 1 exam.
     f: Final marks of theory as per report card.
     """
-    if t1 > 40 or F > 80:
+    if t1 > 40 or f > 80:
         await inter.response.send_message("Term 1 marks cannot be greater than 40 & final marks cannot be greater than 80!", ephemeral=True)
     else:
         x = t1/40 * 0.3
