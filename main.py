@@ -190,7 +190,7 @@ async def spam(ctx, Amount : int, *, Message=None):
         for _ in range(Amount): 
             await ctx.send(Message)
 
-@bot.command(name="marks", description="Calculates your Term 2 marks of a subject.")
+@bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.CommandInteraction, T1: int, F: int):
     """
     Parameters
