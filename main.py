@@ -190,6 +190,25 @@ async def spam(ctx, Amount : int, *, Message=None):
         for _ in range(Amount): 
             await ctx.send(Message)
 
+@bot.command(name="marks", description="Calculates your Term 2 marks of a subject.")
+async def marks(inter: disnake.CommandInteraction, T1: int, F: int):
+    """
+    Parameters
+    ----------
+    
+    T1: Marks in Term 1 exam.
+    F: Final marks of theory as per report card.
+    """
+    if T1 > 40 or F > 80:
+        await inter.response.send_message("Term 1 marks cannot be greater than 40 & final marks cannot be greater than 80!", ephemeral=True)
+    else:
+        x = T1/40 * 0.3
+        y = F/80
+        z = y - x
+        k = z/0.7
+        L = k*40
+        print(f"Term 2 marks are `{L}`")
+
 @bot.slash_command(name="verify", description="Verifies a new member.")
 @commands.has_role(882516473304719430)
 async def verify(inter: disnake.CommandInteraction, member: disnake.Member):
