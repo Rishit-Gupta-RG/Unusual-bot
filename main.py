@@ -196,8 +196,8 @@ async def marks(inter: disnake.CommandInteraction, t1: int, f: int):
     Parameters
     ----------
     
-    T1: Marks in Term 1 exam.
-    F: Final marks of theory as per report card.
+    t1: Marks in Term 1 exam.
+    f: Final marks of theory as per report card.
     """
     if t1 > 40 or F > 80:
         await inter.response.send_message("Term 1 marks cannot be greater than 40 & final marks cannot be greater than 80!", ephemeral=True)
@@ -207,7 +207,7 @@ async def marks(inter: disnake.CommandInteraction, t1: int, f: int):
         z = y - x
         k = z/0.7
         L = k*40
-        print(f"Term 2 marks are `{L}`")
+        print(f"Score of that subject in term 2 - `{L}`")
 
 @bot.slash_command(name="verify", description="Verifies a new member.")
 @commands.has_role(882516473304719430)
