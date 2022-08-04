@@ -300,15 +300,6 @@ async def on_message(msg):
     if msg.author.id in deletion_list:
         await msg.delete()
 
-bot.messages = 0
-@bot.listen()
-async def on_message(message):
-    bot.messages += 1
-    if bot.messages == 50:
-        ronit = bot.get_emoji(958468656034099312)
-        await message.add_reaction(ronit)
-        bot.messages = 0
-
 @bot.listen()
 async def on_message(message):
     if message.channel.id == 852926176514670632:
