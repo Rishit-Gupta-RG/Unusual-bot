@@ -57,7 +57,7 @@ intents = disnake.Intents.default()
 intents.presences = True
 intents.members = True
 intents.message_content = True
-bot = commands.Bot(command_prefix=commands.when_mentioned, test_guilds=[764549036090720267], intents=intents, case_insensitive=True)
+bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.mod', 'cogs.chemistry', 'cogs.music']
 
