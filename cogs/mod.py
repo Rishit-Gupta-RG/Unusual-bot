@@ -123,8 +123,10 @@ class Moderation(commands.Cog):
         """
         if member.id in hard:
             hard.remove(member.id)
+            await ctx.send(f"Removed hard delete from {member}.")
         else:
             hard.append(member.id)
+            await ctx.send(f"Applied hard delete to {member}.")
 
     @commands.Cog.listener()
     async def on_message(self, msg):
