@@ -87,13 +87,10 @@ async def evaluate(ctx, *, code):
 #------------------------------------------------------------------------------------------------------
 
 #SLASH COMMANDS
-Party = ['Watch Together', 'chess']
-
-async def autocomplete_langs(inter, string: str) -> List[str]:
-    return [lang for lang in Party if string.lower() in lang.lower()]
+Party = commands.option_enum(['Watch Together', 'Chess'])
 
 @bot.slash_command(name="activity", description="[BETA COMMAND] Starts voice channel activity.")
-async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,party:  str = commands.Param(autocomplete=autocomplete_langs)):
+async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChannel ,party: Party):
     """
     Parameters
     ----------
@@ -102,9 +99,9 @@ async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChann
     party: Select a party type from the above list only
     """
     if party == "Watch Together":
-        invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
+        invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.watch_together)
         await inter.response.send_message(f"[Click to open Watch Together in {channel}]({invite})")
-    elif Party == "chess":
+    elif Party == "Chess":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
         await inter.response.send_message(f"[Click to open Chess in {channel}]({invite})")
     else:
