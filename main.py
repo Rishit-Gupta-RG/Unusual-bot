@@ -101,7 +101,7 @@ async def activity(inter: disnake.CommandInteraction,channel: disnake.VoiceChann
     if party == "Watch Together":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.watch_together)
         await inter.response.send_message(f"[Click to open Watch Together in {channel}]({invite})")
-    elif Party == "Chess":
+    elif party == "Chess":
         invite = await channel.create_invite(target_type=disnake.InviteTarget.embedded_application, target_application=disnake.PartyType.chess)
         await inter.response.send_message(f"[Click to open Chess in {channel}]({invite})")
     else:
