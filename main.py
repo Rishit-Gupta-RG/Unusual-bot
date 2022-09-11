@@ -65,7 +65,8 @@ if __name__ == '__main__':
 bot.load_extension('jishaku')
 
 server = bot.get_guild(764549036090720267)
-jot = server.get_emoji(958469316393705523)
+print(server.emojis)
+
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
