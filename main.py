@@ -2,6 +2,7 @@ from ast import alias
 from cProfile import label
 from email import message
 from faulthandler import disable
+from http import client
 from logging import fatal
 from multiprocessing import context
 from operator import inv
@@ -64,8 +65,7 @@ if __name__ == '__main__':
 
 bot.load_extension('jishaku')
 
-server = bot.get_guild(764549036090720267)
-print(server.emojis)
+jot = "🚮"
 
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
