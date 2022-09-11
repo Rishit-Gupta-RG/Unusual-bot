@@ -1,5 +1,6 @@
 from cgitb import text
 from pydoc import describe
+from tkinter import Button
 from unicodedata import name
 import disnake
 from disnake.ext import commands
@@ -13,7 +14,7 @@ from requests import request
 class Chemistry(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
+
     @commands.slash_command(name='atom')
     async def atom(self, inter):
         pass
@@ -33,7 +34,7 @@ class Chemistry(commands.Cog):
             async with aiohttp.ClientSession() as session:
                 request = await session.get(f'https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber={number}')
                 data = await request.json()
-                hex = data['cpkHexColor']
+            hex = data['cpkHexColor']
             if data["atomicMass"] == "":
                 data["atomicMass"] = "_ _"
             if data["atomicRadius"] == "":
@@ -62,7 +63,10 @@ class Chemistry(commands.Cog):
                 data["vanDelWaalsRadius"] = "_ _"
             if data["yearDiscovered"] == "":
                 data["yearDiscovered"] = "_ _"
-            embed = disnake.Embed(title=data["name"], color=int(hex, 16))
+                if hex == "":
+                    embed = disnake.Embed(title=data["name"], color=0x000000)
+                else:
+                    embed = disnake.Embed(title=data["name"], color=int(hex, 16))
             embed.add_field(name="Atomic mass:", value=data["atomicMass"])
             embed.add_field(name="Atomic number:", value=data["atomicNumber"])
             embed.add_field(name="Atomic radius:", value=data["atomicRadius"])
