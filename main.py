@@ -54,7 +54,6 @@ from disnake.enums import TextInputStyle
 from inspect import getsource
 
 intents = disnake.Intents.all()
-print(intents.value & 1 << 3 == 1 << 3)
 bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.mod', 'cogs.chemistry', 'cogs.music']
@@ -65,9 +64,8 @@ if __name__ == '__main__':
 
 bot.load_extension('jishaku')
 
-jot = bot.get_emoji(958469316393705523)
-print(jot)
-
+server = bot.get_guild(764549036090720267)
+jot = server.get_emoji(958469316393705523)
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
 async def ping(ctx):
@@ -317,13 +315,7 @@ class Delete(disnake.ui.View):
         
         await inter.delete_original_message()
 #-----------------------------------------------------------------------------------------------------
-
 #EVENTS
-@bot.listen()
-async def on_message(msg):
-    if msg.author.id in deletion_list:
-        await msg.delete()
-
 @bot.listen()
 async def on_message(message):
     if message.channel.id == 852926176514670632:
