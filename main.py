@@ -59,13 +59,18 @@ bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case
 
 initial_extensions = ['cogs.mod', 'cogs.chemistry', 'cogs.music']
 
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Your Subject Stream", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+    print('Bot is ready')
+
 if __name__ == '__main__':
     for extension in initial_extensions:
         bot.load_extension(extension)
 
 bot.load_extension('jishaku')
 
-jot = "🚮"
+jot = bot.get_emoji(958469316393705523)
 
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
@@ -393,11 +398,6 @@ async def on_command_error(inter: disnake.CommandInteraction, error: commands.Co
         message = "❎ **Only bot owner can use this command!**"
     
     await inter.response.send_message(message)
-    
-@bot.event
-async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Your Subject Stream", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
-    print('Bot is ready')
 #-----------------------------------------------------------------------------------------------------
 
 bot.run(os.getenv("TOKEN"))
