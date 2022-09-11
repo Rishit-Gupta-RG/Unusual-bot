@@ -53,10 +53,8 @@ from contextlib import redirect_stdout
 from disnake.enums import TextInputStyle
 from inspect import getsource
 
-intents = disnake.Intents.default()
-intents.presences = True
-intents.members = True
-intents.message_content = True
+intents = disnake.Intents.all()
+print(intents.value & 1 << 3 == 1 << 3)
 bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.mod', 'cogs.chemistry', 'cogs.music']
