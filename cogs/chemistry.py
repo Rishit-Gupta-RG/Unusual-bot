@@ -1,6 +1,5 @@
 from cgitb import text
 from pydoc import describe
-from tkinter import Button
 from unicodedata import name
 import disnake
 from disnake.ext import commands
