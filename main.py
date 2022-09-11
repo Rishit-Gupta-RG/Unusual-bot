@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
 bot.load_extension('jishaku')
 
-jot = bot.get_emoji(958469316393705523)
+jot = "💣"
 
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
