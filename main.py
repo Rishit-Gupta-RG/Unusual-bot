@@ -318,8 +318,8 @@ class Delete(disnake.ui.View):
     async def delete(self, button: disnake.ui.Button, inter: disnake.ApplicationCommandInteraction):
         if self.inter.author.id != inter.author.id:
             return await inter.response.send_message("Hey! You can't do that!", ephemeral=True)
-        else:
-            await inter.delete_original_message()
+        await inter.defer()
+        await inter.delete_original_message()
 #-----------------------------------------------------------------------------------------------------
 #EVENTS
 @bot.listen()
