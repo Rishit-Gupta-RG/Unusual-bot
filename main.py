@@ -302,7 +302,7 @@ async def Quote(inter, message: disnake.Message):
     embed = disnake.Embed(description=f"[Jump to message ►]({msg_link})\n {message.content}",color=inter.author.color, timestamp=message.created_at)
     embed.set_author(name=message.author, icon_url=message.author.display_avatar.url)
     view = Delete(inter)
-    await inter.send(embed=embed, view=view)
+    await inter.response.send_message(embed=embed, view=view)
 
 @bot.message_command(name="Reverse")
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
@@ -315,7 +315,7 @@ class Delete(disnake.ui.View):
         self.inter = inter
 
     @disnake.ui.button(emoji=jot, custom_id='delbutton')
-    async def delete(self, button: disnake.ui.Button, inter: disnake.MessageInteraction):
+    async def delete(self, button: disnake.ui.Button, disnake.ApplicationCommandInteraction):
         if self.inter.author.id != inter.author.id:
             return await inter.response.send_message("Hey! You can't do that!", ephemeral=True)
         else:
