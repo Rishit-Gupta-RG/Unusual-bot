@@ -62,7 +62,7 @@ class Chemistry(commands.Cog):
             if data["yearDiscovered"] == "":
                 data["yearDiscovered"] = "_ _"
             if data['cpkHexColor'] == "":
-                embed = disnake.Embed(title=data["name"], color=0x000000)
+                embed = disnake.Embed(title=data["name"])
                 embed.add_field(name="Atomic mass:", value=data["atomicMass"])
                 embed.add_field(name="Atomic number:", value=data["atomicNumber"])
                 embed.add_field(name="Atomic radius:", value=data["atomicRadius"])
