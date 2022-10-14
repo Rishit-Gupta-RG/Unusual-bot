@@ -55,22 +55,22 @@ from disnake.enums import TextInputStyle
 from inspect import getsource
 
 intents = disnake.Intents.all()
-bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case_insensitive=True)
+bot = commands.Bot(command_prefix=commands.when_mentioned or "!", intents=intents, case_insensitive=True)
 
-initial_extensions = ['cogs.mod', 'cogs.chemistry', 'cogs.music']
+initial_extensions = ['cogs.mod', 'cogs.chemistry']
 
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Your Subject Stream", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
+    updates = bot.get_channel(1030404562907058196)
+    await updates.send("**__Unusual Bot__** `v2.0.1`\n**Changes:**\n• Old prefix `!` is back for limited commands (typing `!help` shows them)\n• The plan to convert spam command to slash command is now dropped, it now works with prefix.\n  Eg. `!spam 20 monkelife`.\n\n**Bug Fixes:**\n• Fixed </atom lookup:1004775323117821999>'s empty hex color bug, if CPK color is None then embed's color will also be None.")
 
 if __name__ == '__main__':
     for extension in initial_extensions:
         bot.load_extension(extension)
 
 bot.load_extension('jishaku')
-
-jot = "💣"
 
 #PREFIX BASED
 @bot.command(name="ping", description="Shows bot latency.")
@@ -142,16 +142,14 @@ async def image(inter: disnake.ApplicationCommandInteraction, animal: str = comm
             whalejson = await request.json()
         embed = disnake.Embed(title=f"{animal}!", color=inter.author.color)
         embed.set_image(url=whalejson['link'])
-        view = Delete(inter)
-        await inter.response.send_message(embed=embed, view=view)
+        await inter.response.send_message(embed=embed)
     elif animal == "Red Panda":
         async with aiohttp.ClientSession() as session:
             request = await session.get(f'https://some-random-api.ml/img/red_panda')
             whalejson = await request.json()
         embed = disnake.Embed(title=f"{animal}!", color=inter.author.color)
         embed.set_image(url=whalejson['link'])
-        view = Delete(inter)
-        await inter.response.send_message(embed=embed, view=view)
+        await inter.response.send_message(embed=embed)
     else:
         await inter.response.send_message("Select animal from autocomplete only!", ephemeral=True)
 
@@ -170,36 +168,32 @@ async def fact(inter: disnake.ApplicationCommandInteraction, animal: str = comma
             request = await session.get(f'https://some-random-api.ml/facts/{k}')
             whalejson = await request.json()
         embed = disnake.Embed(title=f"{animal} Fact!",description=whalejson['fact'],color=inter.author.color)
-        view = Delete(inter)
-        await inter.response.send_message(embed=embed, view=view)
+        await inter.response.send_message(embed=embed)
     elif animal == "Red Panda":
         async with aiohttp.ClientSession() as session:
             request = await session.get(f'https://some-random-api.ml/facts/red_panda')
             whalejson = await request.json()
         embed = disnake.Embed(title=f"{animal} Fact!",description=whalejson['fact'],color=inter.author.color)
-        view = Delete(inter)
-        await inter.response.send_message(embed=embed, view=view)
+        await inter.response.send_message(embed=embed)
     else:
         await inter.response.send_message("Select animal from autocomplete only!", ephemeral=True)
 
-@bot.slash_command(name="spam", description="")
+@bot.command()
 @commands.cooldown(1,35,commands.BucketType.guild)
-async def spam(inter: disnake.CommandInteraction, amount : int, *, message: str):
-    if inter.channel.id == 917866202968236052 or inter.channel.permissions_for(inter.author).administrator:
-        if inter.message.author.id == 787149777103486986:
+async def spam(ctx, Amount : int, *, Message=None):
+    if ctx.channel.id == 917866202968236052 or ctx.channel.permissions_for(ctx.author).administrator:
+        if ctx.message.author.id == 787149777103486986:
             limit = 10000
-        elif inter.message.author.id == 764497721389350963:
+        elif ctx.message.author.id == 764497721389350963:
             limit = 250
         else:
-            limit = 25
-        if amount > limit:
-            await inter.response.send_message(f":negative_squared_cross_mark: The amount provided `{amount}` is too big! It needs to be less then `{limit}`.", ephemeral=True)
-            return
-        else:
-            for _ in range(amount): 
-                await inter.send(message)
+            limit = 80
+    if Amount > limit:
+        await ctx.send(f":negative_squared_cross_mark: **The amount provided `{Amount}` is too big! It needs to be less then `{limit}`.**")
+        return
     else:
-        await inter.response.send_message("You do not have permissions to use this command in this channel, please use it in <#917866202968236052>.", ephemeral=True)
+        for _ in range(Amount): 
+            await ctx.send(Message)
 
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
@@ -218,8 +212,7 @@ async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
         z = y - x
         k = z/0.7
         L = k*40
-        view = Delete(inter)
-        await inter.response.send_message(f"Score of that subject in term 2 - `{L}`", view=view)
+        await inter.response.send_message(f"Score of that subject in term 2 - `{L}`")
 
 @bot.slash_command(name="verify", description="Verifies a new member.")
 @commands.has_role(882516473304719430)
@@ -263,7 +256,7 @@ async def google(inter: disnake.ApplicationCommandInteraction, *, query: str):
     query = quote_plus(query)
     url = f"https://www.google.com/search?q={query}"
     view.add_item(button(label="Click here", url=url))
-    await inter.response.send_message(f"Google Result for: `{query}`", view=view)
+    await inter.response.send_message(f"Google Result for: `{query}`")
 
 @bot.slash_command(name= "reboot", description="Restarts the bot, can only be used by the bot owner")
 @commands.is_owner()
@@ -279,8 +272,7 @@ async def reboot(inter: disnake.ApplicationCommandInteraction):
 async def avatar(inter: disnake.ApplicationCommandInteraction, user: disnake.User):
     emb = disnake.Embed(title=f"{user}'s avatar", color=inter.author.color)
     emb.set_image(url=user.display_avatar.url)
-    view = Delete(inter)
-    await inter.response.send_message(embed=emb, view=view)
+    await inter.response.send_message(embed=emb)
 
 @bot.user_command(name="Info")
 async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.User):
@@ -293,33 +285,18 @@ async def info(inter: disnake.ApplicationCommandInteraction, member: disnake.Use
     embed.add_field(name="Joined",value=disnake.utils.format_dt(member.joined_at, style="F"))
     members = sorted(inter.guild.members, key=lambda m: m.joined_at)
     embed.add_field(name="Status", value=member.status)
-    view = Delete(inter)
-    await inter.response.send_message(embed=embed, view=view)
+    await inter.response.send_message(embed=embed)
 
 @bot.message_command()
 async def Quote(inter, message: disnake.Message):
     msg_link = f'https://discord.com/channels/{inter.guild.id}/{inter.channel.id}/{message.id}'
     embed = disnake.Embed(description=f"[Jump to message ►]({msg_link})\n {message.content}",color=inter.author.color, timestamp=message.created_at)
     embed.set_author(name=message.author, icon_url=message.author.display_avatar.url)
-    view = Delete(inter)
-    await inter.response.send_message(embed=embed, view=view)
+    await inter.response.send_message(embed=embed)
 
 @bot.message_command(name="Reverse")
 async def reverse(inter: disnake.ApplicationCommandInteraction, message: disnake.Message):
-    view = Delete(inter)
-    await inter.response.send_message(message.content[::-1], view=view)
-
-class Delete(disnake.ui.View):
-    def __init__(self, inter: disnake.ApplicationCommandInteraction):
-        super().__init__(timeout=43200)
-        self.inter = inter
-
-    @disnake.ui.button(emoji=jot, custom_id='delbutton')
-    async def delete(self, button: disnake.ui.Button, inter: disnake.ApplicationCommandInteraction):
-        if self.inter.author.id != inter.author.id:
-            return await inter.response.send_message("Hey! You can't do that!", ephemeral=True)
-        await interaction.response.defer()
-        await inter.delete_original_message()
+    await inter.response.send_message(message.content[::-1])
 #-----------------------------------------------------------------------------------------------------
 #EVENTS
 @bot.listen()
