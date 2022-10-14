@@ -55,7 +55,7 @@ from disnake.enums import TextInputStyle
 from inspect import getsource
 
 intents = disnake.Intents.all()
-bot = commands.Bot(command_prefix=commands.when_mentioned or "!", intents=intents, case_insensitive=True)
+bot = commands.Bot(command_prefix=commands.when_mentioned, intents=intents, case_insensitive=True)
 
 initial_extensions = ['cogs.mod', 'cogs.chemistry']
 
@@ -64,7 +64,7 @@ async def on_ready():
     await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Your Subject Stream", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     print('Bot is ready')
     updates = bot.get_channel(1030404562907058196)
-    await updates.send("**__Unusual Bot__** `v2.0.1`\n**Changes:**\n• Old prefix `!` is back for limited commands (typing `!help` shows them)\n• The plan to convert spam command to slash command is now dropped, it now works with prefix.\n  Eg. `!spam 20 monkelife`.\n\n**Bug Fixes:**\n• Fixed </atom lookup:1004775323117821999>'s empty hex color bug, if CPK color is None then embed's color will also be None.")
+    await updates.send("**__Unusual Friend Bot__** `v2.0.2`\n**Changes:**\n• Prefix `!` is removed again, mentioning the bot is now only prefix.\n\n**Bug Fixes:**\n• Fixed </atom lookup:1004775323117821999> for elements having atomic no. more than 110.")
 
 if __name__ == '__main__':
     for extension in initial_extensions:

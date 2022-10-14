@@ -33,7 +33,6 @@ class Chemistry(commands.Cog):
             async with aiohttp.ClientSession() as session:
                 request = await session.get(f'https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber={number}')
                 data = await request.json()
-            hex = data['cpkHexColor']
             if data["atomicMass"] == "":
                 data["atomicMass"] = "_ _"
             if data["atomicRadius"] == "":
@@ -62,7 +61,7 @@ class Chemistry(commands.Cog):
                 data["vanDelWaalsRadius"] = "_ _"
             if data["yearDiscovered"] == "":
                 data["yearDiscovered"] = "_ _"
-            if hex == "":
+            if data['cpkHexColor']:
                 embed = disnake.Embed(title=data["name"], color=0x000000)
                 embed.add_field(name="Atomic mass:", value=data["atomicMass"])
                 embed.add_field(name="Atomic number:", value=data["atomicNumber"])
@@ -85,7 +84,8 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Year discovered:", value=data["yearDiscovered"])
                 await inter.response.send_message(embed=embed)
             else:
-                embed = disnake.Embed(title=data["name"], color=int(hex, 16))
+                co = int(data['cpkHexColor'], 16)
+                embed = disnake.Embed(title=data["name"], color=co)
                 embed.add_field(name="Atomic mass:", value=data["atomicMass"])
                 embed.add_field(name="Atomic number:", value=data["atomicNumber"])
                 embed.add_field(name="Atomic radius:", value=data["atomicRadius"])
