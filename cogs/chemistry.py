@@ -68,7 +68,7 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Atomic radius:", value=data["atomicRadius"])
                 embed.add_field(name="Boiling Point:", value=data["boilingPoint"])
                 embed.add_field(name="Bonding type:", value=data["bondingType"])
-                embed.add_field(name="CPK color:", value=data["cpkHexColor"])
+                embed.add_field(name="CPK color:", value="_ _")
                 embed.add_field(name="Density:", value=data["density"])
                 embed.add_field(name="Electron affinity:", value=data["electronAffinity"])
                 embed.add_field(name="Electronegativity:", value=data["electronegativity"])
