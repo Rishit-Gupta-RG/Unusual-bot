@@ -61,7 +61,7 @@ initial_extensions = ['cogs.mod', 'cogs.chemistry']
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="your decision making skills coz you seleced JEE"))
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="your decision making skills coz you selected JEE"))
     print('Bot is ready.')
 
 if __name__ == '__main__':
