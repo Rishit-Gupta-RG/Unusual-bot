@@ -61,10 +61,8 @@ initial_extensions = ['cogs.mod', 'cogs.chemistry']
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.streaming, name="Your Subject Stream", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
-    print('Bot is ready')
-    updates = bot.get_channel(1030404562907058196)
-    await updates.send("**__Unusual Friend Bot__** `v2.0.2`\n**Changes:**\n• Prefix `!` is removed again, mentioning the bot is now only prefix.\n\n**Bug Fixes:**\n• Fixed </atom lookup:1004775323117821999> for elements having atomic no. more than 110.")
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="your decision making skills coz you seleced JEE"))
+    print('Bot is ready.')
 
 if __name__ == '__main__':
     for extension in initial_extensions:
