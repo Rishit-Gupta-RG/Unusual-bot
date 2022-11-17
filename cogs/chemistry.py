@@ -31,7 +31,7 @@ class Chemistry(commands.Cog):
             await inter.response.send_message("Number must be greater than 0 or less than 118.")
         else:
             async with aiohttp.ClientSession() as session:
-                request = await session.get(f'https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber={number}')
+                request = await session.get(f'https://periodic-table-elements-info.herokuapp.com/element/atomicNumber/{number}')
                 data = await request.json()
             if data["atomicMass"] == "":
                 data["atomicMass"] = "_ _"
@@ -80,7 +80,7 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Oxidation states:", value=data["oxidationStates"])
                 embed.add_field(name="Standard states:", value=data["standardState"])
                 embed.add_field(name="Symbol:", value=data["symbol"])
-                embed.add_field(name="Van del waals radius:", value=data["vanDelWaalsRadius"])
+                embed.add_field(name="Van der waals radius:", value=data["vanDelWaalsRadius"])
                 embed.add_field(name="Year discovered:", value=data["yearDiscovered"])
                 await inter.response.send_message(embed=embed)
             else:
@@ -103,7 +103,7 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Oxidation states:", value=data["oxidationStates"])
                 embed.add_field(name="Standard states:", value=data["standardState"])
                 embed.add_field(name="Symbol:", value=data["symbol"])
-                embed.add_field(name="Van del waals radius:", value=data["vanDelWaalsRadius"])
+                embed.add_field(name="Van der waals radius:", value=data["vanDelWaalsRadius"])
                 embed.add_field(name="Year discovered:", value=data["yearDiscovered"])
                 await inter.response.send_message(embed=embed)
 
