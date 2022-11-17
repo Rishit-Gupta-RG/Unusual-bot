@@ -33,7 +33,7 @@ class Chemistry(commands.Cog):
             async with aiohttp.ClientSession() as session:
                 request = await session.get(f'https://periodic-table-elements-info.herokuapp.com/element/atomicNumber/{number}')
                 data = await request.json()
-            if data['cpkHexColor'] == "unknown":
+            if string(data['cpkHexColor']) == "unknown":
                 EmbedColor = None
             else: 
                 EmbedColor = int(data['cpkHexColor'], 16)
