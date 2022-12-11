@@ -90,17 +90,19 @@ async def evaluate(ctx, *, code):
     
 @bot.command(name="brazil", description="Takes you to brazil.")
 async def brazil(ctx):
-    brz = await ctx.guild.get_role(1051555794837057606)
+    brz = ctx.guild.get_role(1051555794837057606)
+    bz = bot.get_channel(853143136620904518)
+    ch = bot.get_channel(1051558032594714886)
     if ctx.channel.permissions_for(ctx.author).administrator:
         await ctx.send("<:SwagCat:1040294411151614002> This command is **exclusively** for non-admins!")
     else:
         if brz in ctx.author.roles:
             await ctx.author.remove_roles(1051555794837057606)
-            await bot.get_channel(853143136620904518).send("He's back")
+            await bz.send("He's back")
         else:
             await ctx.message.add_reaction("👌")
             await ctx.author.add__roles(1051555794837057606)
-            await bot.get_channel(1051558032594714886).send(f"Welcome to brazil {ctx.author}!\nYou are alone here, far away from humans.\nThis is your own area now!")
+            await ch.send(f"Welcome to brazil {ctx.author}!\nYou are alone here, far away from humans.\nThis is your own area now!")
             await asyncio.sleep(20)
             await ctx.send("||You may type `@Unusual Friend brazil` to leave.||")
 #------------------------------------------------------------------------------------------------------
