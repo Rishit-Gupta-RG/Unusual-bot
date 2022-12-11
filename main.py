@@ -104,7 +104,7 @@ async def brazil(ctx):
             await ctx.author.add_roles(brz)
             await ch.send(f"Welcome to brazil {ctx.author}!\nYou are alone here, far away from humans.\nThis is your own area now!")
             await asyncio.sleep(20)
-            await ctx.send("||You may type `@Unusual Friend brazil` to leave.||")
+            await ch.send("||You may type `@Unusual Friend brazil` to leave.||")
 #------------------------------------------------------------------------------------------------------
 
 #SLASH COMMANDS
