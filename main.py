@@ -97,11 +97,11 @@ async def brazil(ctx):
         await ctx.send("<:SwagCat:1040294411151614002> This command is **exclusively** for non-admins!")
     else:
         if brz in ctx.author.roles:
-            await ctx.author.remove_roles(1051555794837057606)
+            await ctx.author.remove_roles(brz)
             await bz.send("He's back")
         else:
             await ctx.message.add_reaction("👌")
-            await ctx.author.add_roles(1051555794837057606)
+            await ctx.author.add_roles(brz)
             await ch.send(f"Welcome to brazil {ctx.author}!\nYou are alone here, far away from humans.\nThis is your own area now!")
             await asyncio.sleep(20)
             await ctx.send("||You may type `@Unusual Friend brazil` to leave.||")
