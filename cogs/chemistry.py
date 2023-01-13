@@ -77,7 +77,7 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Oxidation states:", value=data["oxidationStates"])
                 embed.add_field(name="Standard states:", value=data["standardState"])
                 embed.add_field(name="Symbol:", value=data["symbol"])
-                embed.add_field(name="Vanderwaal's radius:", value=data["vanDelWaalsRadius"])
+                embed.add_field(name="Vanderwaal's radius:", value=data["vanDerWaalsRadius"])
                 embed.add_field(name="Year discovered:", value=data["yearDiscovered"])
                 await inter.response.send_message(embed=embed)
             else:
@@ -100,7 +100,7 @@ class Chemistry(commands.Cog):
                 embed.add_field(name="Oxidation states:", value=data["oxidationStates"])
                 embed.add_field(name="Standard states:", value=data["standardState"])
                 embed.add_field(name="Symbol:", value=data["symbol"])
-                embed.add_field(name="Vanderwaal's radius:", value=data["vanDelWaalsRadius"])
+                embed.add_field(name="Vanderwaal's radius:", value=data["vanDerWaalsRadius"])
                 embed.add_field(name="Year discovered:", value=data["yearDiscovered"])
                 await inter.response.send_message(embed=embed)
 
