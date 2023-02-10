@@ -214,7 +214,7 @@ async def spam(ctx, Amount : int, *, Message=None):
 
 wolf_id = os.getenv("WOLF_ID")
 wolf_client = wolframalpha.Client(wolf_id)
-@bot.slash_command(name="wolfram", descriptions="[BETA] Asks a question to wolfram alpha.")
+@bot.slash_command(name="wolfram", description="[BETA] Asks a question to wolfram alpha.")
 async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     """
     Paramerers
@@ -224,7 +224,7 @@ async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     """
     ask = f"Question: {question}"
     send = wolf_client.query(ask)
-    ans = next(send.results).plaintext
+    ans = next(send.results).text
     await inter.response.send_message(f"> {question}\n{ans}")
           
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
