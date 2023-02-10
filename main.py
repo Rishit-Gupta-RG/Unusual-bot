@@ -8,6 +8,7 @@ from multiprocessing import context
 from operator import inv
 from pydoc import describe
 from secrets import choice
+import wolframalpha
 from typing import List, Union, Optional
 from unicodedata import name
 import disnake
@@ -211,6 +212,21 @@ async def spam(ctx, Amount : int, *, Message=None):
         for _ in range(Amount): 
             await ctx.send(Message)
 
+wolf_id = os.getenv("WOLF_ID")
+wolf_client = wolframalpha.Client(wolf_id)
+@bot.slash_command(name"wolfram", descriptions="[BETA] Asks a question to wolfram alpha.")
+async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
+    """
+    Paramerers
+    ----------
+    
+    question: The question to ask.
+    """
+    ask = f"Question: {question}"
+    send = wolf_client.query(ask)
+    ans = next(send.results).txt
+    await inter.response.send_message(f"> {question}\n{ans}")
+          
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
     """
@@ -392,5 +408,4 @@ async def on_command_error(inter: disnake.CommandInteraction, error: commands.Co
     
     await inter.response.send_message(message)
 #-----------------------------------------------------------------------------------------------------
-
 bot.run(os.getenv("TOKEN"))
