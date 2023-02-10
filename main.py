@@ -214,7 +214,7 @@ async def spam(ctx, Amount : int, *, Message=None):
 
 wolf_id = os.getenv("WOLF_ID")
 wolf_client = wolframalpha.Client(wolf_id)
-@bot.slash_command(name"wolfram", descriptions="[BETA] Asks a question to wolfram alpha.")
+@bot.slash_command(name="wolfram", descriptions="[BETA] Asks a question to wolfram alpha.")
 async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     """
     Paramerers
