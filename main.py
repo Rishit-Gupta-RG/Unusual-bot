@@ -224,7 +224,7 @@ async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     """
     ask = f"Question: {question}"
     send = wolf_client.query(ask)
-    ans = next(send.results).txt
+    ans = next(send.results).plaintext
     await inter.response.send_message(f"> {question}\n{ans}")
           
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
