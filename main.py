@@ -239,7 +239,7 @@ async def gpt(inter: disnake.ApplicationCommandInteraction, query: str):
     """
     messages=[{"role": "user", "content": query}]
     response = openai.ChatCompletion.create(model="gpt-4", max_tokens=300, temperature=1.2, messages = message)
-    await inter.response.send_message(f"> {query}\n"{response})
+    await inter.response.send_message(f"> {query}\n{response}")
        
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
