@@ -40,6 +40,7 @@ from disnake import TextChannel
 import json
 import contextlib
 import io
+import openai
 import datetime, time
 from datetime import datetime
 import traceback
@@ -217,7 +218,7 @@ wolf_client = wolframalpha.Client(wolf_id)
 @bot.slash_command(name="wolfram", description="[BETA] Asks a question to wolfram alpha.")
 async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     """
-    Paramerers
+    Parameters
     ----------
     
     question: The question to ask.
@@ -227,6 +228,19 @@ async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     ans = next(send.results).text
     await inter.response.send_message(f"> {question}\n{ans}")
           
+openai.api_key = "OPENAI_API_KEY"
+@bot.slash_command(name="gpt", description="[BETA] Sends a query to ChatGPT.")
+async def gpt(inter: disnake.ApplicationCommandInteraction, query: str):
+    """
+    Parameters
+    ----------
+    
+    query: What to ask?
+    """
+    messages=[{"role": "user", "content": query}]
+    response = openai.ChatCompletion.create(model="gpt-4", max_tokens=300, temperature=1.2, messages = message)
+    await inter.response.send_message(f"> {query}\n"{response})
+       
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
     """
