@@ -5,3 +5,4 @@ nltk==3.7
 requests==2.28.1
 disnake-jishaku==2.6.5
 wolframalpha
+openai
