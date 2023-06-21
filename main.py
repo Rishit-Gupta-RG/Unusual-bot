@@ -229,12 +229,12 @@ async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
           
 openai.api_key = "OPENAI_API_KEY"
 @bot.command(name="gpt", description="[BETA] Sends a query to ChatGPT.")
-async def gpt(inter: disnake.ApplicationCommandInteraction, *,query: str):
+async def gpt(ctx, *,query: str):
     messages=[{"role": "user", "content": "the content to ask"}]
     quer = messages[0]
     quer["content"] = query
-    response = openai.ChatCompletion.create(model="gpt-4", max_tokens=300, temperature=1.2, messages = message)
-    await inter.response.send_message(f"> {query}\n{response}")
+    response = openai.ChatCompletion.create(model="gpt-4", max_tokens=100, temperature=1.2, messages = message)
+    await ctx.send(f"> {query}\n{response}")
        
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
 async def marks(inter: disnake.ApplicationCommandInteraction, t1: int, f: int):
