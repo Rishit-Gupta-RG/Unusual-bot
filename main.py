@@ -232,7 +232,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 async def gpt(ctx, *, query: str):
     messages = [{"role": "user", "content": "the content to ask"}]
     messages[0]["content"] = query
-    response = openai.ChatCompletion.create(model="gpt-4", max_tokens=100, temperature=1.2, messages=messages)
+    response = openai.ChatCompletion.create(model="text-davinci-003", max_tokens=100, temperature=1.2, messages=messages)
     await ctx.send(f"> {query}\n{response}")
        
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
