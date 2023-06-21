@@ -227,7 +227,7 @@ async def wolfram(inter: disnake.ApplicationCommandInteraction, question: str):
     ans = next(send.results).text
     await inter.response.send_message(f"> {question}\n{ans}")
           
-openai.api_key = "OPENAI_API_KEY"
+openai.api_key = os.getenv("TOKEN")
 @bot.command(name="gpt", description="[BETA] Sends a query to ChatGPT.")
 async def gpt(ctx, *, query: str):
     messages = [{"role": "user", "content": "the content to ask"}]
