@@ -233,7 +233,7 @@ async def gpt(ctx, *, query: str):
     messages = [{"role": "user", "content": "the content to ask"}]
     messages[0]["content"] = query
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", max_tokens=100, temperature=1.2, messages=messages)
-    generated_text = response.choices[0].messages['content'].strip().replace('\n', '\n')
+    generated_text = response.choices[0].message['content'].strip().replace('\n', '\n')
     await ctx.send(f"> {query}\n{generated_text}")
        
 @bot.slash_command(name="marks", description="Calculates your Term 2 marks of a subject.")
