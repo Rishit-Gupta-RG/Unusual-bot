@@ -395,26 +395,5 @@ _ _""")
 @bot.listen('on_command_error')
 async def error_handler(inter, error):
     raise error
-
-@bot.listen()
-async def on_command_error(inter: disnake.CommandInteraction, error: commands.CommandError):
-    if isinstance(error, commands.CommandNotFound):
-            return
-    elif isinstance(error, commands.MissingPermissions):
-        message = "<:notstonks:876167180666949692> You do not have permission to use this command!"
-    elif isinstance(error, commands.MissingRole):
-        message = "<:notstonks:876167180666949692> You do not have permission to use this command!"
-    elif isinstance(error, commands.BadArgument):
-        message = f"A bad argument was passed, please check the help descriptions properly or ask <2787149777103486986> for help."
-    elif isinstance(error, commands.DisabledCommand):
-        message = "❎ This command is disabled!"
-    elif isinstance(error, commands.UserInputError):
-        message = f"There's an issue in your input dear, please check the help descriptions properly or ask <2787149777103486986> for help."
-    elif isinstance(error, commands.CommandOnCooldown):
-        message = "**This command is on cooldown!**, try again in {:.2f}s".format(error.retry_after)
-    elif isinstance(error, commands.NotOwner):
-        message = "❎ **Only bot owner can use this command!**"
-    
-    await inter.response.send_message(message)
 #-----------------------------------------------------------------------------------------------------
 bot.run(os.getenv("TOKEN"))
