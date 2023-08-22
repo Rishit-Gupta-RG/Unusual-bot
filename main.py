@@ -99,7 +99,7 @@ async def brazil(ctx):
     else:
         if brz in ctx.author.roles:
             await ctx.author.remove_roles(brz)
-            await bz.send("He's back")
+            await bz.send("He's back.")
         else:
             await ctx.message.add_reaction("👌")
             await ctx.author.add_roles(brz)
